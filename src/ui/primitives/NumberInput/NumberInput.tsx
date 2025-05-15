@@ -30,6 +30,7 @@ interface BaseProps {
     disabled?: boolean
     readOnly?: boolean
     icon?: React.ReactNode
+    defaultValue?: number
 }
 
 // No emptyValue: always number
@@ -72,7 +73,8 @@ export const NumberInput = ({
     name,
     disabled = false,
     readOnly = false,
-    icon
+    icon,
+    defaultValue
 }: NumberInputProps) => {
 
     const { inputRef, keyDownIsAllowed } = useNumberInput({
@@ -94,7 +96,10 @@ export const NumberInput = ({
     }, [value])
 
     function buttonUpdate(delta: number) {
-        const clamped = bounds(delta, min, max);
+
+        const currentValue = inputRef.current?.value ? parseValue(inputRef.current?.value, integer) : getDefaultValue()
+
+        const clamped = bounds(currentValue + delta, min, max);
         setHasError(false)
         onValueChange(clamped);
         updateInputValue(String(clamped))
@@ -159,16 +164,16 @@ export const NumberInput = ({
                         e.preventDefault()
 
                         if (e.deltaY > 0) {
-                            buttonUpdate((value ?? 0) - step)
+                            buttonUpdate(-step)
                         } else {
-                            buttonUpdate((value ?? 0) + step)
+                            buttonUpdate(step)
                         }
                     }}
 
                     onKeyDown={e => {
                         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
                             e.preventDefault()
-                            buttonUpdate((value ?? 0) + (e.key === "ArrowUp" ? step : -step))
+                            buttonUpdate(e.key === "ArrowUp" ? step : -step)
                         }
                         if (!keyDownIsAllowed(e)) e.preventDefault()
 
@@ -277,8 +282,8 @@ export const NumberInput = ({
                     <Buttons
                         format={format}
                         handleUpdate={delta => {
-                            const currentValue = parseValue(inputRef.current?.value ?? '', integer)
-                            buttonUpdate(currentValue + delta * step)
+
+                            buttonUpdate(delta * step)
                         }}
                     />
                 )
@@ -306,6 +311,13 @@ export const NumberInput = ({
 
     function focusInput() {
         inputRef.current?.focus()
+    }
+
+    function getDefaultValue() {
+        if (defaultValue !== undefined) return defaultValue
+        if (min !== undefined) return min
+        if (max !== undefined) return max
+        return 0
     }
 };
 
