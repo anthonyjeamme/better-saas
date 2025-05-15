@@ -1,4 +1,3 @@
-import React from "react";
 import { Handler } from "./combineHandlers";
 
 export type HandleRepeatedPressOptions = {

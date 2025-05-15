@@ -27,6 +27,8 @@ interface BaseProps {
     onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void
     required?: boolean
     name?: string
+    disabled?: boolean
+    readOnly?: boolean
 }
 
 // No emptyValue: always number
@@ -66,7 +68,9 @@ export const NumberInput = ({
     fixed,
     onEnter,
     required = false,
-    name
+    name,
+    disabled = false,
+    readOnly = false
 }: NumberInputProps) => {
 
     const { inputRef, keyDownIsAllowed } = useNumberInput({
@@ -97,7 +101,7 @@ export const NumberInput = ({
     }
 
     return (<div {...className('NumberInputContainer')}>
-        <div {...className('NumberInput', { format, size, hasError })}>
+        <div {...className('NumberInput', { format, size, hasError, disabled })}>
             <div {...className('content')}>
                 <input
                     ref={inputRef}
@@ -114,6 +118,8 @@ export const NumberInput = ({
                         e.preventDefault()
                         setHasError(true)
                     }}
+                    disabled={disabled}
+                    readOnly={readOnly}
 
                     onPaste={e => {
 
@@ -256,13 +262,18 @@ export const NumberInput = ({
                 }
             </div>
 
-            <Buttons
-                format={format}
-                handleUpdate={delta => {
-                    const currentValue = parseValue(inputRef.current?.value ?? '', integer)
-                    buttonUpdate(currentValue + delta * step)
-                }}
-            />
+            {
+                !readOnly && (
+
+                    <Buttons
+                        format={format}
+                        handleUpdate={delta => {
+                            const currentValue = parseValue(inputRef.current?.value ?? '', integer)
+                            buttonUpdate(currentValue + delta * step)
+                        }}
+                    />
+                )
+            }
         </div>
         {
             hasError &&
@@ -300,11 +311,6 @@ const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
         <button
             {...className('plusButton')}
             tabIndex={-1}
-            // onClick={() => handleUpdate(1)}
-            // onPointerDown={(e) => {
-            //     e.preventDefault()
-            //     handleUpdate(1)
-            // }}
             aria-label="Increment value"
             aria-hidden="false"
             {...handleRepeatedPress({
@@ -333,7 +339,6 @@ const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
                     handleUpdate(-1)
                 }
             })}
-
         >
             {format === 'standard' ? <ChevronDownIcon size={12} /> : <MinusIcon size={15} />}
         </button>
