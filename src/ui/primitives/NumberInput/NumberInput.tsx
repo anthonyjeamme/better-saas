@@ -7,6 +7,7 @@ import { SizeVariant } from '@ui/_shared/types';
 import { bounds } from '@ui/core/utils/math';
 import { getInputSelection, isEmptyValue, isValidValue, parseValue } from './NumberInput.utils';
 import { useNumberInput } from './useNumberInput';
+import { handleRepeatedPress } from '@ui/handlers/handleRepeatedPress';
 
 import classNameModule from '@ui/core/classname';
 import styles from './NumberInput.module.scss';
@@ -95,7 +96,7 @@ export const NumberInput = ({
         return clamped
     }
 
-    return (
+    return (<div {...className('NumberInputContainer')}>
         <div {...className('NumberInput', { format, size, hasError })}>
             <div {...className('content')}>
                 <input
@@ -107,9 +108,46 @@ export const NumberInput = ({
                     defaultValue={value ?? ''}
                     inputMode={integer ? 'numeric' : 'decimal'}
 
+                    aria-label="Number input"
+                    aria-invalid={isInvalidTyping || hasError}
                     onInvalid={e => {
                         e.preventDefault()
                         setHasError(true)
+                    }}
+
+                    onPaste={e => {
+
+                        e.preventDefault()
+
+                        const text = e.clipboardData.getData('text/plain')
+
+                        if (integer) {
+                            const value = parseInt(text)
+                            if (isValidValue(String(value), integer, min, max, fixed)) {
+                                onValueChange(value)
+                                updateInputValue(String(value))
+                            }
+                        } else {
+                            const value = parseFloat(text.replace(',', '.'))
+                            if (isValidValue(String(value), integer, min, max, fixed)) {
+                                onValueChange(value)
+                                updateInputValue(String(value))
+                            }
+
+                        }
+
+                    }}
+
+                    onWheel={e => {
+                        if (!hasFocusRef.current) return
+
+                        e.preventDefault()
+
+                        if (e.deltaY > 0) {
+                            buttonUpdate((value ?? 0) - step)
+                        } else {
+                            buttonUpdate((value ?? 0) + step)
+                        }
                     }}
 
                     onKeyDown={e => {
@@ -220,9 +258,19 @@ export const NumberInput = ({
 
             <Buttons
                 format={format}
-                handleUpdate={delta => buttonUpdate((value ?? 0) + delta * step)}
+                handleUpdate={delta => {
+                    const currentValue = parseValue(inputRef.current?.value ?? '', integer)
+                    buttonUpdate(currentValue + delta * step)
+                }}
             />
         </div>
+        {
+            hasError &&
+            <div {...className('errorMessage')}>
+                The entry is invalid
+            </div>
+        }
+    </div>
     );
 
     function updateInputValue(value: string | number | undefined | null) {
@@ -248,12 +296,25 @@ type ButtonsProps = {
 }
 
 const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
-
     return <div {...className('buttons')} onPointerDown={e => e.preventDefault()}>
         <button
             {...className('plusButton')}
             tabIndex={-1}
-            onClick={() => handleUpdate(1)}
+            // onClick={() => handleUpdate(1)}
+            // onPointerDown={(e) => {
+            //     e.preventDefault()
+            //     handleUpdate(1)
+            // }}
+            aria-label="Increment value"
+            aria-hidden="false"
+            {...handleRepeatedPress({
+                onStart: () => {
+                    handleUpdate(1)
+                },
+                onRepeat: () => {
+                    handleUpdate(1)
+                }
+            })}
         >
             {format === 'standard' ? <ChevronUpIcon size={12} /> : <PlusIcon size={15} />}
         </button>
@@ -262,6 +323,17 @@ const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
             {...className('minusButton')}
             tabIndex={-1}
             onClick={() => handleUpdate(-1)}
+            aria-label="Decrement value"
+            aria-hidden="false"
+            {...handleRepeatedPress({
+                onStart: () => {
+                    handleUpdate(-1)
+                },
+                onRepeat: () => {
+                    handleUpdate(-1)
+                }
+            })}
+
         >
             {format === 'standard' ? <ChevronDownIcon size={12} /> : <MinusIcon size={15} />}
         </button>

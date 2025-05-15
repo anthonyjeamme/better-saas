@@ -8,7 +8,7 @@ export type HandleLongPressOptions = {
 /**
  *
  */
-export function handleLongPress<T extends HTMLElement = HTMLElement>(
+export function handleDelayedPress<T extends HTMLElement = HTMLElement>(
   callback: (e: React.PointerEvent<T>) => void,
   options?: HandleLongPressOptions
 ): Handler<T> {
