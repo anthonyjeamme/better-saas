@@ -52,7 +52,6 @@ export const NumberInput = ({
     onFocus,
     onBlur,
 }: NumberInputProps) => {
-
     const { inputRef, keyDownIsAllowed } = useNumberInput({
         integer,
         fixed
@@ -311,3 +310,34 @@ export const NumberInput = ({
         return 0
     }
 };
+
+
+// function useNumberInputHandler(
+//     value: number,
+//     onValueChange: (value: number) => void,
+//     options: {
+//         min?: number,
+//         max?: number,
+//         step?: number,
+//         integer?: boolean,
+//         fixed?: number,
+//         emptyValue?: 'undefined' | 'null'
+//     }
+// ) {
+
+//     const inputRef = useRef<HTMLInputElement>(null);
+//     const hasFocusRef = useRef(false);
+
+//     return {
+//         ref: inputRef,
+//         onFocus: () => {
+//             hasFocusRef.current = true;
+//         },
+//         onBlur: () => {
+//             hasFocusRef.current = false;
+//         },
+//         onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => { },
+//         onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => { },
+//         onChange: (e: React.ChangeEvent<HTMLInputElement>) => { }
+//     }
+// }
