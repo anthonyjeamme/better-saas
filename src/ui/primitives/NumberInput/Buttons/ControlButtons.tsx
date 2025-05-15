@@ -4,16 +4,18 @@ import { ChevronUpIcon } from 'lucide-react';
 
 import classNameModule from '@ui/core/classname';
 import styles from './ControlButtons.module.scss';
+import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type ControlButtonsProps = {
-
     handleUpdate: (delta: -1 | 1) => void
+    size: SizeVariant
 }
 
-export const ControlButtons = ({ handleUpdate }: ControlButtonsProps) => {
-    return <div {...className('ControlButtons')} onPointerDown={e => e.preventDefault()}>
-
+export const ControlButtons = ({ handleUpdate, size }: ControlButtonsProps) => {
+    return <div
+        {...className('ControlButtons', { size })}
+        onPointerDown={e => e.preventDefault()}>
         <button
             {...className('plusButton')}
             tabIndex={-1}
@@ -26,7 +28,6 @@ export const ControlButtons = ({ handleUpdate }: ControlButtonsProps) => {
         >
             <ChevronUpIcon size={12} />
         </button>
-
         <button
             {...className('minusButton')}
             tabIndex={-1}

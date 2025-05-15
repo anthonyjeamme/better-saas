@@ -92,11 +92,11 @@
 
 
     &.hasError {
-        border-color: var(--error);
+        border-color: var(--error) !important;
     }
 
     &.hasWarning {
-        border-color: var(--warning);
+        border-color: var(--warning) !important;
     }
 
 

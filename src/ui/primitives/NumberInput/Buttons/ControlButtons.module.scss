@@ -3,12 +3,31 @@
     flex-direction: column;
     border-left: 1px solid var(--subtle-default-border);
 
+    --button-width: 25px;
+
+    &.size-sm {
+        --button-width: 20px;
+    }
+
+    &.size-lg {
+        --button-width: 30px;
+    }
+
     &>button {
         flex: 1;
-        width: 30px;
+        width: var(--button-width);
+        transition: background-color 150ms;
 
         &:not(:last-child) {
             border-bottom: 1px solid var(--subtle-default-border);
+        }
+
+        &:hover {
+            background-color: var(--subtle-default-background);
+        }
+
+        &:active {
+            background-color: var(--subtle-default-background-hover);
         }
     }
 }

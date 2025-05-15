@@ -376,12 +376,6 @@ function Page() {
           </Field>
         </Grid>
 
-        <Grid columns={2} gap={"md"}>
-          <Field label={<code>{`format="stepper"`}</code>}>
-            <NumberInput emptyValue='null' value={number} onValueChange={setNumber} format='stepper' />
-          </Field>
-        </Grid>
-
         <h2>Checkbox</h2>
 
         <code>

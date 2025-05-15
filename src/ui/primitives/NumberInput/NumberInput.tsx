@@ -236,8 +236,8 @@ export const NumberInput = ({
 
             {
                 !readOnly && (
-
                     <ControlButtons
+                        size={size}
                         handleUpdate={delta => {
                             console.log(delta, step)
                             buttonUpdate(delta * step)
