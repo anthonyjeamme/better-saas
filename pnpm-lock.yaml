@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  lucide-react:
+    specifier: ^0.510.0
+    version: 0.510.0(react@19.1.0)
   next:
     specifier: 15.3.1
     version: 15.3.1(react-dom@19.1.0)(react@19.1.0)(sass@1.86.3)
@@ -2292,6 +2295,14 @@ packages:
     dependencies:
       js-tokens: 4.0.0
     dev: true
+
+  /lucide-react@0.510.0(react@19.1.0):
+    resolution: {integrity: sha512-p8SQRAMVh7NhsAIETokSqDrc5CHnDLbV29mMnzaXx+Vc/hnqQzwI2r0FMWCcoTXnbw2KEjy48xwpGdEL+ck06Q==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    dependencies:
+      react: 19.1.0
+    dev: false
 
   /math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
