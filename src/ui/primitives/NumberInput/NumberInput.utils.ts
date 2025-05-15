@@ -3,8 +3,11 @@ export function isValidValue(
   integer: boolean,
   min: number | undefined,
   max: number | undefined,
-  fixed: number | undefined
+  fixed: number | undefined,
+  acceptEmpty?: boolean
 ) {
+  if (!value && acceptEmpty) return true;
+
   if (integer && !/^-?[0-9]+$/.test(value)) return false;
   if (!integer && !/^-?[0-9]+[.]?[0-9]*?$/.test(value)) return false;
 

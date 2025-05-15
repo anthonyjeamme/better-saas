@@ -2,7 +2,7 @@
 
 import { Container } from "@ui/display/Container/Container"
 import { HStack } from "@ui/layout"
-import { Field } from "@ui/primitives"
+import { Button, Field } from "@ui/primitives"
 import { NumberInput } from "@ui/primitives/NumberInput/NumberInput"
 import { Separator } from "@ui/primitives/Separator/Separator"
 import { useState } from "react"
@@ -30,6 +30,10 @@ export default function TestPage() {
                         onValueChange={setInteger}
                         size='md'
                         integer
+                        onEnter={e => {
+                            e.preventDefault()
+                            console.log("SUPER")
+                        }}
                     />
                     <pre style={{
                         flex: 1,
@@ -148,7 +152,34 @@ export default function TestPage() {
                 </HStack>
             </Field>
 
+            <Separator />
+
+
+            <form onSubmit={e => {
+                e.preventDefault()
+
+                const formData = new FormData(e.target as HTMLFormElement)
+                console.log(formData.get("value"))
+            }}>
+
+                <Field label="INTEGER">
+                    <NumberInput
+                        value={integerNullable}
+                        onValueChange={setIntegerNullable}
+                        size='md'
+                        integer
+                        emptyValue="null"
+                        name="value"
+                        required
+                    />
+                </Field>
+
+                <Button type="submit">
+                    Send
+                </Button>
+            </form>
+
 
         </Container>
-    </div>
+    </div >
 }

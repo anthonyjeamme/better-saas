@@ -23,6 +23,9 @@ interface BaseProps {
     fixed?: number
     expression?: boolean
     clearButton?: boolean
+    onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+    required?: boolean
+    name?: string
 }
 
 // No emptyValue: always number
@@ -59,7 +62,10 @@ export const NumberInput = ({
     emptyValue,
     integer = false,
     clearButton,
-    fixed
+    fixed,
+    onEnter,
+    required = false,
+    name
 }: NumberInputProps) => {
 
     const { inputRef, keyDownIsAllowed } = useNumberInput({
@@ -71,6 +77,8 @@ export const NumberInput = ({
 
     const [isInvalidTyping, setIsInvalidTyping] = useState(false)
     const [isEmpty, setIsEmpty] = useState(isEmptyValue(String(value)))
+
+    const [hasError, setHasError] = useState(false)
 
     useEffect(() => {
         if (hasFocusRef.current) return
@@ -87,13 +95,21 @@ export const NumberInput = ({
     }
 
     return (
-        <div {...className('NumberInput', { format, size })}>
+        <div {...className('NumberInput', { format, size, hasError })}>
             <div {...className('content')}>
                 <input
                     ref={inputRef}
+                    required={required}
+                    name={name}
                     {...className('Input', { isInvalidTyping })}
                     type="text"
                     defaultValue={value ?? ''}
+                    inputMode={integer ? 'numeric' : 'decimal'}
+
+                    onInvalid={e => {
+                        e.preventDefault()
+                        setHasError(true)
+                    }}
 
                     onKeyDown={e => {
                         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
@@ -101,11 +117,16 @@ export const NumberInput = ({
                             buttonUpdate((value ?? 0) + (e.key === "ArrowUp" ? step : -step))
                         }
                         if (!keyDownIsAllowed(e)) e.preventDefault()
-                    }}
 
+                        if (e.key === 'Enter') {
+                            onEnter?.(e)
+                        }
+                    }}
                     onChange={e => {
 
                         const valueString = e.target.value;
+
+                        setHasError(false)
 
                         if (isEmptyValue(valueString)) {
 
@@ -119,7 +140,7 @@ export const NumberInput = ({
                         } else {
                             setIsEmpty(false)
                         }
-                        if (isValidValue(valueString, integer, min, max, fixed)) {
+                        if (isValidValue(valueString, integer, min, max, fixed, Boolean(emptyValue))) {
                             setIsInvalidTyping(false)
 
                             const parsedValue = parseValue(valueString, integer)
@@ -245,15 +266,3 @@ const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
         </button>
     </div>
 }
-
-
-/**
-
-
-                    // For virtual keyboard
-                    inputMode={integer ? 'numeric' : 'decimal'}
-
-                    // For form validation
-                    pattern={integer ? INPUT_INTEGER_PATTERN : INPUT_DECIMAL_PATTERN}
-
- */
