@@ -1,86 +1,56 @@
 'use client'
 
-import { ChevronUpIcon, ChevronDownIcon, MinusIcon, PlusIcon, XIcon } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { SizeVariant } from '@ui/_shared/types';
+import { XIcon } from 'lucide-react';
+import { useRef, useState } from 'react';
 
 import { bounds } from '@ui/core/utils/math';
-import { getInputSelection, isEmptyValue, isValidValue, parseValue } from './NumberInput.utils';
+import { useValueChangeEffect } from '@ui/hooks/useValueChange';
+
+import {
+    parseValue,
+    isValidValue,
+    isEmptyValue,
+    getInputSelection,
+} from './NumberInput.utils';
 import { useNumberInput } from './useNumberInput';
-import { handleRepeatedPress } from '@ui/handlers/handleRepeatedPress';
+import { ControlButtons } from './Buttons/ControlButtons';
+import { ErrorMessage } from './ErrorMessage/ErrorMessage';
+import { WarningMessage } from './WarningMessage/WarningMessage';
+import { NumberInputProps, WarningType } from './NumberInput.types';
 
 import classNameModule from '@ui/core/classname';
 import styles from './NumberInput.module.scss';
 const className = classNameModule(styles)
 
-// Base shared props
-interface BaseProps {
-    format?: 'standard' | 'stepper';
-    step?: number;
-    min?: number;
-    max?: number;
-    size?: SizeVariant;
-    integer?: boolean;
-    fixed?: number
-    expression?: boolean
-    clearButton?: boolean
-    onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void
-    onEscape?: (e: React.KeyboardEvent<HTMLInputElement>) => void
-    required?: boolean
-    name?: string
-    disabled?: boolean
-    readOnly?: boolean
-    icon?: React.ReactNode
-    defaultValue?: number
-    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
-    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
-}
-
-// No emptyValue: always number
-interface NoEmpty extends BaseProps {
-    emptyValue?: undefined;
-    value: number;
-    onValueChange: (value: number) => void;
-}
-
-// emptyValue === 'undefined': allow undefined
-interface UndefinedEmpty extends BaseProps {
-    emptyValue: 'undefined';
-    value: number | undefined;
-    onValueChange: (value: number | undefined) => void;
-}
-
-interface NullEmpty extends BaseProps {
-    emptyValue: 'null';
-    value: number | null;
-    onValueChange: (value: number | null) => void;
-}
-
-// Discriminated union
-export type NumberInputProps = NoEmpty | UndefinedEmpty | NullEmpty;
-
+/**
+ * 
+ */
 export const NumberInput = ({
-    value,
-    onValueChange,
-    format = 'standard',
-    step = 1,
-    min,
-    max,
-    size = 'md',
+    defaultValue,
+    value, onValueChange,
     emptyValue,
+    step = 1, min, max,
+    size = 'md',
     integer = false,
     clearButton,
     fixed,
-    onEnter,
-    onEscape,
-    required = false,
     name,
+
+    // Customization
+    icon,
+    customWarningMessages,
+    customErrorMessages,
+
+    //
+    required = false,
     disabled = false,
     readOnly = false,
-    icon,
-    defaultValue,
+
+    // Events
+    onEnter,
+    onEscape,
     onFocus,
-    onBlur
+    onBlur,
 }: NumberInputProps) => {
 
     const { inputRef, keyDownIsAllowed } = useNumberInput({
@@ -93,38 +63,23 @@ export const NumberInput = ({
     const [isInvalidTyping, setIsInvalidTyping] = useState(false)
     const [isEmpty, setIsEmpty] = useState(isEmptyValue(String(value)))
 
-    const [warningType, setWarningType] = useState<'min' | 'max' | 'empty' | null>(null)
+    const [warningType, setWarningType] = useState<WarningType | null>(null)
 
     const [hasError, setHasError] = useState(false)
 
-    useEffect(() => {
+    useValueChangeEffect(value, () => {
         if (hasFocusRef.current) return
         updateInputValue(value)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value])
-
-    function buttonUpdate(delta: number) {
-
-        const currentValue = inputRef.current?.value ? parseValue(inputRef.current?.value, integer) : getDefaultValue()
-
-        const clamped = bounds(currentValue + delta, min, max);
-        setHasError(false)
-        onValueChange(clamped);
-        updateInputValue(String(clamped))
-        focusInput()
-        return clamped
-    }
+    }, [updateInputValue])
 
     return (<div {...className('NumberInputContainer')}>
-        <div {...className('NumberInput', { format, size, hasError, disabled, hasWarning: Boolean(warningType) })}>
+        <div {...className('NumberInput', { size, hasError, disabled, hasWarning: Boolean(warningType) })}>
             <div {...className('content')}>
                 {
-                    icon &&
-                    <div {...className('icon')}>
+                    icon && <div {...className('icon')}>
                         {icon}
                     </div>
                 }
-
                 <input
                     ref={inputRef}
                     required={required}
@@ -142,7 +97,6 @@ export const NumberInput = ({
                     }}
                     disabled={disabled}
                     readOnly={readOnly}
-
                     onPaste={e => {
 
                         e.preventDefault()
@@ -163,64 +117,41 @@ export const NumberInput = ({
                             }
 
                         }
-
                     }}
-
                     onWheel={e => {
                         if (!hasFocusRef.current) return
-
                         e.preventDefault()
-
-                        if (e.deltaY > 0) {
-                            buttonUpdate(-step)
-                        } else {
-                            buttonUpdate(step)
-                        }
+                        buttonUpdate(e.deltaY > 0 ? -step : step)
                     }}
-
                     onKeyDown={e => {
                         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
                             e.preventDefault()
                             buttonUpdate(e.key === "ArrowUp" ? step : -step)
                         }
-                        if (!keyDownIsAllowed(e)) e.preventDefault()
+                        if (e.key === 'Enter') onEnter?.(e)
+                        if (e.key === 'Escape') onEscape?.(e)
 
-                        if (e.key === 'Enter') {
-                            onEnter?.(e)
-                        }
-                        if (e.key === 'Escape') {
-                            onEscape?.(e)
-                        }
+                        if (!keyDownIsAllowed(e)) e.preventDefault()
                     }}
                     onChange={e => {
 
-                        setWarningType(null)
                         const valueString = e.target.value;
-
                         setHasError(false)
+                        refreshWarning(valueString)
 
                         if (isEmptyValue(valueString)) {
 
                             setIsEmpty(true)
-
                             if (emptyValue === 'undefined') {
                                 onValueChange(undefined);
                             } else if (emptyValue === 'null') {
                                 onValueChange(null);
-                            } else {
-                                setWarningType('empty')
                             }
                         } else {
                             setIsEmpty(false)
                         }
 
                         const parsedValue = parseValue(valueString, integer)
-
-                        if (min !== undefined && parsedValue < min) {
-                            setWarningType('min')
-                        } else if (max !== undefined && parsedValue > max) {
-                            setWarningType('max')
-                        }
 
 
                         if (isValidValue(valueString, integer, min, max, fixed, Boolean(emptyValue))) {
@@ -297,7 +228,6 @@ export const NumberInput = ({
                                 updateInputValue('')
                             }
                         }}
-
                     >
                         <XIcon size={14} />
                     </button>
@@ -307,10 +237,9 @@ export const NumberInput = ({
             {
                 !readOnly && (
 
-                    <Buttons
-                        format={format}
+                    <ControlButtons
                         handleUpdate={delta => {
-
+                            console.log(delta, step)
                             buttonUpdate(delta * step)
                         }}
                     />
@@ -318,16 +247,47 @@ export const NumberInput = ({
             }
         </div>
 
-        <WarningMessage warningType={warningType} min={min} max={max} />
+        {
+            warningType && (
+                <WarningMessage
+                    warningType={warningType}
+                    min={min}
+                    max={max}
+                    customWarningMessages={customWarningMessages} />
+            )
+        }
 
         {
             hasError &&
-            <div {...className('errorMessage')}>
-                The entry is invalid
-            </div>
+            <ErrorMessage
+                errorType="default"
+                customErrorMessages={customErrorMessages} />
         }
     </div>
     );
+
+
+    function buttonUpdate(delta: number) {
+        const currentValue = inputRef.current?.value ? parseValue(inputRef.current?.value, integer) : getDefaultValue()
+        const clamped = bounds(currentValue + delta, min, max);
+        setHasError(false)
+        onValueChange(clamped);
+        updateInputValue(String(clamped))
+        focusInput()
+        return clamped
+    }
+
+    function refreshWarning(value: string) {
+        if (!value && !Boolean(emptyValue)) {
+            setWarningType('empty')
+        } else if (min !== undefined && parseFloat(value) < min) {
+            setWarningType('min')
+        } else if (max !== undefined && parseFloat(value) > max) {
+            setWarningType('max')
+        } else {
+            setWarningType(null)
+        }
+    }
 
     function updateInputValue(value: string | number | undefined | null) {
         const inputElement = inputRef.current
@@ -351,65 +311,3 @@ export const NumberInput = ({
         return 0
     }
 };
-
-
-const WarningMessage = ({ warningType, min, max }: { warningType: 'min' | 'max' | 'empty' | null, min?: number, max?: number }) => {
-
-    if (warningType === null) return null
-
-    const messages = {
-        min: `Should be greater or equal to ${min}`,
-        max: `Should be lower or equal to ${max}`,
-        empty: `The entry is empty`
-    }
-
-    return <div {...className('warningMessage')}>
-        {messages[warningType]}
-    </div>
-
-}
-
-type ButtonsProps = {
-    format: 'standard' | 'stepper'
-    handleUpdate: (delta: -1 | 1) => void
-}
-
-const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
-    return <div {...className('buttons')} onPointerDown={e => e.preventDefault()}>
-        <button
-            {...className('plusButton')}
-            tabIndex={-1}
-            aria-label="Increment value"
-            aria-hidden="false"
-            {...handleRepeatedPress({
-                onStart: () => {
-                    handleUpdate(1)
-                },
-                onRepeat: () => {
-                    handleUpdate(1)
-
-                }
-            })}
-        >
-            {format === 'standard' ? <ChevronUpIcon size={12} /> : <PlusIcon size={15} />}
-        </button>
-
-        <button
-            {...className('minusButton')}
-            tabIndex={-1}
-            onClick={() => handleUpdate(-1)}
-            aria-label="Decrement value"
-            aria-hidden="false"
-            {...handleRepeatedPress({
-                onStart: () => {
-                    handleUpdate(-1)
-                },
-                onRepeat: () => {
-                    handleUpdate(-1)
-                }
-            })}
-        >
-            {format === 'standard' ? <ChevronDownIcon size={12} /> : <MinusIcon size={15} />}
-        </button>
-    </div>
-}

@@ -22,7 +22,6 @@ export default function TestPage() {
 
     return <div>
         <Container vMargin="md">
-
             <Field label="INTEGER">
                 <HStack align="center">
 
@@ -185,3 +184,5 @@ export default function TestPage() {
         </Container>
     </div >
 }
+
+

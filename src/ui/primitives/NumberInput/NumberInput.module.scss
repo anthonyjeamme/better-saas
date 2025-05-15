@@ -3,7 +3,13 @@
     position: relative;
     height: min-content;
 
-    transition: opacity 250ms;
+    border: 1px solid var(--subtle-default-border);
+    border-radius: var(--radius-sm);
+    transition: border-color 250ms, opacity 250ms;
+
+    &:has(input:focus) {
+        border-color: var(--subtle-default-border-hover);
+    }
 
     &:has(input:focus) {
         outline: var(--focus-outline-width) solid var(--focus-outline-color);
@@ -84,151 +90,53 @@
     }
 
 
-    &.format-standard {
-        border: 1px solid var(--subtle-default-border);
-        border-radius: var(--radius-sm);
-        transition: border-color 250ms;
 
-        &.hasError {
-            border-color: var(--error);
-        }
+    &.hasError {
+        border-color: var(--error);
+    }
 
-        &.hasWarning {
-            border-color: var(--warning);
-        }
+    &.hasWarning {
+        border-color: var(--warning);
+    }
 
 
-        &>.buttons {
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid var(--subtle-default-border);
+    &.size-sm {
+        input {
+            height: 30px;
+            padding: 0 10px;
+            font-size: 14px;
 
-            &>button {
-                flex: 1;
-                padding: 0;
-                width: 25px;
-                background-color: transparent;
-                color: inherit;
-                border: 0;
-                cursor: pointer;
-
-                &:not(:last-child) {
-                    border-bottom: 1px solid var(--subtle-default-border);
-                }
-
-                @media (pointer:fine) {
-                    &:hover {
-                        background-color: var(--subtle-default-background-hover);
-                    }
-                }
-            }
-
-        }
-
-        &.size-sm {
-            input {
-                height: 30px;
-                padding: 0 10px;
-                font-size: 14px;
-
-                &.withIcon {
-                    padding-left: 30px;
-                }
-            }
-
-            &>.buttons {
-                &>button {
-                    width: 20px;
-                }
+            &.withIcon {
+                padding-left: 30px;
             }
         }
-
-        &.size-md {
-            input {
-                height: 35px;
-                padding: 0 15px;
-                font-size: 14px;
-
-                &.withIcon {
-                    padding-left: 35px;
-                }
-            }
-
-            &>.buttons {
-                &>button {
-                    width: 25px;
-                }
-            }
-        }
-
-        &.size-lg {
-            input {
-                height: 40px;
-                padding: 0 15px;
-                font-size: 15px;
-
-                &.withIcon {
-                    padding-left: 30px;
-                }
-            }
-
-            &>.buttons {
-                &>button {
-                    width: 30px;
-                }
-            }
-        }
-
 
     }
 
-    &.format-stepper {
+    &.size-md {
+        input {
+            height: 35px;
+            padding: 0 15px;
+            font-size: 14px;
 
-        outline: none !important;
-
-        &>.buttons {
-            &>button {
-                color: inherit;
-                background-color: transparent;
-                border: 0;
-                cursor: pointer;
-                height: 40px;
-                width: 40px;
-
-                border: 1px solid var(--subtle-default-border);
-
-                @media (pointer:fine) {
-                    &:hover {
-                        background-color: var(--subtle-default-background-hover);
-                    }
-                }
+            &.withIcon {
+                padding-left: 35px;
             }
         }
 
-        .minusButton {
-            position: absolute;
-            left: 0;
-            background-color: transparent;
-            border-radius: var(--radius-sm);
-        }
-
-        .plusButton {
-            position: absolute;
-            right: 0;
-            background-color: transparent;
-            border: 1px solid var(--subtle-default-border);
-            border-radius: var(--radius-sm);
-        }
-
-        &>input {
-            padding: 0 50px;
-            font-size: 18px;
-
-            width: 150px;
-            text-align: center;
-        }
     }
 
+    &.size-lg {
+        input {
+            height: 40px;
+            padding: 0 15px;
+            font-size: 15px;
+
+            &.withIcon {
+                padding-left: 30px;
+            }
+        }
+    }
 
     &>.buttons {
         &>button {
@@ -237,19 +145,10 @@
             align-items: center;
         }
     }
-
-
 }
 
 .errorMessage {
     color: var(--error);
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.warningMessage {
-
-    color: var(--warning);
     font-size: 12px;
     margin-top: 5px;
 }
