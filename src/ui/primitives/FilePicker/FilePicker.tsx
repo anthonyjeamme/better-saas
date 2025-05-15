@@ -1,28 +1,35 @@
 import { Button } from '../Button/Button';
 import { UploadCloudIcon } from 'lucide-react';
 
+import { pickFile } from '@ui/functions/pickFile/pickFile';
+
 import classNameModule from '@ui/core/classname';
 import styles from './FilePicker.module.scss';
-import { useState } from 'react';
-import { For } from '@ui/layout/For/For';
-import { Box } from '@ui/display/Box/Box';
-import { VStack } from '@ui/layout';
-import { Separator } from '../Separator/Separator';
-import { pickFile } from '@ui/functions/pickFile/pickFile';
 const className = classNameModule(styles)
 
-export const FilePicker = () => {
+type FilePickerProps = {
+    onPickedFiles?: (files: File[]) => void
+}
 
-    const [files, setFiles] = useState<File[]>([])
+export const FilePicker = ({ onPickedFiles }: FilePickerProps) => {
 
-    return <div {...className('FilePicker')}>
+    return <div {...className('FilePicker')} onDragOver={e => {
+        e.preventDefault()
+        e.stopPropagation()
+    }}
+        onDrop={e => {
+            e.preventDefault()
+            e.stopPropagation()
+
+            const files = e.dataTransfer.files
+            onPickedFiles?.(Array.from(files))
+        }}
+    >
         <Button variant='outline' size='md' onClick={async () => {
-
             try {
 
-                const file = await pickFile('image/*', false)
-                // @ts-expect-error should be ok
-                setFiles([...files, file])
+                const files = await pickFile('image/*', false)
+                onPickedFiles?.(files)
 
             } catch {
 
@@ -32,23 +39,13 @@ export const FilePicker = () => {
             <UploadCloudIcon size={14} />
             <span>Upload</span>
         </Button>
-
-        <Separator />
-
-        <VStack gap={10}>
-            <For each={files}>{
-                file => <Box variant='outline' stack='horizontal' align='center' gap={10}>
-                    <ImageFilePreview file={file} />
-                    <span>{file.name}</span>
-                </Box>}</For>
-        </VStack>
     </div>;
 };
 
 
 
-const ImageFilePreview = ({ file }: { file: File }) => {
-    return <div>
-        <img src={URL.createObjectURL(file)} alt={file.name} height={30} />
-    </div>;
-};
+// const ImageFilePreview = ({ file }: { file: File }) => {
+//     return <div>
+//         <img src={URL.createObjectURL(file)} alt={file.name} height={30} />
+//     </div>;
+// };

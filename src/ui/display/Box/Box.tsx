@@ -14,10 +14,14 @@ type BoxProps = {
     align?: AlignVariant
     aspectRatio?: number | string
     gap?: number
+    vMargin?: SizeVariant | 'none'
 }
 
-export const Box = ({ children, padding = 'md', theme = 'default', variant = 'plain', radius = 'sm', stack, align, aspectRatio, gap }: BoxProps) => {
-    return <div {...className('Box', { padding, theme, variant, radius, stack, align })}
+export const Box = ({
+    children,
+    padding = 'md',
+    theme = 'default', variant = 'plain', radius = 'sm', stack, align, aspectRatio, gap, vMargin = 'none' }: BoxProps) => {
+    return <div {...className('Box', { padding, theme, variant, radius, stack, align, vMargin })}
         style={{
             aspectRatio,
             gap

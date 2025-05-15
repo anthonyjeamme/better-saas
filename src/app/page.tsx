@@ -38,6 +38,8 @@ function Page() {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const [pickedFiles, setPickedFiles] = useState<File[]>([])
+
   const contextMenu = useContextMenu()
 
   usePasteFile(files => {
@@ -458,10 +460,22 @@ function Page() {
           <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<FilePicker />`}</pre>
         </code>
 
-        <FilePicker />
+        <FilePicker onPickedFiles={files => setPickedFiles(files)} />
+
+        {
+          pickedFiles.length > 0 && (
+            <Box variant='outline' vMargin='sm' padding='sm'>
+              <VStack gap={10}>
+                <For each={pickedFiles}>{
+                  file => <Box variant='outline' stack='horizontal' align='center' gap={10}>
+                    <span>{file.name}</span>
+                  </Box>}</For>
+              </VStack>
+            </Box>
+          )
+        }
 
         <h2>Separators</h2>
-
 
         <code>
           <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Separator />`}</pre>
