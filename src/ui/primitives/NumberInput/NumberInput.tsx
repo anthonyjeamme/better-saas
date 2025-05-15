@@ -29,6 +29,7 @@ interface BaseProps {
     name?: string
     disabled?: boolean
     readOnly?: boolean
+    icon?: React.ReactNode
 }
 
 // No emptyValue: always number
@@ -70,7 +71,8 @@ export const NumberInput = ({
     required = false,
     name,
     disabled = false,
-    readOnly = false
+    readOnly = false,
+    icon
 }: NumberInputProps) => {
 
     const { inputRef, keyDownIsAllowed } = useNumberInput({
@@ -103,11 +105,18 @@ export const NumberInput = ({
     return (<div {...className('NumberInputContainer')}>
         <div {...className('NumberInput', { format, size, hasError, disabled })}>
             <div {...className('content')}>
+                {
+                    icon &&
+                    <div {...className('icon')}>
+                        {icon}
+                    </div>
+                }
+
                 <input
                     ref={inputRef}
                     required={required}
                     name={name}
-                    {...className('Input', { isInvalidTyping })}
+                    {...className('Input', { isInvalidTyping, withIcon: Boolean(icon) })}
                     type="text"
                     defaultValue={value ?? ''}
                     inputMode={integer ? 'numeric' : 'decimal'}

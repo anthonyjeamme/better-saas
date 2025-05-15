@@ -5,6 +5,7 @@ import { HStack } from "@ui/layout"
 import { Button, Field } from "@ui/primitives"
 import { NumberInput } from "@ui/primitives/NumberInput/NumberInput"
 import { Separator } from "@ui/primitives/Separator/Separator"
+import { EuroIcon } from "lucide-react"
 import { useState } from "react"
 
 
@@ -171,6 +172,7 @@ export default function TestPage() {
                         emptyValue="null"
                         name="value"
                         required
+                        icon={<EuroIcon size={14} />}
                     />
                 </Field>
 

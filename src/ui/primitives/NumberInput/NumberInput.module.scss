@@ -23,11 +23,20 @@
         }
     }
 
-
-
     &>.content {
         position: relative;
 
+        &>.icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+        }
 
         &>input {
             background-color: transparent;
@@ -113,10 +122,14 @@
         }
 
         &.size-sm {
-            &>input {
+            input {
                 height: 30px;
                 padding: 0 10px;
                 font-size: 14px;
+
+                &.withIcon {
+                    padding-left: 30px;
+                }
             }
 
             &>.buttons {
@@ -127,10 +140,14 @@
         }
 
         &.size-md {
-            &>input {
+            input {
                 height: 35px;
                 padding: 0 15px;
                 font-size: 16px;
+
+                &.withIcon {
+                    padding-left: 35px;
+                }
             }
 
             &>.buttons {
@@ -141,10 +158,14 @@
         }
 
         &.size-lg {
-            &>input {
+            input {
                 height: 40px;
                 padding: 0 15px;
                 font-size: 18px;
+
+                &.withIcon {
+                    padding-left: 30px;
+                }
             }
 
             &>.buttons {
