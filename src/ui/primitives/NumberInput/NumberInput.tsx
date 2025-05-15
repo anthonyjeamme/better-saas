@@ -88,6 +88,7 @@ export const NumberInput = ({
 
     function buttonUpdate(delta: number) {
         const clamped = bounds(delta, min, max);
+        setHasError(false)
         onValueChange(clamped);
         updateInputValue(String(clamped))
         focusInput()
