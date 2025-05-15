@@ -15,6 +15,7 @@ export function useBroadcastChannel(
     bc.onmessage = (e) => {
       onMessage(e.data);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
   return {

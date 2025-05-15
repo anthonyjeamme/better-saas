@@ -1,7 +1,7 @@
 import classNameModule from '@ui/core/classname';
 import styles from './Dropdown.module.scss';
 import { createPortal } from 'react-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 const className = classNameModule(styles)
 
 type DropdownProps = {
@@ -10,9 +10,9 @@ type DropdownProps = {
     onClose: () => void
 }
 
-export const Dropdown = ({ children, isOpen, onClose }: DropdownProps) => {
+export const Dropdown = ({ children, isOpen }: DropdownProps) => {
 
-    const dropdownRef = useRef<HTMLDivElement>(null)
+    // const dropdownRef = useRef<HTMLDivElement>(null)
 
 
     useEffect(() => {

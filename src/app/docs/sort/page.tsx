@@ -7,7 +7,6 @@ import { Container } from "@ui/display/Container/Container"
 import { handleDrag } from "@ui/handlers/handleDrag"
 import { useList } from "@ui/hooks/useList/useList"
 import { VStack } from "@ui/layout"
-import { For } from "@ui/layout/For/For"
 import { useRef, useState } from "react"
 
 export default function Page() {
@@ -88,7 +87,7 @@ const SortableItem = ({ children, onMove, onDragStart }: SortableItemProps) => {
             onDragStart()
 
             return {
-                onMove: ({ delta }, e) => {
+                onMove: (_, e) => {
                     if (!rootRef.current) return
                     // rootRef.current.style.transform = `translate(${0}px, ${delta.y}px)`
 

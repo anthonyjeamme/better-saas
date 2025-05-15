@@ -1,6 +1,6 @@
 'use client'
 
-import { SizeVariant, ThemeVariant, UIVariant } from '@ui/core/types';
+import { ExtendedSizeVariant, ThemeVariant, UIVariant } from '@ui/core/types';
 
 import { useRef, useState } from 'react';
 import { Spinner } from '../Spinner/Spinner';
@@ -11,7 +11,7 @@ const className = classNameModule(styles)
 
 type ButtonProps = {
     children?: React.ReactNode | (({ isLoading }: { isLoading: boolean }) => React.ReactNode)
-    size?: SizeVariant
+    size?: ExtendedSizeVariant
     variant?: UIVariant
     theme?: ThemeVariant
     shape?: 'square' | 'circle'
@@ -65,7 +65,7 @@ export function Button({
     );
 };
 
-function getButtonStyle(theme: ThemeVariant, variant: UIVariant, size: SizeVariant) {
+function getButtonStyle(theme: ThemeVariant, variant: UIVariant, size: ExtendedSizeVariant) {
     const style: Record<string, string> = {}
 
     style['--font-size'] = `var(--font-size-${size})`

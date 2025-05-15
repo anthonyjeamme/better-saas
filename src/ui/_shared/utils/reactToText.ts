@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Source:  https://github.com/lhansford/react-to-text
 
 import React, { isValidElement } from "react";

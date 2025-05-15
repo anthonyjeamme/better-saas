@@ -21,6 +21,7 @@ export const FilePicker = () => {
             try {
 
                 const file = await pickFile('image/*', false)
+                // @ts-expect-error should be ok
                 setFiles([...files, file])
 
             } catch {

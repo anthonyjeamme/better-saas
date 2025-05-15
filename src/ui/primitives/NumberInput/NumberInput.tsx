@@ -1,69 +1,259 @@
 'use client'
 
-import { ChevronUpIcon, ChevronDownIcon, MinusIcon, PlusIcon } from 'lucide-react';
-import { useRef } from 'react';
+import { ChevronUpIcon, ChevronDownIcon, MinusIcon, PlusIcon, XIcon } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { SizeVariant } from '@ui/_shared/types';
+
+import { bounds } from '@ui/core/utils/math';
+import { getInputSelection, isEmptyValue, isValidValue, parseValue } from './NumberInput.utils';
+import { useNumberInput } from './useNumberInput';
 
 import classNameModule from '@ui/core/classname';
 import styles from './NumberInput.module.scss';
 const className = classNameModule(styles)
 
-type NumberInputProps = {
-    value: number
-    onValueChange: (value: number) => void
-    format?: 'standard' | 'stepper'
-    step?: number
-    min?: number
-    max?: number
-    size?: SizeVariant
+// Base shared props
+interface BaseProps {
+    format?: 'standard' | 'stepper';
+    step?: number;
+    min?: number;
+    max?: number;
+    size?: SizeVariant;
+    integer?: boolean;
+    fixed?: number
+    expression?: boolean
+    clearButton?: boolean
 }
 
-export const NumberInput = ({ value, onValueChange, format = 'standard', step = 1, min, max, size = 'md' }: NumberInputProps) => {
-    const inputRef = useRef<HTMLInputElement>(null)
+// No emptyValue: always number
+interface NoEmpty extends BaseProps {
+    emptyValue?: undefined;
+    value: number;
+    onValueChange: (value: number) => void;
+}
 
-    return <div {...className('NumberInput', { format, size })}>
-        <input
-            ref={inputRef}
-            {...className('Input')}
-            value={value} onChange={e => {
-                const value = parseFloat(e.target.value)
-                if (isNaN(value)) return
-                onValueChange(value)
-            }}
-            type="number"
-        />
-        <div {...className('buttons')}
-            onPointerDown={e => e.preventDefault()}>
+// emptyValue === 'undefined': allow undefined
+interface UndefinedEmpty extends BaseProps {
+    emptyValue: 'undefined';
+    value: number | undefined;
+    onValueChange: (value: number | undefined) => void;
+}
 
-            <button {...className('plusButton')}
-                tabIndex={-1}
-                onClick={() => {
+interface NullEmpty extends BaseProps {
+    emptyValue: 'null';
+    value: number | null;
+    onValueChange: (value: number | null) => void;
+}
 
-                    onValueChange(clamp(value + step, min, max))
-                    inputRef.current?.focus()
-                }}>
+// Discriminated union
+export type NumberInputProps = NoEmpty | UndefinedEmpty | NullEmpty;
+
+export const NumberInput = ({
+    value,
+    onValueChange,
+    format = 'standard',
+    step = 1,
+    min,
+    max,
+    size = 'md',
+    emptyValue,
+    integer = false,
+    clearButton,
+    fixed
+}: NumberInputProps) => {
+
+    const { inputRef, keyDownIsAllowed } = useNumberInput({
+        integer,
+        fixed
+    })
+
+    const hasFocusRef = useRef(false);
+
+    const [isInvalidTyping, setIsInvalidTyping] = useState(false)
+    const [isEmpty, setIsEmpty] = useState(isEmptyValue(String(value)))
+
+    useEffect(() => {
+        if (hasFocusRef.current) return
+        updateInputValue(value)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value])
+
+    function buttonUpdate(delta: number) {
+        const clamped = bounds(delta, min, max);
+        onValueChange(clamped);
+        updateInputValue(String(clamped))
+        focusInput()
+        return clamped
+    }
+
+    return (
+        <div {...className('NumberInput', { format, size })}>
+            <div {...className('content')}>
+                <input
+                    ref={inputRef}
+                    {...className('Input', { isInvalidTyping })}
+                    type="text"
+                    defaultValue={value ?? ''}
+
+                    onKeyDown={e => {
+                        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                            e.preventDefault()
+                            buttonUpdate((value ?? 0) + (e.key === "ArrowUp" ? step : -step))
+                        }
+                        if (!keyDownIsAllowed(e)) e.preventDefault()
+                    }}
+
+                    onChange={e => {
+
+                        const valueString = e.target.value;
+
+                        if (isEmptyValue(valueString)) {
+
+                            setIsEmpty(true)
+
+                            if (emptyValue === 'undefined') {
+                                onValueChange(undefined);
+                            } else if (emptyValue === 'null') {
+                                onValueChange(null);
+                            }
+                        } else {
+                            setIsEmpty(false)
+                        }
+                        if (isValidValue(valueString, integer, min, max, fixed)) {
+                            setIsInvalidTyping(false)
+
+                            const parsedValue = parseValue(valueString, integer)
+
+                            if (parsedValue === bounds(parsedValue, min, max))
+                                onValueChange(parsedValue);
+                        } else {
+                            setIsInvalidTyping(true)
+                        }
+
+                        if (valueString.includes(',')) {
+
+                            const selection = getInputSelection(e.target as HTMLInputElement)
+                            if (!selection) return
+
+                            updateInputValue(valueString.replace(',', '.'))
+                            e.target.setSelectionRange(selection.start, selection.start)
+                        }
+                    }}
+
+                    onFocus={() => { hasFocusRef.current = true; }}
+                    onBlur={(e) => {
+                        const valueString = e.target.value;
+                        hasFocusRef.current = false;
+                        setIsInvalidTyping(false)
+
+                        if (isEmptyValue(valueString)) {
+                            if (emptyValue === 'undefined') {
+                                onValueChange(undefined);
+                            } else if (emptyValue === 'null') {
+                                onValueChange(null);
+                            } else {
+                                updateInputValue(String(value))
+                            }
+                            return
+                        }
+
+                        if (!isValidValue(valueString, integer, min, max, fixed)) {
+                            e.target.value = (value === null || value === undefined) ?
+                                '' : String(value);
+                            return
+                        }
+
+                        if (integer) {
+                            const value = bounds(parseInt(e.target.value), min, max)
+                            updateInputValue(String(value))
+                        } else {
+                            const value = bounds(parseFloat(e.target.value), min, max)
+                            updateInputValue(String(value))
+                        }
+                    }}
+                />
+
                 {
-                    format === "standard" ? <ChevronUpIcon size={12} /> : <PlusIcon size={15} />
+                    clearButton &&
+                    Boolean(emptyValue) &&
+                    !isEmpty &&
+                    <button {...className('clearButton')}
+                        onClick={() => {
+                            if (emptyValue === 'undefined') {
+                                onValueChange(undefined);
+                                setIsEmpty(true)
+                                updateInputValue('')
+                            } else if (emptyValue === 'null') {
+                                onValueChange(null);
+                                setIsEmpty(true)
+                                updateInputValue('')
+                            }
+                        }}
+
+                    >
+                        <XIcon size={14} />
+                    </button>
                 }
-            </button>
-            <button
-                tabIndex={-1}
-                {...className('minusButton')}
-                onClick={() => {
-                    onValueChange(clamp(value - step, min, max))
-                    inputRef.current?.focus()
-                }}
-            >
-                {
-                    format === "standard" ? <ChevronDownIcon size={12} /> : <MinusIcon size={15} />
-                }
-            </button>
+            </div>
+
+            <Buttons
+                format={format}
+                handleUpdate={delta => buttonUpdate((value ?? 0) + delta * step)}
+            />
         </div>
-    </div>;
+    );
 
-    function clamp(value: number, min?: number, max?: number) {
-        if (min !== undefined && value < min) return min
-        if (max !== undefined && value > max) return max
-        return value
+    function updateInputValue(value: string | number | undefined | null) {
+        const inputElement = inputRef.current
+        if (!inputElement) return
+
+        if (value === undefined || value === null) {
+            inputElement.value = ''
+        } else {
+            inputElement.value = String(value)
+        }
+    }
+
+    function focusInput() {
+        inputRef.current?.focus()
     }
 };
+
+
+type ButtonsProps = {
+    format: 'standard' | 'stepper'
+    handleUpdate: (delta: -1 | 1) => void
+}
+
+const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
+
+    return <div {...className('buttons')} onPointerDown={e => e.preventDefault()}>
+        <button
+            {...className('plusButton')}
+            tabIndex={-1}
+            onClick={() => handleUpdate(1)}
+        >
+            {format === 'standard' ? <ChevronUpIcon size={12} /> : <PlusIcon size={15} />}
+        </button>
+
+        <button
+            {...className('minusButton')}
+            tabIndex={-1}
+            onClick={() => handleUpdate(-1)}
+        >
+            {format === 'standard' ? <ChevronDownIcon size={12} /> : <MinusIcon size={15} />}
+        </button>
+    </div>
+}
+
+
+/**
+
+
+                    // For virtual keyboard
+                    inputMode={integer ? 'numeric' : 'decimal'}
+
+                    // For form validation
+                    pattern={integer ? INPUT_INTEGER_PATTERN : INPUT_DECIMAL_PATTERN}
+
+ */

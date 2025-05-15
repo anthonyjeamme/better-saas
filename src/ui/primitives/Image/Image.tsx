@@ -9,10 +9,12 @@ type ImageProps = {
 } & React.ImgHTMLAttributes<HTMLImageElement>
 
 export const Image = ({ aspectRatio, radius, ...props }: ImageProps) => {
+    // eslint-disable-next-line @next/next/no-img-element
     return <img
         {...className('Image', { radius })} {...props}
         style={{
             aspectRatio
         }}
+        alt=""
     />;
 };

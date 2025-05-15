@@ -82,7 +82,7 @@ export default function Page() {
 const Folder = ({ children, id, handleDropItem }: { children: React.ReactNode, id: string, handleDropItem: (item_id: string, folder_id: string) => void }) => {
 
 
-    const { draggingData } = useDndContext()
+    // const { draggingData } = useDndContext()
 
     const dropzone = useDropzone(e => {
         try {
@@ -96,7 +96,7 @@ const Folder = ({ children, id, handleDropItem }: { children: React.ReactNode, i
 
     return <div
         {...className('Folder', {
-            'isDraggingOver': dropzone.isDraggingOver && draggingData?.folder != id
+            // 'isDraggingOver': dropzone.isDraggingOver && draggingData?.folder != id
         })}
         {...dropzone.attrs}
     >
@@ -119,7 +119,7 @@ const Item = ({ item }: ItemProps) => {
             setDraggingData(item)
         }}
 
-        onDragEnd={e => {
+        onDragEnd={() => {
             setDraggingData(null)
         }}
     >

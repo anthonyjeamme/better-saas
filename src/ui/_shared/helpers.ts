@@ -1,4 +1,4 @@
-import { UIPaletteProps, UISizeProps, VariantProps } from "./types";
+import { UIPaletteProps, UISizeProps } from "./types";
 import classNameModule, { TClassNameList } from "@ui/core/classname";
 
 const paletteKeys = ["primary", "secondary", "success", "warning", "error"];
@@ -15,7 +15,8 @@ function uiSize(props: UISizeProps) {
   return getProp(props, sizeKeys, "medium");
 }
 
-function uiVariant(props: VariantProps) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function uiVariant(props: any) {
   return getProp(props, variantKeys, "solid");
 }
 

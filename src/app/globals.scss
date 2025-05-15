@@ -12,13 +12,10 @@ $theme-colors: (
 );
 
 :root {
-
-
   @include generate-palette($theme-colors, $foreground, $background, ('tint-over-subtle': true));
 
   --modal-background: rgb(9, 9, 9, 0.9);
   --background-alt: rgb(21, 21, 21);
-
 
   --h-xs: 24px;
   --h-sm: 32px;

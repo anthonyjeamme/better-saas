@@ -9,12 +9,11 @@ import { Grid } from '@ui/display/Grid/Grid';
 import { Menu } from '@ui/display/Menu/Menu';
 import { Tree } from '@ui/display/Tree/Tree';
 import { useList } from '@ui/hooks/useList/useList';
-import { useLocalStorage } from '@ui/hooks/useLocalStorage';
 import { usePasteFile } from '@ui/hooks/usePasteFile/usePasteFile';
 import { Fullscreen, HStack, Sidebar, VStack } from '@ui/layout';
 import { For } from '@ui/layout/For/For';
 import { Modal } from '@ui/layout/Modal/Modal';
-import { Button, Field, Input, Spinner } from '@ui/primitives';
+import { Button, Field, Input } from '@ui/primitives';
 import { Badge } from '@ui/primitives/Badge/Badge';
 import { Checkbox } from '@ui/primitives/Checkbox/Checkbox';
 import { FilePicker } from '@ui/primitives/FilePicker/FilePicker';
@@ -23,23 +22,19 @@ import { InlineSelect } from '@ui/primitives/InlineSelect/InlineSelect';
 import { NumberInput } from '@ui/primitives/NumberInput/NumberInput';
 import { Select } from '@ui/primitives/Select/Select';
 import { Separator } from '@ui/primitives/Separator/Separator';
-import { Slider } from '@ui/primitives/Slider/Slider';
 import { Toggle } from '@ui/primitives/Toggle/Toggle';
 import { Small } from '@ui/typo/Small/Small';
-import { Text } from '@ui/typo/Text/Text';
-import { BotIcon, PinIcon, PlayIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon } from 'lucide-react';
-import React, { useRef, useState } from 'react';
+import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon } from 'lucide-react';
+import React, { useState } from 'react';
 
 
 
 function Page() {
   const [bool, setBool] = useState(false)
-  const [number, setNumber] = useState(0)
+  const [number, setNumber] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
   const [selected, setSelected] = useState<string>('')
   const [selectedMult, setSelectedMult] = useState<string[]>([])
-  const [note, setNote] = useLocalStorage("note", "", { sync: true })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -69,6 +64,8 @@ function Page() {
       name: 'jean'
     }
   ])
+
+  console.log(number)
 
   return <Fullscreen horizontal >
     <Sidebar position='left' width={250}>Coucouc!</Sidebar>
@@ -346,7 +343,7 @@ function Page() {
               onClick={() => new Promise(resolve => setTimeout(resolve, 1000))}
               loading
             >Button</Button>
-            <Button
+            {/* <Button
               variant='outline'
               onClick={() => new Promise(resolve => setTimeout(resolve, 1000))}
             >
@@ -356,7 +353,7 @@ function Page() {
                   <span>Button custom</span>
                 </>
               )}
-            </Button>
+            </Button> */}
 
           </HStack>
         </Field>
@@ -369,19 +366,19 @@ function Page() {
 
         <Grid columns={5} gap={"md"}>
           <Field label={<code>{`size="sm"`}</code>}>
-            <NumberInput value={number} onValueChange={setNumber} size='sm' />
+            <NumberInput emptyValue='null' value={number} onValueChange={setNumber} size='sm' />
           </Field>
           <Field label={<code>{`size="md"`}</code>}>
-            <NumberInput value={number} onValueChange={setNumber} size='md' />
+            <NumberInput emptyValue='null' value={number} onValueChange={setNumber} size='md' />
           </Field>
           <Field label={<code>{`size="lg"`}</code>}>
-            <NumberInput value={number} onValueChange={setNumber} size='lg' />
+            <NumberInput emptyValue='null' value={number} onValueChange={setNumber} size='lg' />
           </Field>
         </Grid>
 
         <Grid columns={2} gap={"md"}>
           <Field label={<code>{`format="stepper"`}</code>}>
-            <NumberInput value={number} onValueChange={setNumber} format='stepper' />
+            <NumberInput emptyValue='null' value={number} onValueChange={setNumber} format='stepper' />
           </Field>
         </Grid>
 
@@ -584,7 +581,7 @@ function Page() {
         <code>
           <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Slider value={number} onValueChange={setNumber} min={0} max={10} size='xs' />`}</pre>
         </code>
-        <Grid columns={4} gap={"lg"}>
+        {/* <Grid columns={4} gap={"lg"}>
           <Field label={<code>{`size="xs"`}</code>}>
             <Slider value={number} onValueChange={setNumber} min={0} max={10} size='xs' />
           </Field>
@@ -618,7 +615,7 @@ function Page() {
             <Slider value={number} onValueChange={setNumber} min={0} max={10} theme='warning' />
           </Field>
         </Grid>
-
+ */}
 
 
         <h2>Menu</h2>
@@ -909,32 +906,32 @@ function Page() {
 
 export default Page
 
-const TestError = () => {
+// const TestError = () => {
 
-  const [en, setEn] = useState(false)
+//   const [en, setEn] = useState(false)
 
-  if (en) throw new Error('Oups !')
+//   if (en) throw new Error('Oups !')
 
-  return <div>
-    <Button onClick={() => setEn(true)}>TestError</Button>
-  </div>
-}
+//   return <div>
+//     <Button onClick={() => setEn(true)}>TestError</Button>
+//   </div>
+// }
 
 
-const Cell = ({ label, location, image }: { label: string, location: string, image: string }) => {
-  return <Box padding='none' radius='none'>
-    <Image
-      alt=''
-      width={"100%"}
-      src={image}
-      aspectRatio={250 / 290}
-      radius='md'
-    />
-    <div>
-      <Text weight={700} size='2xl'>{label}</Text>
-    </div>
-    <div>
-      <Text size='sm' opacity={0.6}>{location}</Text>
-    </div>
-  </Box>
-}
+// const Cell = ({ label, location, image }: { label: string, location: string, image: string }) => {
+//   return <Box padding='none' radius='none'>
+//     <Image
+//       alt=''
+//       width={"100%"}
+//       src={image}
+//       aspectRatio={250 / 290}
+//       radius='md'
+//     />
+//     <div>
+//       <Text weight={700} size='2xl'>{label}</Text>
+//     </div>
+//     <div>
+//       <Text size='sm' opacity={0.6}>{location}</Text>
+//     </div>
+//   </Box>
+// }
