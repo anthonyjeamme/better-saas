@@ -49,7 +49,7 @@
             transition: color 250ms;
 
             &.isInvalidTyping {
-                color: var(--error);
+                color: var(--warning);
             }
 
             /* Suppression des flèches natives du input number */
@@ -239,6 +239,13 @@
 
 .errorMessage {
     color: var(--error);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.warningMessage {
+
+    color: var(--warning);
     font-size: 12px;
     margin-top: 5px;
 }

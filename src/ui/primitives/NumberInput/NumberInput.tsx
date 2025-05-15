@@ -87,6 +87,8 @@ export const NumberInput = ({
     const [isInvalidTyping, setIsInvalidTyping] = useState(false)
     const [isEmpty, setIsEmpty] = useState(isEmptyValue(String(value)))
 
+    const [warningType, setWarningType] = useState<'min' | 'max' | 'empty' | null>(null)
+
     const [hasError, setHasError] = useState(false)
 
     useEffect(() => {
@@ -183,6 +185,7 @@ export const NumberInput = ({
                     }}
                     onChange={e => {
 
+                        setWarningType(null)
                         const valueString = e.target.value;
 
                         setHasError(false)
@@ -195,14 +198,25 @@ export const NumberInput = ({
                                 onValueChange(undefined);
                             } else if (emptyValue === 'null') {
                                 onValueChange(null);
+                            } else {
+                                setWarningType('empty')
                             }
                         } else {
                             setIsEmpty(false)
                         }
+
+                        const parsedValue = parseValue(valueString, integer)
+
+                        if (min !== undefined && parsedValue < min) {
+                            setWarningType('min')
+                        } else if (max !== undefined && parsedValue > max) {
+                            setWarningType('max')
+                        }
+
+
                         if (isValidValue(valueString, integer, min, max, fixed, Boolean(emptyValue))) {
                             setIsInvalidTyping(false)
 
-                            const parsedValue = parseValue(valueString, integer)
 
                             if (parsedValue === bounds(parsedValue, min, max))
                                 onValueChange(parsedValue);
@@ -222,6 +236,7 @@ export const NumberInput = ({
 
                     onFocus={() => { hasFocusRef.current = true; }}
                     onBlur={(e) => {
+                        setWarningType(null)
                         const valueString = e.target.value;
                         hasFocusRef.current = false;
                         setIsInvalidTyping(false)
@@ -289,6 +304,9 @@ export const NumberInput = ({
                 )
             }
         </div>
+
+        <WarningMessage warningType={warningType} min={min} max={max} />
+
         {
             hasError &&
             <div {...className('errorMessage')}>
@@ -322,6 +340,22 @@ export const NumberInput = ({
 };
 
 
+const WarningMessage = ({ warningType, min, max }: { warningType: 'min' | 'max' | 'empty' | null, min?: number, max?: number }) => {
+
+    if (warningType === null) return null
+
+    const messages = {
+        min: `Should be greater or equal to ${min}`,
+        max: `Should be lower or equal to ${max}`,
+        empty: `The entry is empty`
+    }
+
+    return <div {...className('warningMessage')}>
+        {messages[warningType]}
+    </div>
+
+}
+
 type ButtonsProps = {
     format: 'standard' | 'stepper'
     handleUpdate: (delta: -1 | 1) => void
@@ -340,6 +374,7 @@ const Buttons = ({ format, handleUpdate }: ButtonsProps) => {
                 },
                 onRepeat: () => {
                     handleUpdate(1)
+
                 }
             })}
         >
