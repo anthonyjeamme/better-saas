@@ -1,0 +1,80 @@
+@use "../../_shared/mixin.scss" as *;
+
+.Button {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 250ms, border-color 250ms, color 250ms;
+    background-color: transparent;
+    font: inherit;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+
+    &.fullWidth {
+        width: 100%;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    --padding-h: 10px;
+    --padding-v: 0;
+
+    // Sizing
+    &.size-xs {
+        --padding-h: var(--padding-h-xs);
+        gap: 5px;
+    }
+
+    &.size-sm {
+        --padding-h: var(--padding-h-sm);
+        gap: 5px;
+    }
+
+    &.size-md {
+        --padding-h: var(--padding-h-md);
+        gap: 5px;
+    }
+
+    &.size-lg {
+        --padding-h: var(--padding-h-lg);
+        gap: 5px;
+    }
+
+    font-size: var(--font-size);
+
+
+    &.shape-square,
+    &.shape-circle {
+        padding: 0;
+        width: var(--height);
+        justify-content: center;
+    }
+
+    &.shape-circle {
+        border-radius: 50%;
+    }
+
+    height: var(--height);
+    padding: var(--padding-v) var(--padding-h);
+
+    // Theming
+    background-color: var(--background-color);
+    border: var(--border-width, 0px) solid var(--border-color);
+    color: var(--color);
+
+    &:hover {
+        background-color: var(--background-color-hover);
+        border-color: var(--border-color-hover);
+        color: var(--color-hover);
+    }
+
+    &>span {
+        white-space: nowrap;
+    }
+}

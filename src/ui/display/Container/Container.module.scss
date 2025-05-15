@@ -1,0 +1,54 @@
+.Container {
+    max-width: 100%;
+
+    --v-margin: 0;
+
+    &.vMargin-xs {
+        --v-margin: var(--spacing-xs);
+    }
+
+    &.vMargin-sm {
+        --v-margin: var(--spacing-sm);
+    }
+
+    &.vMargin-md {
+        --v-margin: var(--spacing-md);
+    }
+
+    &.vMargin-lg {
+        --v-margin: var(--spacing-lg);
+    }
+
+    &.vMargin-xl {
+        --v-margin: var(--spacing-xl);
+    }
+
+
+    margin: var(--v-margin) auto;
+
+
+    &.size-xs {
+        width: var(--container-width-xs);
+    }
+
+    &.size-sm {
+        width: var(--container-width-sm);
+    }
+
+    &.size-md {
+        width: var(--container-width-md);
+    }
+
+    &.size-lg {
+        width: var(--container-width-lg);
+    }
+
+    &.size-xl {
+        width: var(--container-width-xl);
+    }
+
+
+    padding: 0 20px; // TOOD variable
+
+
+}

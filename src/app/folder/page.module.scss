@@ -1,0 +1,20 @@
+.Page {
+    padding: 100px
+}
+
+.Folder {
+
+    border: 1px solid var(--subtle-default-border);
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    transition: border-color 250ms, background-color 250ms;
+
+    &.isDraggingOver {
+        border-color: var(--foreground);
+        background-color: rgb(white, 0.05);
+    }
+}

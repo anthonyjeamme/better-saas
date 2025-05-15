@@ -1,0 +1,34 @@
+{
+  "scss": {
+    "prefix": "scss",
+    "body": [
+      "import classNameModule from '@ui/core/classname';",
+      "import styles from './$TM_FILENAME_BASE.module.scss';",
+      "const className = classNameModule(styles)"
+    ]
+  },
+  "slc": {
+    "prefix": "slc",
+    "body": [
+      "import classNameModule from '@ui/core/classname';",
+      "import styles from './$TM_FILENAME_BASE.module.scss';",
+      "const className = classNameModule(styles)",
+      "",
+      "export const $TM_FILENAME_BASE = () => {",
+      "\treturn <div {...className('$TM_FILENAME_BASE')}>$1</div>;",
+      "};"
+    ]
+  },
+  "page": {
+    "prefix": "page",
+    "body": [
+      "import classNameModule from '@ui/core/classname';",
+      "import styles from './$TM_FILENAME_BASE.module.scss';",
+      "const className = classNameModule(styles)",
+      "",
+      "export default function Page() {",
+      "\treturn <div {...className('Page')}>$1</div>;",
+      "};"
+    ]
+  }
+}

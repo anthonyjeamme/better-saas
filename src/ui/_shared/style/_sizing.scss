@@ -1,0 +1,31 @@
+@mixin InlineElementSizing($default: 'medium') {
+    @if $default =='small' {
+        height: var(--h-sm);
+        padding: 0 var(--padding-h-sm);
+    }
+
+    @else if $default =='medium' {
+        height: var(--h-md);
+        padding: 0 var(--padding-h-md);
+    }
+
+    @else if $default =='large' {
+        height: var(--h-lg);
+        padding: 0 var(--padding-h-lg);
+    }
+
+    &.small {
+        height: var(--h-sm);
+        padding: 0 var(--padding-h-sm);
+    }
+
+    &.medium {
+        height: var(--h-md);
+        padding: 0 var(--padding-h-md);
+    }
+
+    &.large {
+        height: var(--h-lg);
+        padding: 0 var(--padding-h-lg);
+    }
+}

@@ -1,0 +1,57 @@
+.Tree {}
+
+.TreeItem {
+
+    &>button {
+        background-color: transparent;
+        color: inherit;
+        border: 0;
+        font: inherit;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        border-radius: var(--radius-sm);
+        padding: 0 10px;
+        cursor: pointer;
+        width: 100%;
+
+        &:hover {
+            background-color: rgb(var(--subtle-background-hover));
+        }
+
+        &>:not(:last-child) {
+            margin-right: 5px;
+        }
+
+        &>svg {
+            transition: transform 150ms;
+        }
+
+        &>.chevron {
+            margin-left: -5px;
+        }
+
+        &>.label {
+            display: flex;
+            align-items: center;
+
+
+            &>:not(:last-child) {
+                margin-right: 5px;
+            }
+
+        }
+    }
+
+    &.isOpen {
+
+        &>button>svg {
+            transform: rotate(90deg);
+        }
+    }
+
+
+    &>.children {
+        padding-left: 10px;
+    }
+}

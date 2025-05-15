@@ -1,0 +1,161 @@
+.NumberInput {
+    display: inline-flex;
+    position: relative;
+    height: min-content;
+
+    &:has(input:focus) {
+        outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    }
+
+    &>input {
+        background-color: transparent;
+        color: inherit;
+        font: inherit;
+        border: 0;
+        padding: 0 15px;
+        outline: none;
+        height: 40px;
+
+        /* Suppression des flèches natives du input number */
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Pour Firefox */
+        -moz-appearance: textfield;
+    }
+
+
+    &.format-standard {
+        border: 1px solid var(--subtle-default-border);
+        border-radius: var(--radius-sm);
+
+
+        &>.buttons {
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--subtle-default-border);
+
+            &>button {
+                flex: 1;
+                padding: 0;
+                width: 25px;
+                background-color: transparent;
+                color: inherit;
+                border: 0;
+                cursor: pointer;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid var(--subtle-default-border);
+                }
+
+                &:hover {
+                    background-color: var(--subtle-default-background-hover);
+                }
+            }
+
+        }
+
+        &.size-sm {
+            &>input {
+                height: 30px;
+                padding: 0 10px;
+                font-size: 14px;
+            }
+
+            &>.buttons {
+                &>button {
+                    width: 20px;
+                }
+            }
+        }
+
+        &.size-md {
+            &>input {
+                height: 35px;
+                padding: 0 15px;
+                font-size: 16px;
+            }
+
+            &>.buttons {
+                &>button {
+                    width: 25px;
+                }
+            }
+        }
+
+        &.size-lg {
+            &>input {
+                height: 40px;
+                padding: 0 15px;
+                font-size: 18px;
+            }
+
+            &>.buttons {
+                &>button {
+                    width: 30px;
+                }
+            }
+        }
+
+
+    }
+
+    &.format-stepper {
+
+        outline: none !important;
+
+        &>.buttons {
+            &>button {
+                color: inherit;
+                background-color: transparent;
+                border: 0;
+                cursor: pointer;
+                height: 40px;
+                width: 40px;
+
+                border: 1px solid var(--subtle-default-border);
+
+                &:hover {
+                    background-color: var(--subtle-default-background-hover);
+                }
+            }
+        }
+
+        .minusButton {
+            position: absolute;
+            left: 0;
+            background-color: transparent;
+            border-radius: var(--radius-sm);
+        }
+
+        .plusButton {
+            position: absolute;
+            right: 0;
+            background-color: transparent;
+            border: 1px solid var(--subtle-default-border);
+            border-radius: var(--radius-sm);
+        }
+
+        &>input {
+            padding: 0 50px;
+            font-size: 18px;
+
+            width: 150px;
+            text-align: center;
+        }
+    }
+
+
+    &>.buttons {
+        &>button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+
+}

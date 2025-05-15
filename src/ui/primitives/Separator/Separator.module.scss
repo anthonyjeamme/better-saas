@@ -1,0 +1,32 @@
+.Separator {
+
+    height: 1px;
+    border: 0;
+
+    --vertical-margin: 0;
+
+    &.margin-xs {
+        --vertical-margin: 5px;
+    }
+
+    &.margin-sm {
+        --vertical-margin: 10px;
+    }
+
+    &.margin-md {
+        --vertical-margin: 20px;
+    }
+
+    &.margin-lg {
+        --vertical-margin: 20px;
+    }
+
+    &.margin-xl {
+        --vertical-margin: 50px;
+    }
+
+
+    background-color: var(--background-color);
+
+    margin: var(--vertical-margin) 0;
+}

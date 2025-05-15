@@ -1,0 +1,9 @@
+.Dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    background-color: var(--background);
+    border: 1px solid rgb(var(--subtle-border));
+    border-radius: var(--radius-sm);
+}

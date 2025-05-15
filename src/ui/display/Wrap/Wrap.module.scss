@@ -1,0 +1,9 @@
+.Wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
+
+    &>* {
+        width: max-content;
+    }
+}

@@ -1,0 +1,23 @@
+@use '../../_shared/style' as *;
+
+.Menu {
+    position: relative;
+
+    &>.dropdown {
+        position: absolute;
+        background-color: var(--background);
+        border: 1px solid var(--subtle-default-border);
+        border-radius: var(--radius-sm);
+        padding: var(--spacing-xs);
+        left: 0;
+        top: calc(100% + var(--spacing-xs));
+        @include DropdownEntryAnimation;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+
+        &>button {
+            width: 100%;
+        }
+    }
+}

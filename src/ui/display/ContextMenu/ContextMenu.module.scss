@@ -1,0 +1,11 @@
+.ContextMenuMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--background);
+    border-radius: var(--radius-sm);
+    padding: 5px;
+    z-index: 10;
+    border: 1px solid var(--subtle-default-border);
+    width: 150px;
+}

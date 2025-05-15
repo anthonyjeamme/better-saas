@@ -1,0 +1,8 @@
+.Small {
+    font-size: var(--font-size-xs);
+    opacity: 0.5;
+
+    &.uppercase {
+        text-transform: uppercase;
+    }
+}

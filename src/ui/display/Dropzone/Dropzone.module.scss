@@ -1,0 +1,23 @@
+.Dropzone {
+    border: 2px dashed var(--subtle-default-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+    border-radius: var(--radius-md);
+    margin: 20px 0;
+    transition: background-color 250ms, border 250ms;
+    cursor: pointer;
+
+
+    &.isDraggingOver {
+        border: 2px solid var(--subtle-default-border-hover);
+        background-color: rgb(white, 0.025);
+    }
+
+
+    &:hover {
+        background-color: rgb(white, 0.025);
+        border-color: var(--subtle-default-border-hover);
+    }
+}

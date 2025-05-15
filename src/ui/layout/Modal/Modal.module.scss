@@ -1,0 +1,58 @@
+.Modal {
+    position: fixed;
+    background-color: var(--modal-background);
+    inset: 0;
+    overflow-y: auto;
+    display: flex;
+    padding: 20px;
+}
+
+.ModalCover {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    isolation: isolate;
+    background-color: var(--background-alt);
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    position: relative;
+    padding: 40px;
+
+    &.scrollable {
+        overflow-y: auto;
+    }
+
+    .closeButton {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+.ModalDialog {
+    background-color: var(--background-alt);
+    border-radius: var(--radius-sm);
+    margin: auto;
+    min-width: 400px;
+    max-width: 600px;
+
+    &.placement-top {
+        margin-top: 20px;
+    }
+
+    &.placement-bottom {
+        margin-bottom: 20px;
+    }
+
+
+    &>header {
+        border-bottom: 1px solid var(--subtle-default-border);
+        padding: 5px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &>div {
+        padding: 20px;
+    }
+}

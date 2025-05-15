@@ -1,0 +1,16 @@
+/* textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #888;
+} */
+
+textarea {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--scrollbar-color)) transparent;
+}

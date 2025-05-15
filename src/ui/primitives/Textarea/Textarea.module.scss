@@ -1,0 +1,28 @@
+.Textarea {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    border: 1px solid var(--subtle-border);
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 0;
+    background-color: var(--subtle-background);
+    outline: 2px solid transparent;
+    transition: outline 250ms;
+    line-height: 1.2;
+    scrollbar-width: thin;
+    scrollbar-color: var(--foreground, 0.2) transparent;
+
+    &:focus {
+        outline-color: var(--foreground);
+    }
+
+    resize: vertical;
+
+    &:not(.resizable) {
+        resize: none;
+    }
+}

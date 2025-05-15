@@ -1,0 +1,15 @@
+.Folder {
+    padding: 20px;
+    padding: 20px;
+    background-color: rgb(white, 0.05);
+    margin: 20px 0;
+    border-radius: 5px;
+
+    outline-offset: 3px;
+    outline: 2px dashed transparent;
+    transition: outline 250ms;
+
+    &.isDraggingOver {
+        outline: 2px dashed rgb(white, 0.5);
+    }
+}

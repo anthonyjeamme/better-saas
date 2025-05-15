@@ -1,0 +1,82 @@
+.InlineSelect {
+    height: var(--h-md);
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--subtle-default-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--subtle-default-background);
+    position: relative;
+    user-select: none;
+    transition: opacity 250ms;
+
+    &.size-xs {
+        --height: var(--h-xs);
+        --font-size: var(--font-size-xs);
+    }
+
+    &.size-sm {
+        --height: var(--h-sm);
+        --font-size: var(--font-size-sm);
+    }
+
+    &.size-md {
+        --height: var(--h-md);
+        --font-size: var(--font-size-md);
+    }
+
+    &.size-lg {
+        --height: var(--h-lg);
+        --font-size: var(--font-size-lg);
+    }
+
+    &.size-xl {
+        --height: var(--h-xl);
+        --font-size: var(--font-size-xl);
+    }
+
+    height: var(--height);
+    font-size: var(--font-size);
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &>button {
+            cursor: not-allowed;
+        }
+    }
+
+
+    &>button {
+        background-color: transparent;
+        font: inherit;
+        border: none;
+        color: inherit;
+        padding: 0 var(--spacing-sm);
+        min-width: var(--height);
+        height: 100%;
+        cursor: pointer;
+
+        &>span {
+            position: relative;
+            z-index: 2;
+        }
+    }
+
+    .Indicator {
+        background-color: var(--subtle-default-background-hover);
+        position: absolute;
+        height: 100%;
+        width: 0;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: calc(var(--radius-sm) - 1px);
+        pointer-events: none;
+        transition: left 150ms, width 150ms;
+        pointer-events: none;
+        z-index: 1;
+    }
+}

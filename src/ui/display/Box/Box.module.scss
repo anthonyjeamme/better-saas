@@ -1,0 +1,85 @@
+.Box {
+    overflow: hidden;
+    --padding: var(--spacing-md);
+
+    &.padding-none {
+        --padding: 0;
+    }
+
+    &.padding-sm {
+        --padding: var(--spacing-sm);
+    }
+
+    &.padding-lg {
+        --padding: var(--spacing-lg);
+    }
+
+    &.padding-xl {
+        --padding: var(--spacing-xl);
+    }
+
+    padding: var(--padding);
+
+
+    --radius: var(--radius-md);
+
+    &.radius-none {
+        --radius: 0;
+    }
+
+    &.radius-sm {
+        --radius: var(--radius-sm);
+    }
+
+    &.radius-md {
+        --radius: var(--radius-md);
+    }
+
+    &.radius-lg {
+        --radius: var(--radius-lg);
+    }
+
+    &.radius-xl {
+        --radius: var(--radius-xl);
+    }
+
+    border-radius: var(--radius);
+
+
+    &.variant-outline {
+        border: 1px solid var(--subtle-default-border);
+    }
+
+    &.variant-surface {
+        border: 1px solid var(--subtle-default-border);
+        background-color: var(--subtle-default-background);
+    }
+
+    &.variant-solid {
+        background-color: var(--foreground);
+        color: var(--background);
+    }
+
+
+    &.stack-vertical {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.stack-horizontal {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &.align-start {
+        align-items: flex-start;
+    }
+
+    &.align-center {
+        align-items: center;
+    }
+
+    &.align-end {
+        align-items: flex-end;
+    }
+}
