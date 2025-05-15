@@ -87,10 +87,14 @@
     &.format-standard {
         border: 1px solid var(--subtle-default-border);
         border-radius: var(--radius-sm);
-
+        transition: border-color 250ms;
 
         &.hasError {
             border-color: var(--error);
+        }
+
+        &.hasWarning {
+            border-color: var(--warning);
         }
 
 

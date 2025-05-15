@@ -25,12 +25,15 @@ interface BaseProps {
     expression?: boolean
     clearButton?: boolean
     onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+    onEscape?: (e: React.KeyboardEvent<HTMLInputElement>) => void
     required?: boolean
     name?: string
     disabled?: boolean
     readOnly?: boolean
     icon?: React.ReactNode
     defaultValue?: number
+    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
+    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
 }
 
 // No emptyValue: always number
@@ -69,12 +72,15 @@ export const NumberInput = ({
     clearButton,
     fixed,
     onEnter,
+    onEscape,
     required = false,
     name,
     disabled = false,
     readOnly = false,
     icon,
-    defaultValue
+    defaultValue,
+    onFocus,
+    onBlur
 }: NumberInputProps) => {
 
     const { inputRef, keyDownIsAllowed } = useNumberInput({
@@ -110,7 +116,7 @@ export const NumberInput = ({
     }
 
     return (<div {...className('NumberInputContainer')}>
-        <div {...className('NumberInput', { format, size, hasError, disabled })}>
+        <div {...className('NumberInput', { format, size, hasError, disabled, hasWarning: Boolean(warningType) })}>
             <div {...className('content')}>
                 {
                     icon &&
@@ -182,6 +188,9 @@ export const NumberInput = ({
                         if (e.key === 'Enter') {
                             onEnter?.(e)
                         }
+                        if (e.key === 'Escape') {
+                            onEscape?.(e)
+                        }
                     }}
                     onChange={e => {
 
@@ -234,12 +243,16 @@ export const NumberInput = ({
                         }
                     }}
 
-                    onFocus={() => { hasFocusRef.current = true; }}
+                    onFocus={e => {
+                        hasFocusRef.current = true;
+                        onFocus?.(e)
+                    }}
                     onBlur={(e) => {
                         setWarningType(null)
                         const valueString = e.target.value;
                         hasFocusRef.current = false;
                         setIsInvalidTyping(false)
+                        onBlur?.(e)
 
                         if (isEmptyValue(valueString)) {
                             if (emptyValue === 'undefined') {
