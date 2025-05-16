@@ -1,4 +1,4 @@
-import { AlignVariant, SizeVariant, StackVariant, ThemeVariant, UIVariant } from '@ui/_shared/types';
+import { ThemeVariant, UIVariant, StackVariant, SizeVariant, AlignVariant } from '@ui/core/types';
 
 import classNameModule from '@ui/core/classname';
 import styles from './Box.module.scss';

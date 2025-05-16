@@ -24,7 +24,7 @@ import { Select } from '@ui/primitives/Select/Select';
 import { Separator } from '@ui/primitives/Separator/Separator';
 import { Toggle } from '@ui/primitives/Toggle/Toggle';
 import { Small } from '@ui/typo/Small/Small';
-import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon } from 'lucide-react';
+import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
 
@@ -39,6 +39,7 @@ function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [pickedFiles, setPickedFiles] = useState<File[]>([])
+  const [text, setText] = useState<string>('')
 
   const contextMenu = useContextMenu()
 
@@ -67,12 +68,11 @@ function Page() {
     }
   ])
 
-  console.log(number)
 
   return <Fullscreen horizontal >
     <Sidebar position='left' width={250}>Coucouc!</Sidebar>
     <div style={{ flex: 1, overflowY: 'auto' }}>
-      <Container size='xl' vMargin='xl'>
+      <Container size='lg'>
 
         <h2>Modal</h2>
 
@@ -96,6 +96,8 @@ function Page() {
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
+
+                <Menu />
 
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -360,6 +362,27 @@ function Page() {
           </HStack>
         </Field>
 
+
+
+        <Button variant='solid'>
+          <PlayIcon size={14} /> Button custom
+        </Button>
+
+        <h2>Inputs</h2>
+        <Grid columns={5} gap={"md"}>
+          <Field label={<code>{`size="sm"`}</code>}>
+            <Input value={text} onValueChange={setText} size="md" variant='flushed' />
+          </Field>
+          <Field label={<code>{`size="md"`}</code>}>
+            <Input value={text} onValueChange={setText} size="md" variant='outline' />
+          </Field>
+          <Field label={<code>{`size="lg"`}</code>}>
+            <Input value={text} onValueChange={setText} size='md' variant='subtle' />
+          </Field>
+        </Grid>
+
+
+
         <h2>Number inputs</h2>
 
         <code>
@@ -401,11 +424,11 @@ function Page() {
         </HStack>
 
         <HStack gap={10} vMargin={10} align='center'>
-          <Checkbox value={bool} onValueChange={setBool} variant='outline' size='xs' />
+          {/* <Checkbox value={bool} onValueChange={setBool} variant='outline' size='xs' /> */}
           <Checkbox value={bool} onValueChange={setBool} variant='outline' size='sm' />
           <Checkbox value={bool} onValueChange={setBool} variant='outline' size='md' />
           <Checkbox value={bool} onValueChange={setBool} variant='outline' size='lg' />
-          <Checkbox value={bool} onValueChange={setBool} variant='outline' size='xl' />
+          {/* <Checkbox value={bool} onValueChange={setBool} variant='outline' size='xl' /> */}
         </HStack>
 
 
@@ -446,11 +469,11 @@ function Page() {
 
         <HStack gap={10} vMargin={10} align='center'>
 
-          <Toggle value={bool} onValueChange={setBool} size='xs' />
+          {/* <Toggle value={bool} onValueChange={setBool} size='xs' /> */}
           <Toggle value={bool} onValueChange={setBool} size='sm' />
           <Toggle value={bool} onValueChange={setBool} size='md' />
           <Toggle value={bool} onValueChange={setBool} size='lg' />
-          <Toggle value={bool} onValueChange={setBool} size='xl' />
+          {/* <Toggle value={bool} onValueChange={setBool} size='xl' /> */}
 
         </HStack>
 
@@ -633,7 +656,21 @@ function Page() {
           <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Menu />`}</pre>
         </code>
 
-        <Menu />
+
+        <HStack gap={10} vMargin={10} justify='space-between' align='center'>
+
+          <Menu size='xs' />
+
+
+          <Menu size='sm' />
+
+          <Menu size='md' />
+
+          <Menu size='lg' />
+
+          <Menu size='xl' />
+
+        </HStack>
 
         <h2>Tree</h2>
 
@@ -699,7 +736,7 @@ function Page() {
 
               <div style={{ flex: 1 }}>
 
-                <Input medium outline value={item.name} onValueChange={name => list.update(index, { name })} />
+                <Input value={item.name} onValueChange={name => list.update(index, { name })} />
               </div>
               <Button variant='ghost' size='xs' onClick={() => list.move(index, index - 1)}>
                 <ArrowUpIcon size={14} />
@@ -770,7 +807,7 @@ function Page() {
         <div style={{ margin: '50px 0' }}>
 
           <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} size='xs' options={[
+            <InlineSelect value={selected} onValueChange={setSelected} options={[
               { label: '1', value: 'all' },
               { label: 'Hiking', value: 'hiking' },
               { label: 'Cycling', value: 'cycling' },
@@ -823,7 +860,7 @@ function Page() {
           <Separator />
 
           <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} size='xl' options={[
+            <InlineSelect value={selected} onValueChange={setSelected} options={[
               { label: '1', value: 'all' },
               { label: 'Hiking', value: 'hiking' },
               { label: 'Cycling', value: 'cycling' },

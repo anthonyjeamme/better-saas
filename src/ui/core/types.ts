@@ -6,6 +6,8 @@ export type UIVariant =
   | "ghost"
   | "plain";
 
+export type TextFieldVariant = "outline" | "subtle" | "flushed";
+
 export type ThemeVariant =
   | "default"
   | "primary"
@@ -19,3 +21,5 @@ export type ExtendedSizeVariant = "xs" | SizeVariant | "xl";
 
 export type AlignVariant = "start" | "center" | "end";
 export type StackDirection = "vertical" | "horizontal";
+
+export type StackVariant = "vertical" | "horizontal";

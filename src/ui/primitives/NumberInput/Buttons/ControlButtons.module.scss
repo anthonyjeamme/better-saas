@@ -3,11 +3,11 @@
     flex-direction: column;
     border-left: 1px solid var(--subtle-default-border);
 
+    height: var(--height);
     --button-width: 25px;
 
     &.size-sm {
         --button-width: 20px;
-        height: 30px;
     }
 
     &.size-lg {

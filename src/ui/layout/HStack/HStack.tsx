@@ -6,7 +6,7 @@ type HStackProps = {
     children?: React.ReactNode
     gap?: number | string
     align?: 'start' | 'center' | 'end'
-    justify?: 'start' | 'center' | 'end'
+    justify?: 'start' | 'center' | 'end' | 'space-between'
     vMargin?: number
     flex?: number
 }

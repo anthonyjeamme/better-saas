@@ -9,31 +9,6 @@
     user-select: none;
     transition: opacity 250ms;
 
-    &.size-xs {
-        --height: var(--h-xs);
-        --font-size: var(--font-size-xs);
-    }
-
-    &.size-sm {
-        --height: var(--h-sm);
-        --font-size: var(--font-size-sm);
-    }
-
-    &.size-md {
-        --height: var(--h-md);
-        --font-size: var(--font-size-md);
-    }
-
-    &.size-lg {
-        --height: var(--h-lg);
-        --font-size: var(--font-size-lg);
-    }
-
-    &.size-xl {
-        --height: var(--h-xl);
-        --font-size: var(--font-size-xl);
-    }
-
     height: var(--height);
     font-size: var(--font-size);
 

@@ -72,7 +72,13 @@ export const NumberInput = ({
     }, [updateInputValue])
 
     return (<div {...className('NumberInputContainer')}>
-        <div {...className('NumberInput', { size, hasError, disabled, hasWarning: Boolean(warningType) })}>
+        <div {...className('NumberInput', { hasError, disabled, hasWarning: Boolean(warningType) })}
+
+            style={{
+                '--height': `var(--size-${size})`,
+                '--padding-h': `var(--spacing-${size})`,
+            } as React.CSSProperties}
+        >
             <div {...className('content')}>
                 {
                     icon && <div {...className('icon')}>

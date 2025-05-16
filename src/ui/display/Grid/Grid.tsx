@@ -1,7 +1,7 @@
-import { SizeVariant } from '@ui/_shared/types';
 
 import classNameModule from '@ui/core/classname';
 import styles from './Grid.module.scss';
+import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type GridProps = {

@@ -1,25 +1,28 @@
-import { TextFieldVariantProps, UIPaletteProps, UISizeProps } from '../../_shared/types';
 
 import classNameModule from '@ui/core/classname';
 import styles from './Input.module.scss';
 import { forwardRef } from 'react';
+import { SizeVariant, TextFieldVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
-type InputProps = {
+type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {
     startAddon?: React.ReactNode
     endAddon?: React.ReactNode
     startElement?: React.ReactNode
     endElement?: React.ReactNode
     onValueChange?: (value: string) => void
-} & UIPaletteProps
-    & UISizeProps & TextFieldVariantProps & React.InputHTMLAttributes<HTMLInputElement>
+
+    size?: SizeVariant
+    variant?: TextFieldVariant
+
+}
 
 /**
  * 
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
-    small, medium, large,
-    outline, subtle, flushed,
+    size = 'md',
+    variant = 'outline',
     startAddon, endAddon,
     startElement, endElement,
     onValueChange,
@@ -27,8 +30,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
 }, ref) => {
 
     return (
-        <div {...className('InputContainer')}>
-
+        <div {...className('InputContainer')}
+            style={{
+                '--height': `var(--size-${size})`,
+                '--padding-h': `var(--spacing-${size})`
+            } as React.CSSProperties}
+        >
             {
                 startElement && (
                     <div {...className('StartElement')}>
@@ -46,8 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
             <input
                 ref={ref}
                 {...className('Input', {
-                    small, medium, large,
-                    outline, subtle, flushed,
+                    variant,
                     withStartAddon: Boolean(startAddon),
                     withEndAddon: Boolean(endAddon),
                 })}

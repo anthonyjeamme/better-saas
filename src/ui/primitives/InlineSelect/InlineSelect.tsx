@@ -1,7 +1,8 @@
+import { useEffect, useRef } from 'react';
+
 import classNameModule from '@ui/core/classname';
 import styles from './InlineSelect.module.scss';
-import { useEffect, useRef } from 'react';
-import { SizeVariant } from '@ui/_shared/types';
+import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 
@@ -25,7 +26,13 @@ export const InlineSelect = ({ options, size = 'md', disabled = false, value, on
         moveIndicator()
     }, [value])
 
-    return <div {...className('InlineSelect', { size, disabled })} ref={rootRef}>
+    return <div {...className('InlineSelect', { disabled })} ref={rootRef}
+        style={{
+            '--height': `var(--size-${size})`,
+            '--padding-h': `var(--spacing-${size})`,
+            '--font-size': `var(--font-size-${size})`
+        } as React.CSSProperties}
+    >
         {
             options.map((option) => (
                 <button

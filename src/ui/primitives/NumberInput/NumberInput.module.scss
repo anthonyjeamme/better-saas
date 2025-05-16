@@ -51,7 +51,8 @@
             border: 0;
             padding: 0 15px;
             outline: none;
-            height: 40px;
+            height: var(--height);
+            padding-left: var(--padding-h);
             transition: color 250ms;
 
             &.isInvalidTyping {
@@ -102,8 +103,6 @@
 
     &.size-sm {
         input {
-            height: 30px;
-            padding: 0 10px;
             font-size: 14px;
 
             &.withIcon {
@@ -115,8 +114,6 @@
 
     &.size-md {
         input {
-            height: 35px;
-            padding: 0 15px;
             font-size: 14px;
 
             &.withIcon {
@@ -128,8 +125,6 @@
 
     &.size-lg {
         input {
-            height: 40px;
-            padding: 0 15px;
             font-size: 15px;
 
             &.withIcon {

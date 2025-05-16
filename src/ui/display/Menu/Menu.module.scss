@@ -2,6 +2,7 @@
 
 .Menu {
     position: relative;
+    display: inline-flex;
 
     &>.dropdown {
         position: absolute;

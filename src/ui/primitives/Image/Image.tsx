@@ -1,6 +1,7 @@
+import { SizeVariant } from '@ui/core/types';
+
 import classNameModule from '@ui/core/classname';
 import styles from './Image.module.scss';
-import { SizeVariant } from '@ui/_shared/types';
 const className = classNameModule(styles)
 
 type ImageProps = {

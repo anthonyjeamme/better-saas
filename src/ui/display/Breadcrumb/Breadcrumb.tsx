@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
-import { SizeVariant } from '@ui/_shared/types';
+
+import { SizeVariant } from '@ui/core/types';
 
 import classNameModule from '@ui/core/classname';
 import styles from './Breadcrumb.module.scss';

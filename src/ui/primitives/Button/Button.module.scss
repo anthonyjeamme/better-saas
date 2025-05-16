@@ -12,6 +12,7 @@
     display: inline-flex;
     align-items: center;
     border: 0;
+    outline: none;
 
     &.fullWidth {
         width: 100%;
@@ -22,30 +23,8 @@
         cursor: not-allowed;
     }
 
-    --padding-h: 10px;
     --padding-v: 0;
-
-    // Sizing
-    &.size-xs {
-        --padding-h: var(--padding-h-xs);
-        gap: 5px;
-    }
-
-    &.size-sm {
-        --padding-h: var(--padding-h-sm);
-        gap: 5px;
-    }
-
-    &.size-md {
-        --padding-h: var(--padding-h-md);
-        gap: 5px;
-    }
-
-    &.size-lg {
-        --padding-h: var(--padding-h-lg);
-        gap: 5px;
-    }
-
+    gap: 5px;
     font-size: var(--font-size);
 
 
@@ -61,7 +40,7 @@
     }
 
     height: var(--height);
-    padding: var(--padding-v) var(--padding-h);
+    padding: 0 var(--padding-h);
 
     // Theming
     background-color: var(--background-color);

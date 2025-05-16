@@ -1,6 +1,7 @@
+import { ExtendedSizeVariant } from '@ui/core/types';
+
 import classNameModule from '@ui/core/classname';
 import styles from './Text.module.scss';
-import { ExtendedSizeVariant } from '@ui/_shared/types';
 const className = classNameModule(styles)
 
 type TextProps = {

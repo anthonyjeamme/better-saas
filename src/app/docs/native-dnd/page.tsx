@@ -47,7 +47,7 @@ export default function Page() {
 
     return <div {...className('Page')}>
         <DndProvider>
-            <Container vMargin='xl'>
+            <Container>
 
                 <Folder id='A' handleDropItem={handleDropItem}>
                     <For each={items.filter(item => item.folder === 'A')}>

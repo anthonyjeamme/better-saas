@@ -42,65 +42,41 @@
     width: 100%;
 
 
+    height: var(--height);
+    padding: 0 var(--padding-h);
+    outline: none;
+
+
     &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
     }
 
-    &.small {
-        height: var(--h-sm);
-        padding: 0 var(--padding-h-sm);
-    }
-
-    &.medium {
-        height: var(--h-md);
-        padding: 0 var(--padding-h-md);
-    }
-
-    &.large {
-        height: var(--h-lg);
-        padding: 0 var(--padding-h-lg);
-    }
-
-    &.outline {
-        border: 1px solid rgb(var(--foreground), 0.1);
-
-        &:hover {
-            border-color: rgb(var(--foreground), 0.3);
-        }
+    &.variant-outline {
+        border: 1px solid var(--subtle-default-border);
 
         &:focus {
-            outline-color: currentColor;
+            border-color: var(--subtle-default-border-hover);
         }
     }
 
-    &.subtle {
-        background-color: rgb(var(--subtle-background));
-
-        &:hover {
-            background-color: rgb(var(--subtle-background-hover));
-        }
+    &.variant-subtle {
+        background-color: var(--subtle-default-background);
 
         &:focus {
-            outline-color: currentColor;
-            background-color: rgb(var(--subtle-background-hover));
+            background-color: var(--subtle-default-background-hover);
         }
+
     }
 
-    &.flushed {
+    &.variant-flushed {
         padding: 0;
         border-radius: 0;
-        border-bottom: 1px solid rgb(var(--foreground), 0.1);
-        outline: none;
-
-        &:hover {
-            border-color: rgb(var(--foreground), 0.3);
-        }
+        border-bottom: 1px solid var(--subtle-default-border);
 
         &:focus {
-            border-color: currentColor;
+            border-color: var(--subtle-default-border-hover);
         }
-
     }
 
     &.withStartAddon {

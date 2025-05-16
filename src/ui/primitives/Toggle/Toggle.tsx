@@ -1,6 +1,6 @@
 import classNameModule from '@ui/core/classname';
 import styles from './Toggle.module.scss';
-import { SizeVariant, ThemeVariant } from '@ui/_shared/types';
+import { SizeVariant, ThemeVariant } from '@ui/core/types';
 import React, { useRef } from 'react';
 import { handleDrag } from '@ui/handlers/handleDrag';
 const className = classNameModule(styles)

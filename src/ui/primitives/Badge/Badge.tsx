@@ -1,6 +1,6 @@
 import classNameModule from '@ui/core/classname';
 import styles from './Badge.module.scss';
-import { UIVariant } from '@ui/_shared/types';
+import { UIVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type BadgeProps = {

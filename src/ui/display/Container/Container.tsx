@@ -1,6 +1,6 @@
 import classNameModule from '@ui/core/classname';
 import styles from './Container.module.scss';
-import { SizeVariant } from '@ui/_shared/types';
+import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type ContainerProps = {

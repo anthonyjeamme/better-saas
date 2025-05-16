@@ -17,6 +17,24 @@ $theme-colors: (
   --modal-background: rgb(9, 9, 9, 0.9);
   --background-alt: rgb(21, 21, 21);
 
+  // 
+
+  --size-xs: 30px;
+  --size-sm: 35px;
+  --size-md: 40px;
+  --size-lg: 50px;
+  --size-xl: 60px;
+
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 40px;
+
+  // 
+
+
+
   --h-xs: 24px;
   --h-sm: 32px;
   --h-md: 40px;
@@ -27,12 +45,6 @@ $theme-colors: (
   --padding-h-sm: 10px;
   --padding-h-md: 14px;
   --padding-h-lg: 16px;
-
-  --spacing-xs: 5px;
-  --spacing-sm: 10px;
-  --spacing-md: 15px;
-  --spacing-lg: 20px;
-  --spacing-xl: 40px;
 
   --radius-xs: 2px;
   --radius-sm: 5px;

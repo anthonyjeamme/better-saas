@@ -42,19 +42,24 @@ export function Button({
             ref={buttonRef}
             {...className('Button', { size, shape, fullWidth }, `:${variant}-${theme}`, classNameProp ? `:${classNameProp}` : '')}
             {...props}
-            style={getButtonStyle(theme, variant, size)}
+            style={{
+                '--height': `var(--size-${size})`,
+                '--padding-h': `var(--spacing-${size})`,
+                '--font-size': `var(--font-size-${size})`
+            } as React.CSSProperties}
             onClick={async (e) => {
                 if (!onClick) return
                 const buttonElement = buttonRef.current
                 if (!buttonElement) return
                 const offsetWidth = buttonElement.offsetWidth
-                const withProperty = buttonElement.style.width
+                const widthProperty = buttonElement.style.width
                 buttonElement.style.width = `${offsetWidth}px`
                 setIsLoading(true)
                 await onClick(e)
                 setIsLoading(false)
+
                 requestAnimationFrame(() => {
-                    buttonElement.style.width = withProperty
+                    buttonElement.style.width = widthProperty
                 })
             }}
         >
@@ -64,12 +69,3 @@ export function Button({
         </button >
     );
 };
-
-function getButtonStyle(theme: ThemeVariant, variant: UIVariant, size: ExtendedSizeVariant) {
-    const style: Record<string, string> = {}
-
-    style['--font-size'] = `var(--font-size-${size})`
-
-    style['--height'] = `var(--h-${size})`
-    return style as React.CSSProperties
-}
