@@ -1,39 +1,43 @@
 'use client'
 
-import { Box } from '@ui/display/Box/Box';
-import { Breadcrumb } from '@ui/display/Breadcrumb/Breadcrumb';
-import { Container } from '@ui/display/Container/Container';
-import { ContextMenu, useContextMenu } from '@ui/display/ContextMenu/ContextMenu';
-import { Dropzone } from '@ui/display/Dropzone/Dropzone';
-import { Grid } from '@ui/display/Grid/Grid';
-import { Menu } from '@ui/display/Menu/Menu';
-import { Tree } from '@ui/display/Tree/Tree';
-import { useList } from '@ui/hooks/useList/useList';
-import { usePasteFile } from '@ui/hooks/usePasteFile/usePasteFile';
-import { Fullscreen, HStack, Sidebar, VStack } from '@ui/layout';
-import { For } from '@ui/layout/For/For';
-import { Modal } from '@ui/layout/Modal/Modal';
-import { Button, Field, Input } from '@ui/primitives';
-import { Badge } from '@ui/primitives/Badge/Badge';
-import { Checkbox } from '@ui/primitives/Checkbox/Checkbox';
-import { FilePicker } from '@ui/primitives/FilePicker/FilePicker';
-import { Image } from '@ui/primitives/Image/Image';
-import { InlineSelect } from '@ui/primitives/InlineSelect/InlineSelect';
-import { NumberInput } from '@ui/primitives/NumberInput/NumberInput';
-import { Select } from '@ui/primitives/Select/Select';
-import { Separator } from '@ui/primitives/Separator/Separator';
-import { Toggle } from '@ui/primitives/Toggle/Toggle';
-import { Small } from '@ui/typo/Small/Small';
-import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon } from 'lucide-react';
 import React, { useState } from 'react';
+import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon, DotIcon } from 'lucide-react';
 
+import { For } from '@ui/layout/For';
+import { Modal } from '@ui/layout/Modal';
+import { Fullscreen, HStack, Sidebar, VStack } from '@ui/layout';
 
+import { useList } from '@ui/hooks/useList/useList';
+
+import { Box } from '@ui/display/Box';
+import { Grid } from '@ui/display/Grid';
+import { Menu } from '@ui/display/Menu';
+import { Tree } from '@ui/display/Tree';
+import { Dropzone } from '@ui/display/Dropzone';
+import { Container } from '@ui/display/Container';
+import { Breadcrumb } from '@ui/display/Breadcrumb';
+import { ContextMenu, useContextMenu } from '@ui/display/ContextMenu';
+
+import { Input } from '@ui/primitives/Input';
+import { Field } from '@ui/primitives/Field';
+import { Image } from '@ui/primitives/Image';
+import { Badge } from '@ui/primitives/Badge';
+import { Select } from '@ui/primitives/Select';
+import { Button } from '@ui/primitives/Button';
+import { Toggle } from '@ui/primitives/Toggle';
+import { Checkbox } from '@ui/primitives/Checkbox';
+import { Separator } from '@ui/primitives/Separator';
+import { FilePicker } from '@ui/primitives/FilePicker';
+import { NumberInput } from '@ui/primitives/NumberInput';
+import { InlineSelect } from '@ui/primitives/InlineSelect';
+
+import { Small } from '@ui/typo/Small';
 
 function Page() {
   const [bool, setBool] = useState(false)
   const [number, setNumber] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState<string>('')
+  const [selected, setSelected] = useState<string>('hiking')
   const [selectedMult, setSelectedMult] = useState<string[]>([])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -42,10 +46,6 @@ function Page() {
   const [text, setText] = useState<string>('')
 
   const contextMenu = useContextMenu()
-
-  usePasteFile(files => {
-    console.log("===>", files)
-  })
 
   const list = useList([
     {
@@ -546,10 +546,31 @@ function Page() {
         </Breadcrumb>
 
 
+        <code>
+          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>
+            {`<Breadcrumb separator={<DotIcon size={14} />} />`}
+          </pre>
+        </code>
+
+
+        <Breadcrumb separator={<DotIcon size={14} />}>
+          <Button variant='ghost' size='sm'>
+            Home
+          </Button>
+          <Button variant='ghost' size='sm'>
+            Dashboard
+          </Button>
+          <Button variant='ghost' size='sm'>
+            Projects
+          </Button>
+        </Breadcrumb>
+
+
+
         <h2>Select</h2>
 
         <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Select />`}</pre>
+          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Select search options={[]} />`}</pre>
         </code>
 
         <Grid columns={2} gap={"md"}>
@@ -575,8 +596,7 @@ function Page() {
                 { label: 'Elijah', value: 'elijah', searchTerm: 'elijah' },
                 { label: 'Amelia', value: 'amelia', searchTerm: 'amelia' }
               ]}
-
-              value={selected} onChange={setSelected} />
+              value={selected} onValueChange={setSelected} />
           </Field>
 
           <Field label="Multiple">
@@ -602,7 +622,7 @@ function Page() {
                 { label: 'Amelia', value: 'amelia', searchTerm: 'amelia' }
               ]}
 
-              value={selectedMult} onChange={setSelectedMult} />
+              value={selectedMult} onValueChange={setSelectedMult} />
           </Field>
         </Grid>
 

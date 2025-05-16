@@ -10,17 +10,17 @@ const className = classNameModule(styles)
 type BreadcrumbProps = {
     children?: React.ReactNode
     size?: SizeVariant
-    icon?: React.ReactNode
+    separator?: React.ReactNode
 }
 
-export const Breadcrumb = ({ children, size = 'md', icon }: BreadcrumbProps) => {
+export const Breadcrumb = ({ children, size = 'md', separator }: BreadcrumbProps) => {
 
     const crumbs = React.Children.toArray(children)
 
     return <div {...className('Breadcrumb', { size })}>{
         crumbs.map((crumb, index) => {
             return <Fragment key={index}>
-                {index > 0 && (icon ?? <ChevronRightIcon size={14} />)}
+                {index > 0 && (separator ?? <ChevronRightIcon size={14} />)}
                 {crumb}
             </Fragment>
         })

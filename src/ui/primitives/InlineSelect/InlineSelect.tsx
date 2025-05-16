@@ -42,7 +42,7 @@ export const InlineSelect = ({ options, size = 'md', disabled = false, value, on
                     data-selected={option.value === value}
                     onClick={() => onValueChange?.(option.value)}
                 >
-                    <span>{option.label}</span>
+                    {option.label}
                 </button>
             ))
         }

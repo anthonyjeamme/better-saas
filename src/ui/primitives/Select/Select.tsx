@@ -25,7 +25,7 @@ type SelectProps = SingleSelectProps | MultipleSelectProps
 type SingleSelectProps = {
     multiple?: false;
     value: string
-    onChange?: (value: string) => void
+    onValueChange?: (value: string) => void
     options: SelectOption[];
     placeholder?: string
     label?: string;
@@ -38,7 +38,7 @@ type SingleSelectProps = {
 type MultipleSelectProps = {
     multiple: true;
     value: string[]
-    onChange?: (value: string[]) => void
+    onValueChange?: (value: string[]) => void
     options: SelectOption[];
     placeholder?: string
     label?: string;
@@ -55,7 +55,7 @@ export const Select = (props: SelectProps) => {
 };
 
 
-const SingleSelect = ({ options, value, onChange, placeholder, label, id: externalId, disabled, fullWidth, search }: SingleSelectProps) => {
+const SingleSelect = ({ options, value, onValueChange, placeholder, label, id: externalId, disabled, fullWidth, search }: SingleSelectProps) => {
     const internalId = useId();
     const id = externalId || internalId;
     const listboxId = `${id}-listbox`;
@@ -138,7 +138,7 @@ const SingleSelect = ({ options, value, onChange, placeholder, label, id: extern
                 options={options}
                 handleClick={(option) => {
                     if (option.value !== value)
-                        onChange?.(option.value)
+                        onValueChange?.(option.value)
                     dropdown.close()
                     buttonRef.current?.focus()
                 }}
@@ -150,7 +150,7 @@ const SingleSelect = ({ options, value, onChange, placeholder, label, id: extern
     </div>;
 }
 
-const MultipleSelect = ({ options, value, onChange, placeholder, label, id: externalId, disabled, fullWidth, search }: MultipleSelectProps) => {
+const MultipleSelect = ({ options, value, onValueChange, placeholder, label, id: externalId, disabled, fullWidth, search }: MultipleSelectProps) => {
     const internalId = useId();
     const id = externalId || internalId;
     const listboxId = `${id}-listbox`;
@@ -200,7 +200,7 @@ const MultipleSelect = ({ options, value, onChange, placeholder, label, id: exte
                 selectedCount > 0 && (
                     <span role='button' onClick={(e) => {
                         e.stopPropagation()
-                        onChange?.([])
+                        onValueChange?.([])
                     }} {...className('cleanButton')}>
                         <XIcon size={12} />
                     </span>
@@ -218,9 +218,9 @@ const MultipleSelect = ({ options, value, onChange, placeholder, label, id: exte
             options={options}
             handleClick={(option) => {
                 if (value.includes(option.value)) {
-                    onChange?.(value.filter(v => v !== option.value))
+                    onValueChange?.(value.filter(v => v !== option.value))
                 } else {
-                    onChange?.(value.concat(option.value))
+                    onValueChange?.(value.concat(option.value))
                 }
             }}
             checkbox={true}
