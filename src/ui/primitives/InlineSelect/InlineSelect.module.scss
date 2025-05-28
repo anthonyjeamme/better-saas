@@ -21,7 +21,6 @@
         }
     }
 
-
     &>button {
         background-color: transparent;
         font: inherit;
@@ -31,6 +30,8 @@
         min-width: var(--height);
         height: 100%;
         cursor: pointer;
+        position: relative;
+        z-index: 2;
 
         &>span {
             position: relative;

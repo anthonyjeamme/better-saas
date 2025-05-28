@@ -1,0 +1,48 @@
+.DialogContainer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    &>.Overlay {
+        position: absolute;
+        inset: 0;
+        background-color: var(--background);
+        opacity: 0.8;
+    }
+}
+
+
+.Dialog {
+    position: absolute;
+
+    background-color: var(--subtle-default-background);
+    left: 50%;
+    top: 50px;
+    border-radius: 5px;
+    transform: translateX(-50%);
+    width: 500px;
+
+    &>header {
+        padding: 15px 20px 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &>.title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+
+    &>div {
+
+        padding: 0 20px;
+    }
+
+    &>footer {
+        padding: 30px 20px 15px 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+}

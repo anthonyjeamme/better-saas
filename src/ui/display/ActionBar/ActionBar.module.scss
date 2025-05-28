@@ -1,0 +1,59 @@
+.ActionBar {
+    position: absolute;
+
+    &.type-fixed {
+        position: fixed;
+    }
+
+    &.type-sticky {
+        position: sticky;
+    }
+
+    background-color: var(--background);
+    z-index: 100;
+    border: 1px solid var(--subtle-default-border);
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+
+
+    &>hr {
+        background-color: var(--subtle-default-border);
+        width: 1px;
+        border: 0;
+        margin: auto 10px;
+        height: 20px;
+    }
+
+    --translate-x: 0;
+    --translate-y: 0;
+
+
+    &.vPosition-top {
+        top: 10px;
+    }
+
+    &.vPosition-center {
+        top: 50%;
+        --translate-y: -50%;
+    }
+
+    &.vPosition-bottom {
+        bottom: 10px;
+    }
+
+    &.hPosition-left {
+        left: 10px;
+    }
+
+    &.hPosition-center {
+        left: 50%;
+        --translate-x: -50%;
+    }
+
+    &.hPosition-right {
+        right: 10px;
+    }
+
+    transform: translate(var(--translate-x), var(--translate-y));
+}

@@ -9,12 +9,14 @@ type TextProps = {
     size?: ExtendedSizeVariant
     weight?: number
     opacity?: number
+    format?: 'uppercase' | 'lowercase' | 'capitalize'
+    lineHeight?: number
 }
 
-export const Text = ({ children, size = 'md', weight = 400, opacity = 1 }: TextProps) => {
+export const Text = ({ children, size = 'md', weight = 400, opacity = 1, format, lineHeight }: TextProps) => {
     return <span
-        {...className('Text', { size })}
-        style={{ fontWeight: weight, opacity, fontSize: `var(--font-size-${size})` }}>
+        {...className('Text', { size, format })}
+        style={{ fontWeight: weight, opacity, fontSize: `var(--font-size-${size})`, lineHeight }}>
         {children}
     </span>;
 };

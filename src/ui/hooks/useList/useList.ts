@@ -33,5 +33,11 @@ export function useList<T>(initialItems: T[]) {
       setItems(arrayReplace(getItems(), index, item));
     },
     count: () => items.length,
+    push: (item: T) => {
+      setItems(arrayInsert(getItems(), item, getItems().length));
+    },
+    unshift: (item: T) => {
+      setItems(arrayInsert(getItems(), item, 0));
+    },
   };
 }

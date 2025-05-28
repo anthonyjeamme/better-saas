@@ -113,12 +113,16 @@ export const NumberInput = ({
                             if (isValidValue(String(value), integer, min, max, fixed)) {
                                 onValueChange(value)
                                 updateInputValue(String(value))
+                                setWarningType(null)
+                                setIsInvalidTyping(false)
                             }
                         } else {
                             const value = parseFloat(text.replace(',', '.'))
                             if (isValidValue(String(value), integer, min, max, fixed)) {
                                 onValueChange(value)
                                 updateInputValue(String(value))
+                                setWarningType(null)
+                                setIsInvalidTyping(false)
                             }
 
                         }
@@ -132,6 +136,8 @@ export const NumberInput = ({
                         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
                             e.preventDefault()
                             buttonUpdate(e.key === "ArrowUp" ? step : -step)
+                            setWarningType(null)
+                            setIsInvalidTyping(false)
                         }
                         if (e.key === 'Enter') onEnter?.(e)
                         if (e.key === 'Escape') onEscape?.(e)

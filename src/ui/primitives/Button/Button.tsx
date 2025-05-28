@@ -40,12 +40,12 @@ export function Button({
     return (
         <button
             ref={buttonRef}
-            {...className('Button', { size, shape, fullWidth }, `:${variant}-${theme}`, classNameProp ? `:${classNameProp}` : '')}
+            {...className('Button', { size, shape, fullWidth }, `:${variant}-${theme}-hoverable`, classNameProp ? `:${classNameProp}` : '')}
             {...props}
             style={{
                 '--height': `var(--size-${size})`,
                 '--padding-h': `var(--spacing-${size})`,
-                '--font-size': `var(--font-size-${size})`
+                '--font-size': `var(--font-size-${size})`,
             } as React.CSSProperties}
             onClick={async (e) => {
                 if (!onClick) return

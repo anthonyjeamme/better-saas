@@ -12,12 +12,12 @@
 
     &.isDraggingOver {
         border: 2px solid var(--subtle-default-border-hover);
-        background-color: rgb(white, 0.025);
+        background-color: var(--subtle-default-background);
     }
 
 
     &:hover {
-        background-color: rgb(white, 0.025);
         border-color: var(--subtle-default-border-hover);
+        background-color: var(--subtle-default-background);
     }
 }

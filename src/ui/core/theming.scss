@@ -1,99 +1,62 @@
 @use 'sass:color';
-@use 'sass:math';
 @use 'sass:map';
+@use 'sass:math';
+@use 'theming.utils' as *;
+@use 'over-color.utils' as *;
 
-// 
-@function calculate-opacity($color, $base-opacity) {
-    $lightness: color.channel($color, "lightness", $space: hsl);
-
-    @if $lightness >90 {
-        @return $base-opacity * 0.8;
-    }
-
-    @return $base-opacity * 1;
-}
-
-// 
-@function get-contrast-color($color) {
-    $lightness: color.channel($color, "lightness", $space: hsl);
-
-    @if $lightness >60 {
-        @return var(--background);
-    }
-
-    @else {
-        @return var(--foreground);
-    }
-}
-
-// 
-@function generate-color-variations($color, $options) {
-    $base-background-opacity: 0.1;
-    $hover-background-opacity: 0.2;
-    $base-border-opacity: 0.2;
-    $hover-border-opacity: 0.4;
-
-    @return ('base': $color,
-        'hover': color.adjust($color, $lightness: -10%),
-        'subtle-bg': color.change($color, $alpha: calculate-opacity($color, $base-background-opacity)),
-        'subtle-bg-hover': color.change($color, $alpha: calculate-opacity($color, $hover-background-opacity)),
-        'subtle-border': color.change($color, $alpha: calculate-opacity($color, $base-border-opacity)),
-        'subtle-border-hover': color.change($color, $alpha: calculate-opacity($color, $hover-border-opacity)),
-        'text-over': get-contrast-color($color),
-        'text-over-subtle': if(map.get($options, 'tint-over-subtle'), color.adjust($color, $lightness: 30%), inherit));
-}
-
-// 
-@mixin generate-palette($theme-colors, $foreground, $background, $options: ()) {
-    $default-options: (
-        'tint-over-subtle': false
-    );
-
-$options: map.merge($default-options, $options);
-
-@each $name, $color in $theme-colors {
-    $variations: generate-color-variations($color, $options);
-
-    --#{$name}: #{map.get($variations, 'base')};
-    --#{$name}-hover: #{map.get($variations, 'hover')};
-    --subtle-#{$name}-background: #{map.get($variations, 'subtle-bg')};
-    --subtle-#{$name}-background-hover: #{map.get($variations, 'subtle-bg-hover')};
-    --subtle-#{$name}-border: #{map.get($variations, 'subtle-border')};
-    --subtle-#{$name}-border-hover: #{map.get($variations, 'subtle-border-hover')};
-    --#{$name}-text-over: #{map.get($variations, 'text-over')};
-    --#{$name}-text-over-subtle: #{map.get($variations, 'text-over-subtle')};
+@mixin palette-classes($name) {
 
     .outline-#{$name},
-    .surface-#{$name} {
+    .outline-#{$name}-hoverable,
+    .surface-#{$name},
+    .surface-#{$name}-hoverable {
         border: 1px solid var(--subtle-#{$name}-border);
+    }
 
+    .outline-#{$name}-hoverable,
+    .surface-#{$name}-hoverable {
         &:hover {
             border-color: var(--subtle-#{$name}-border-hover);
         }
     }
 
+
+    .outline-#{$name},
+    .outline-#{$name}-hoverable,
+    .ghost-#{$name}-hoverable {
+        color: var(--#{$name}-text-over-subtle);
+    }
+
     .subtle-#{$name},
-    .surface-#{$name} {
+    .subtle-#{$name}-hoverable,
+    .surface-#{$name},
+    .surface-#{$name}-hoverable {
         background-color: var(--subtle-#{$name}-background);
         color: var(--#{$name}-text-over-subtle);
+    }
 
+    .subtle-#{$name}-hoverable,
+    .surface-#{$name}-hoverable {
         &:hover {
             background-color: var(--subtle-#{$name}-background-hover);
             color: var(--#{$name}-text-over-subtle);
         }
     }
 
-    .solid-#{$name} {
+    .solid-#{$name},
+    .solid-#{$name}-hoverable {
         background-color: var(--#{$name});
-        color: var(--#{$name}-text-over);
+        color: var(--#{$name}-text-over-solid);
+    }
 
+    .solid-#{$name}-hoverable {
         &:hover {
             background-color: var(--#{$name}-hover);
-            color: var(--#{$name}-text-over);
+            color: var(--#{$name}-text-over-solid);
         }
     }
 
-    .ghost-#{$name} {
+    .ghost-#{$name}-hoverable {
         &:hover {
             background-color: var(--subtle-#{$name}-background);
             color: var(--#{$name}-text-over-subtle);
@@ -101,6 +64,46 @@ $options: map.merge($default-options, $options);
     }
 }
 
+@mixin generate-palette($theme-colors, $foreground, $background, $options: ()) {
+    $default-options: (
+        'tinted': false,
+        'subtle-bg-weight': 15%,
+        'subtle-bg-hover-weight': 30%,
+        'subtle-border-weight': 30%,
+        'subtle-border-hover-weight': 60%,
+        'hover-lightness': -10%,
+        'force-light-text-threshold': 60%,
+        'tint-lightness-adjustment': 0%
+    );
+
+$options: map.merge($default-options, $options);
+
+@each $name, $color in $theme-colors {
+    $subtle-bg: color.mix($color, $background, $weight: calculate-mix-weight($color, map.get($options, 'subtle-bg-weight')));
+
+    --#{$name}: #{$color};
+    --#{$name}-hover: #{color.adjust($color, $lightness: map.get($options, 'hover-lightness'))};
+    --subtle-#{$name}-background: #{$subtle-bg};
+    --subtle-#{$name}-background-hover: #{color.mix($color, $background, $weight: calculate-mix-weight($color, map.get($options, 'subtle-bg-hover-weight')))};
+    --subtle-#{$name}-border: #{color.mix($color, $background, $weight: calculate-mix-weight($color, map.get($options, 'subtle-border-weight')))};
+    --subtle-#{$name}-border-hover: #{color.mix($color, $background, $weight: calculate-mix-weight($color, map.get($options, 'subtle-border-hover-weight')))};
+    --#{$name}-text-over-subtle: #{compute-over-color($subtle-bg, $background, $foreground, $options)};
+    --#{$name}-text-over-plain: var(--foreground);
+    --#{$name}-text-over-solid: #{if(color.channel($color, "lightness", $space: hsl) <= map.get($options, 'force-light-text-threshold'), var(--light), get-contrast-color($color))};
+
+    @include palette-classes($name);
+}
+
 --background: #{$background};
 --foreground: #{$foreground};
+
+.stack-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.stack-horizontal {
+    display: flex;
+    flex-direction: row;
+}
 }

@@ -1,1 +1,13 @@
-.Text {}
+.Text {
+    &.format-uppercase {
+        text-transform: uppercase;
+    }
+
+    &.format-lowercase {
+        text-transform: lowercase;
+    }
+
+    &.format-capitalize {
+        text-transform: capitalize;
+    }
+}

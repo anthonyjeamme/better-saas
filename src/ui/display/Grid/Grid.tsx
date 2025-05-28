@@ -5,7 +5,7 @@ import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type GridProps = {
-    children: React.ReactNode
+    children?: React.ReactNode
     columns?: number
     mobileColumns?: number
     tabletColumns?: number

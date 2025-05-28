@@ -8,7 +8,9 @@ type FieldProps = {
 }
 
 export const Field = ({ label, children }: FieldProps) => {
-    return <div {...className('Field')}>
+    return <div {...className('Field')} style={{
+        '--label-color': `var(--foreground)`
+    } as React.CSSProperties}>
         {label && <div {...className('label')}>{label}</div>}
         {children}
     </div>;

@@ -22,3 +22,7 @@ body {
     color: var(--foreground);
     font-family: var(--font-family);
 }
+
+canvas {
+    display: block;
+}

@@ -49,43 +49,4 @@
 
         color: transparent !important;
     }
-
-    &.variant-outline {
-        border: 1px solid var(--border-subtle);
-
-
-        &:not(.disabled):hover {
-            border-color: var(--border-subtle-hover);
-        }
-
-        &.checked {
-            border-color: var(--color) !important;
-            background-color: var(--background-subtle);
-            color: var(--text-over-subtle);
-        }
-    }
-
-    &.variant-subtle {
-        background-color: var(--background-subtle);
-
-        &:not(.disabled):hover {
-            background-color: var(--background-subtle-hover);
-        }
-
-    }
-
-    &.variant-solid {
-        border: 1px solid var(--border-subtle);
-
-        &:not(.disabled):hover {
-            border-color: var(--border-subtle-hover);
-        }
-
-        &.checked {
-            background-color: var(--color);
-            border-color: var(--color) !important;
-            color: var(--text-over);
-        }
-    }
-
 }

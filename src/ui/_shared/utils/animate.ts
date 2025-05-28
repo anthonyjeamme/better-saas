@@ -3,10 +3,24 @@ export function animate(
   keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
   options?: number | KeyframeAnimationOptions
 ) {
-  return new Promise((resolve) => {
-    const anim = element.animate(keyframes, options);
-    anim.onfinish = () => {
+  const anim = element.animate(keyframes, options);
+  const promise = new Promise<boolean>((resolve) => {
+    const onCancel = () => {
       resolve(true);
     };
+    const onFinish = () => {
+      resolve(false);
+    };
+
+    anim.oncancel = onCancel;
+    anim.onfinish = onFinish;
   });
+
+  return {
+    promise,
+    anim,
+    cancel: () => {
+      anim.cancel();
+    },
+  };
 }

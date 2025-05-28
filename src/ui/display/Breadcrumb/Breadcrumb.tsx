@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
 
-import { SizeVariant } from '@ui/core/types';
-
-import classNameModule from '@ui/core/classname';
+import { SizeVariant } from '../../core/types';
+import classNameModule from '../../core/classname';
 import styles from './Breadcrumb.module.scss';
 const className = classNameModule(styles)
 

@@ -46,31 +46,6 @@
     border-radius: var(--radius);
 
 
-    &.variant-outline {
-        border: 1px solid var(--subtle-default-border);
-    }
-
-    &.variant-surface {
-        border: 1px solid var(--subtle-default-border);
-        background-color: var(--subtle-default-background);
-    }
-
-    &.variant-solid {
-        background-color: var(--foreground);
-        color: var(--background);
-    }
-
-
-    &.stack-vertical {
-        display: flex;
-        flex-direction: column;
-    }
-
-    &.stack-horizontal {
-        display: flex;
-        flex-direction: row;
-    }
-
     &.align-start {
         align-items: flex-start;
     }
@@ -82,29 +57,4 @@
     &.align-end {
         align-items: flex-end;
     }
-
-    --v-margin: 0;
-
-    &.vMargin-xs {
-        --v-margin: var(--spacing-xs);
-    }
-
-    &.vMargin-sm {
-        --v-margin: var(--spacing-sm);
-    }
-
-    &.vMargin-md {
-        --v-margin: var(--spacing-md);
-    }
-
-    &.vMargin-lg {
-        --v-margin: var(--spacing-lg);
-    }
-
-    &.vMargin-xl {
-        --v-margin: var(--spacing-xl);
-    }
-
-    margin-top: var(--v-margin);
-    margin-bottom: var(--v-margin);
 }

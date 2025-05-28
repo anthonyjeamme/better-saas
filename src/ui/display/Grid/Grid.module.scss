@@ -25,4 +25,12 @@
     & {
         gap: var(--gap);
     }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(var(--tablet-columns), 1fr);
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: repeat(var(--mobile-columns), 1fr);
+    }
 }

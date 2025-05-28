@@ -1,0 +1,91 @@
+@use 'sass:color';
+@use 'sass:math';
+
+@function get-relative-luminance($color) {
+    $r: color.channel($color, "red", $space: rgb);
+    $g: color.channel($color, "green", $space: rgb);
+    $b: color.channel($color, "blue", $space: rgb);
+
+    @return math.div(($r * 299) + ($g * 587) + ($b * 114), 1000);
+}
+
+@function calculate-contrast($color1, $color2) {
+    $luminance1: get-relative-luminance($color1);
+    $luminance2: get-relative-luminance($color2);
+
+    $lighter: max($luminance1, $luminance2);
+    $darker: min($luminance1, $luminance2);
+
+    @return math.div($lighter + 0.05, $darker + 0.05);
+}
+
+@function get-contrast-color($color) {
+    $light-contrast: calculate-contrast($color, rgb(255, 255, 255));
+    $dark-contrast: calculate-contrast($color, rgb(0, 0, 0));
+
+    @if $light-contrast >=4.5 {
+        @return var(--light);
+    }
+
+    @else if $dark-contrast >=4.5 {
+        @return var(--dark);
+    }
+
+    @else {
+        @return if($light-contrast > $dark-contrast, var(--light), var(--dark));
+    }
+}
+
+@function calculate-mix-weight($color, $base-weight) {
+    $lightness: color.channel($color, "lightness", $space: hsl);
+
+    @if $lightness >90% {
+        @return $base-weight * 0.5;
+    }
+
+    @else if $lightness < 10% {
+        @return $base-weight * 0.5;
+    }
+
+    @return $base-weight;
+}
+
+@function get-text-over-subtle-color($color, $background, $subtle-bg) {
+    $lightness: color.channel($color, "lightness", $space: hsl);
+
+    // Si la couleur de base est très claire, forcer le texte foncé
+    @if $lightness >90% {
+        @return get-contrast-color($subtle-bg);
+    }
+
+    // Premier essai : ajustement standard
+    $adjusted-color: if($lightness > 50%,
+            color.adjust($color, $lightness: -50%),
+            color.adjust($color, $lightness: 30%));
+    $contrast: calculate-contrast($adjusted-color, $subtle-bg);
+
+    @if $contrast >=4.5 {
+        @return $adjusted-color;
+    }
+
+    // Deuxième essai : éclaircissement plus fort pour les couleurs sombres
+    @if $lightness <=50% {
+        $lighter-color: color.adjust($color, $lightness: 50%);
+        $lighter-contrast: calculate-contrast($lighter-color, $subtle-bg);
+
+        @if $lighter-contrast >=4.5 {
+            @return $lighter-color;
+        }
+
+        // Troisième essai : mélange avec le background
+        $mixed-color: color.mix($color, $background, $weight: 70%);
+        $mixed-contrast: calculate-contrast($mixed-color, $subtle-bg);
+
+        @if $mixed-contrast >=4.5 {
+            @return $mixed-color;
+        }
+    }
+
+    // Sinon, fallback contraste maximal
+    @return get-contrast-color($subtle-bg);
+}

@@ -1,103 +1,73 @@
 @use '@ui/core/theming.scss' as *;
 @use '@ui/core/reset.scss';
+@use '@ui/core/default.scss' as *;
 
-$foreground: rgb(255, 255, 255);
-$background: rgb(9, 9, 9);
+// $foreground: rgb(9, 9, 9);
+$foreground: #131313;
+$background: rgb(255, 255, 255);
+
 $theme-colors: (
   'primary': rgb(57, 118, 188),
   'success': rgb(52, 167, 100),
   'warning': rgb(207, 150, 44),
   'error': rgb(231, 76, 60),
-  'default': rgb(255, 255, 255),
+  'default': $foreground,
 );
 
-:root {
-  @include generate-palette($theme-colors, $foreground, $background, ('tint-over-subtle': true));
+$dark-theme-colors: (
+  'primary': rgb(56, 101, 153),
+  'success': rgb(51, 134, 86),
+  'warning': rgb(168, 126, 48),
+  'error': rgb(201, 74, 60),
+  'default': $background,
+);
 
-  --modal-background: rgb(9, 9, 9, 0.9);
-  --background-alt: rgb(21, 21, 21);
+$theme-options: (
+  'tinted': true,
+  'subtle-bg-weight': 15%,
+  'subtle-bg-hover-weight': 30%,
+  'subtle-border-weight': 30%,
+  'subtle-border-hover-weight': 60%,
+  'tint-lightness-adjustment': -20%
+);
 
-  // 
-
-  --size-xs: 30px;
-  --size-sm: 35px;
-  --size-md: 40px;
-  --size-lg: 50px;
-  --size-xl: 60px;
-
-  --spacing-xs: 5px;
-  --spacing-sm: 10px;
-  --spacing-md: 15px;
-  --spacing-lg: 20px;
-  --spacing-xl: 40px;
-
-  // 
-
+$dark-theme-options: (
+  'tinted': true,
+  'subtle-bg-weight': 10%,
+  'subtle-bg-hover-weight': 30%,
+  'subtle-border-weight': 40%,
+  'subtle-border-hover-weight': 70%,
+  'tint-lightness-adjustment': -10%
+);
 
 
-  --h-xs: 24px;
-  --h-sm: 32px;
-  --h-md: 40px;
-  --h-lg: 48px;
-  --h-xl: 56px;
+html {
+  --light: rgb(255, 255, 255);
+  --dark: #131313;
 
-  --padding-h-xs: 5px;
-  --padding-h-sm: 10px;
-  --padding-h-md: 14px;
-  --padding-h-lg: 16px;
+  @include generate-palette($theme-colors, $foreground, $background, $theme-options);
+  @include default-sizes;
 
-  --radius-xs: 2px;
-  --radius-sm: 5px;
-  --radius-md: 10px;
-  --radius-lg: 20px;
-  --radius-xl: 40px;
-  --scrollbar-color: 255,
-    255,
-    255,
-    0.2;
+  @media (prefers-color-scheme: dark) {
+    &:not(.light) {
+      @include generate-palette($dark-theme-colors, $background, $foreground, $dark-theme-options);
 
-  --label-font-size: 13px;
-  --label-font-weight: 500;
-  --label-color: 255,
-    255,
-    255;
+      --foreground: rgb(255, 255, 255);
+      --background: var(--dark);
+    }
+  }
 
-  --focus-outline-width: 2px;
-  --focus-outline-color: 255,
-    255,
-    255;
+  &.dark {
+    @include generate-palette($dark-theme-colors, $background, $foreground, $dark-theme-options);
 
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 20px;
-  --font-size-3xl: 24px;
-  --font-size-4xl: 32px;
-  --font-size-5xl: 40px;
-  --font-size-6xl: 48px;
-  --font-size-7xl: 56px;
-
-  --container-width-xs: 400px;
-  --container-width-sm: 600px;
-  --container-width-md: 800px;
-  --container-width-lg: 1000px;
-  --container-width-xl: 1200px;
-
-  --mobile-breakpoint: 768px;
-  --tablet-breakpoint: 1024px;
-  --desktop-breakpoint: 1440px;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+    --foreground: var(--light);
+    --background: var(--dark);
+  }
 }
 
 body {
   font-size: 14px;
+  color: var(--foreground);
 
   h2 {
     margin: 40px 0 10px 0

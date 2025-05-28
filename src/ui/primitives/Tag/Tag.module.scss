@@ -5,4 +5,12 @@
     padding: 4px 8px;
     border-radius: 4px;
     color: white;
+    align-items: center;
+    gap: 3px;
+    font-weight: 500;
+
+    &>svg {
+        height: 12px;
+        width: 12px;
+    }
 }

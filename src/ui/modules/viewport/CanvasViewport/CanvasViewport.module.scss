@@ -1,0 +1,10 @@
+.CanvasViewport {
+    position: absolute;
+    inset: 0;
+
+    &>canvas {
+        background-color: #131313;
+        height: 100%;
+        width: 100%;
+    }
+}

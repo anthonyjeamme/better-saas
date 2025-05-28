@@ -1,6 +1,6 @@
 .Image {
     object-fit: cover;
-
+    max-width: 100%;
 
     &.radius-xs {
         border-radius: var(--radius-xs);

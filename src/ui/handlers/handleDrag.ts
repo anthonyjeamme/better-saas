@@ -28,7 +28,7 @@ type CallbackReturn = {
 type CallbackFunction<T extends HTMLElement = HTMLElement> = (
   e: StartEvent,
   originalEvent: React.PointerEvent<T>
-) => CallbackReturn | null;
+) => CallbackReturn | null | undefined | void;
 
 /**
  *

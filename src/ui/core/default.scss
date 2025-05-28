@@ -1,0 +1,101 @@
+@mixin default-sizes {
+    --modal-background: rgb(9, 9, 9, 0.9);
+    --background-alt: rgb(21, 21, 21);
+
+    // 
+
+    --size-xs: 30px;
+    --size-sm: 35px;
+    --size-md: 40px;
+    --size-lg: 50px;
+    --size-xl: 60px;
+
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 40px;
+
+    // 
+
+
+
+    --h-xs: 24px;
+    --h-sm: 32px;
+    --h-md: 40px;
+    --h-lg: 48px;
+    --h-xl: 56px;
+
+    --padding-h-xs: 5px;
+    --padding-h-sm: 10px;
+    --padding-h-md: 14px;
+    --padding-h-lg: 16px;
+
+    --radius-xs: 2px;
+    --radius-sm: 5px;
+    --radius-md: 10px;
+    --radius-lg: 20px;
+    --radius-xl: 40px;
+    --scrollbar-color: 255,
+        255,
+        255,
+        0.2;
+
+    --label-font-size: 13px;
+    --label-font-weight: 500;
+    --label-color: 255,
+        255,
+        255;
+
+    --focus-outline-width: 2px;
+    --focus-outline-color: 255,
+        255,
+        255;
+
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 20px;
+    --font-size-3xl: 24px;
+    --font-size-4xl: 32px;
+    --font-size-5xl: 40px;
+    --font-size-6xl: 48px;
+    --font-size-7xl: 56px;
+
+    --container-width-xs: 400px;
+    --container-width-sm: 600px;
+    --container-width-md: 800px;
+    --container-width-lg: 1000px;
+    --container-width-xl: 1200px;
+
+    --mobile-breakpoint: 768px;
+    --tablet-breakpoint: 1024px;
+    --desktop-breakpoint: 1440px;
+}
+
+.vMargin-xs {
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+}
+
+.vMargin-sm {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.vMargin-md {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.vMargin-lg {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.vMargin-xl {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}

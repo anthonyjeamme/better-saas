@@ -22,20 +22,9 @@ export const Checkbox = ({ value, onValueChange, theme = 'default', variant = 's
         aria-disabled={disabled}
         onPointerDown={e => e.preventDefault()}
         tabIndex={0}
-        style={{
-            '--color': `var(--${theme})`,
-            '--color-hover': `var(--${theme}-hover)`,
-            '--background-subtle': `var(--subtle-${theme}-background)`,
-            '--background-subtle-hover': `var(--subtle-${theme}-background-hover)`,
-            '--border-subtle': `var(--subtle-${theme}-border)`,
-            '--border-subtle-hover': `var(--subtle-${theme}-border-hover)`,
-            '--text-over-subtle': `var(--${theme}-text-over-subtle)`,
-            '--text-over': `var(--${theme}-text-over)`,
-            '--color-subtle-hover': `var(--subtle-${theme}-hover)`,
-        } as React.CSSProperties}
         {...className('Checkbox', {
-            checked: Boolean(value), theme, variant, disabled, size
-        })} onClick={() => {
+            checked: Boolean(value), disabled, size
+        }, `:${variant}-${theme}`)} onClick={() => {
             if (disabled) return;
             onValueChange?.(!value)
         }}>

@@ -1,0 +1,9 @@
+.GameCanvas {
+    position: absolute;
+    inset: 0;
+
+    &>canvas {
+        position: absolute;
+        inset: 0
+    }
+}

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon, DotIcon } from 'lucide-react';
+import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon, DotIcon, SunIcon, XIcon, UserIcon } from 'lucide-react';
 
 import { For } from '@ui/layout/For';
 import { Modal } from '@ui/layout/Modal';
@@ -21,7 +21,6 @@ import { ContextMenu, useContextMenu } from '@ui/display/ContextMenu';
 import { Input } from '@ui/primitives/Input';
 import { Field } from '@ui/primitives/Field';
 import { Image } from '@ui/primitives/Image';
-import { Badge } from '@ui/primitives/Badge';
 import { Select } from '@ui/primitives/Select';
 import { Button } from '@ui/primitives/Button';
 import { Toggle } from '@ui/primitives/Toggle';
@@ -31,21 +30,30 @@ import { FilePicker } from '@ui/primitives/FilePicker';
 import { NumberInput } from '@ui/primitives/NumberInput';
 import { InlineSelect } from '@ui/primitives/InlineSelect';
 
-import { Small } from '@ui/typo/Small';
+import { ActionBar } from '@ui/display/ActionBar';
+import { Tag } from '@ui/primitives/Tag/Tag';
+import { Code } from '@ui/display/Code';
+import { Slider } from '@ui/primitives/Slider/Slider';
+import { Dialog } from '@ui/display/Dialog';
 
 function Page() {
   const [bool, setBool] = useState(false)
   const [number, setNumber] = useState<number | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
+
+  const [sliderValue, setSliderValue] = useState<number>(0)
   const [selected, setSelected] = useState<string>('hiking')
   const [selectedMult, setSelectedMult] = useState<string[]>([])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
   const [pickedFiles, setPickedFiles] = useState<File[]>([])
   const [text, setText] = useState<string>('')
 
   const contextMenu = useContextMenu()
+
+  const [isActionBarOpen, setIsActionBarOpen] = useState(false)
 
   const list = useList([
     {
@@ -71,14 +79,84 @@ function Page() {
 
   return <Fullscreen horizontal >
     <Sidebar position='left' width={250}>Coucouc!</Sidebar>
-    <div style={{ flex: 1, overflowY: 'auto' }}>
-      <Container size='lg'>
+    <div style={{ flex: 1, overflowY: 'auto', }}>
+      <Container size='lg' vMargin='lg'>
+
+        <Button
+          shape='square'
+          onClick={() => {
+            function getCurrentTheme() {
+              if (document.documentElement.style.colorScheme) return document.documentElement.style.colorScheme
+              if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
+              return 'light'
+            }
+            const currentTheme = getCurrentTheme()
+            if (currentTheme === "light") {
+              document.documentElement.classList.remove('light')
+              document.documentElement.classList.add('dark')
+              document.documentElement.style.colorScheme = "dark"
+              document.cookie = `theme=dark; path=/; max-age=31536000`
+            } else {
+              document.documentElement.classList.remove('dark')
+              document.documentElement.classList.add('light')
+              document.documentElement.style.colorScheme = "light"
+              document.cookie = `theme=light; path=/; max-age=31536000`
+
+            }
+          }}><SunIcon size={18} /></Button>
+
+        <div>
+          <Button onClick={() => setIsDialogOpen(true)}>Dialog</Button>
+        </div>
+
+        {isDialogOpen && <Dialog title='Dialog title' onClose={() => setIsDialogOpen(false)}>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </Dialog>}
+
+
+        <div>
+          <Button
+
+            variant='surface'
+            onClick={() => setIsActionBarOpen(!isActionBarOpen)}>{
+              isActionBarOpen ? "Close" : "Open"
+            }</Button>
+        </div>
+
+        {isActionBarOpen && <ActionBar position={{
+
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}>
+          <Button variant='ghost' size='sm'>
+            <PlusIcon size={14} />
+            Insert
+          </Button>
+
+          <hr />
+
+          <Button variant='ghost' shape='square' size='sm'
+            onClick={() => setIsActionBarOpen(false)}
+          >
+            <XIcon size={14} />
+          </Button>
+        </ActionBar>}
+
+        <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde sunt, libero eius laboriosam maxime cum fugiat numquam corrupti aliquid provident. Ipsum vero fuga et, consequatur iste repudiandae consectetur earum tempore?
+        </p>
+
+        <h2>Code</h2>
+
+        <Code>
+          {`console.log("hello");\nconsole.log("world");`}
+        </Code>
 
         <h2>Modal</h2>
-
-
         <Button onClick={() => setIsModalOpen(true)}>Open</Button>
-
         {
           isModalOpen && (
             <Modal onClose={() => setIsModalOpen(false)}>
@@ -89,79 +167,66 @@ function Page() {
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
-                <Menu />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
@@ -173,77 +238,66 @@ function Page() {
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
-
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
@@ -256,9 +310,9 @@ function Page() {
 
         <h2>Buttons</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Button />`}</pre>
-        </code>
+        <Code>
+          {`<Button />`}
+        </Code>
 
         <Field label="Default">
           <HStack gap={10}>
@@ -295,7 +349,6 @@ function Page() {
         </Field>
 
         <Field label="Success">
-
           <HStack gap={10}>
             <Button theme='success' variant='solid'>Button</Button>
             <Button theme='success' variant='subtle'>Button</Button>
@@ -307,7 +360,6 @@ function Page() {
         </Field>
 
         <Field label="Error">
-
           <HStack gap={10}>
             <Button theme='error' variant='solid'>Button</Button>
             <Button theme='error' variant='subtle'>Button</Button>
@@ -345,24 +397,11 @@ function Page() {
             <Button
               variant='outline'
               onClick={() => new Promise(resolve => setTimeout(resolve, 1000))}
-              loading
-            >Button</Button>
-            {/* <Button
-              variant='outline'
-              onClick={() => new Promise(resolve => setTimeout(resolve, 1000))}
-            >
-              {({ isLoading }) => (
-                <>
-                  {isLoading ? <Spinner size={14} /> : <PlayIcon size={14} />}
-                  <span>Button custom</span>
-                </>
-              )}
-            </Button> */}
-
+              loading>
+              Button
+            </Button>
           </HStack>
         </Field>
-
-
 
         <Button variant='solid'>
           <PlayIcon size={14} /> Button custom
@@ -381,13 +420,11 @@ function Page() {
           </Field>
         </Grid>
 
-
-
         <h2>Number inputs</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<NumberInput />`}</pre>
-        </code>
+        <Code>
+          {`<NumberInput />`}
+        </Code>
 
         <Grid columns={5} gap={"md"}>
           <Field label={<code>{`size="sm"`}</code>}>
@@ -401,29 +438,51 @@ function Page() {
           </Field>
         </Grid>
 
+        <h2>Tags</h2>
+
+        <Code>{`<Tag />`}</Code>
+
+        <HStack gap={5} align='center' vMargin={'sm'}>
+          <Tag variant='surface' theme='success'>
+            <UserIcon />
+            cool
+          </Tag>
+          <Tag variant='surface' theme='primary'>
+            <UserIcon />
+            cool
+          </Tag>
+          <Tag variant='surface' theme='warning'>
+            <UserIcon />
+            cool
+          </Tag>
+          <Tag variant='surface' theme='error'>
+            <UserIcon />
+            cool
+          </Tag>
+        </HStack>
+
+
         <h2>Checkbox</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Checkbox />`}</pre>
-        </code>
+        <Code>{`<Checkbox />`}</Code>
 
-        <HStack gap={10} vMargin={10}>
+        <HStack gap={10} vMargin={'sm'}>
           <Checkbox value={bool} onValueChange={setBool} variant='outline' />
           <Checkbox value={bool} onValueChange={setBool} variant='solid' />
           <Checkbox value={bool} onValueChange={setBool} variant='subtle' />
         </HStack>
-        <HStack gap={10} vMargin={10}>
+        <HStack gap={10} vMargin={'sm'}>
           <Checkbox value={bool} onValueChange={setBool} variant='outline' theme='primary' />
           <Checkbox value={bool} onValueChange={setBool} variant='solid' theme='primary' />
           <Checkbox value={bool} onValueChange={setBool} variant='subtle' theme='primary' />
         </HStack>
-        <HStack gap={10} vMargin={10}>
+        <HStack gap={10} vMargin={'sm'}>
           <Checkbox value={bool} onValueChange={setBool} variant='outline' theme='success' />
           <Checkbox value={bool} onValueChange={setBool} variant='solid' theme='success' />
           <Checkbox value={bool} onValueChange={setBool} variant='subtle' theme='success' />
         </HStack>
 
-        <HStack gap={10} vMargin={10} align='center'>
+        <HStack gap={10} vMargin={'sm'} align='center'>
           {/* <Checkbox value={bool} onValueChange={setBool} variant='outline' size='xs' /> */}
           <Checkbox value={bool} onValueChange={setBool} variant='outline' size='sm' />
           <Checkbox value={bool} onValueChange={setBool} variant='outline' size='md' />
@@ -434,11 +493,9 @@ function Page() {
 
         <h2>Toggle</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Toggle />`}</pre>
-        </code>
+        <Code>{`<Toggle />`}</Code>
 
-        <HStack gap={10} vMargin={10} align='center'>
+        <HStack gap={10} vMargin={'sm'} align='center'>
 
           <Toggle value={bool} onValueChange={setBool} />
           <Toggle value={bool} onValueChange={setBool} theme='primary' />
@@ -448,7 +505,7 @@ function Page() {
 
         </HStack>
 
-        <HStack gap={10} vMargin={10} align='center'>
+        <HStack gap={10} vMargin={'sm'} align='center'>
 
           <Toggle value={bool} onValueChange={setBool} variant='outline' />
           <Toggle value={bool} onValueChange={setBool} theme='primary' variant='outline' />
@@ -458,7 +515,7 @@ function Page() {
 
         </HStack>
 
-        <HStack gap={10} vMargin={10} align='center'>
+        <HStack gap={10} vMargin={'sm'} align='center'>
           <Toggle value={bool} onValueChange={setBool} variant='subtle' />
           <Toggle value={bool} onValueChange={setBool} theme='primary' variant='subtle' />
           <Toggle value={bool} onValueChange={setBool} theme='success' variant='subtle' />
@@ -467,7 +524,7 @@ function Page() {
         </HStack>
 
 
-        <HStack gap={10} vMargin={10} align='center'>
+        <HStack gap={10} vMargin={'sm'} align='center'>
 
           {/* <Toggle value={bool} onValueChange={setBool} size='xs' /> */}
           <Toggle value={bool} onValueChange={setBool} size='sm' />
@@ -479,9 +536,9 @@ function Page() {
 
         <h2>File Picker</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<FilePicker />`}</pre>
-        </code>
+        <Code>
+          {`<FilePicker />`}
+        </Code>
 
         <FilePicker onPickedFiles={files => setPickedFiles(files)} />
 
@@ -500,38 +557,13 @@ function Page() {
 
         <h2>Separators</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Separator />`}</pre>
-        </code>
+        <Code>{`<Separator />`}</Code>
 
-
-        <Field label="Default">
-          <Separator margin='sm' />
-        </Field>
-
-        <Field label="Primary">
-          <Separator theme='primary' margin='sm' />
-        </Field>
-
-        <Field label="Success">
-          <Separator theme='success' margin='sm' />
-        </Field>
-
-        <Field label="Error">
-          <Separator theme='error' margin='sm' />
-        </Field>
-
-        <Field label="Warning">
-          <Separator theme='warning' margin='sm' />
-        </Field>
-
-
+        <Separator margin='sm' />
 
         <h2>Breadcrumb</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Breadcrumb />`}</pre>
-        </code>
+        <Code>{`<Breadcrumb />`}</Code>
 
         <Breadcrumb>
           <Button variant='ghost' size='sm'>
@@ -546,11 +578,7 @@ function Page() {
         </Breadcrumb>
 
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>
-            {`<Breadcrumb separator={<DotIcon size={14} />} />`}
-          </pre>
-        </code>
+        <Code>{`<Breadcrumb separator={<DotIcon size={14} />} />`}</Code>
 
 
         <Breadcrumb separator={<DotIcon size={14} />}>
@@ -569,9 +597,7 @@ function Page() {
 
         <h2>Select</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Select search options={[]} />`}</pre>
-        </code>
+        <Code>{`<Select search options={[]} />`}</Code>
 
         <Grid columns={2} gap={"md"}>
           <Field label="Simple">
@@ -629,12 +655,11 @@ function Page() {
 
         <h2>Slider</h2>
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Slider value={number} onValueChange={setNumber} min={0} max={10} size='xs' />`}</pre>
-        </code>
+        <Code>{`<Slider value={number} onValueChange={setNumber} min={0} max={10} size='xs' />`}</Code>
+
+        <Slider value={sliderValue} onValueChange={setSliderValue} min={0} max={100} />
         {/* <Grid columns={4} gap={"lg"}>
           <Field label={<code>{`size="xs"`}</code>}>
-            <Slider value={number} onValueChange={setNumber} min={0} max={10} size='xs' />
           </Field>
 
           <Field label={<code>{`size="sm"`}</code>}>
@@ -672,32 +697,21 @@ function Page() {
         <h2>Menu</h2>
 
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Menu />`}</pre>
-        </code>
+        <Code>{`<Menu />`}</Code>
 
 
-        <HStack gap={10} vMargin={10} justify='space-between' align='center'>
-
+        <HStack gap={10} vMargin={'sm'} justify='space-between' align='center'>
           <Menu size='xs' />
-
-
           <Menu size='sm' />
-
           <Menu size='md' />
-
           <Menu size='lg' />
-
           <Menu size='xl' />
-
         </HStack>
 
         <h2>Tree</h2>
 
 
-        <code>
-          <pre style={{ padding: 10, margin: '20px 0', backgroundColor: `rgb(255,255,255,0.05)` }}>{`<Tree />`}</pre>
-        </code>
+        <Code>{`<Tree />`}</Code>
 
         <Box variant='outline'>
           <Tree
@@ -824,179 +838,21 @@ function Page() {
         </ContextMenu>
 
 
-        <div style={{ margin: '50px 0' }}>
+        <Field label="Filter">
+          <InlineSelect value={selected} onValueChange={setSelected} options={[
+            { label: '1', value: 'all' },
+            { label: 'Hiking', value: 'hiking' },
+            { label: 'Cycling', value: 'cycling' },
+            { label: 'Running', value: 'running' },
+            { label: 'Walking', value: 'walking' },
+            { label: 'Other', value: 'other' },
+          ]} />
+        </Field>
 
-          <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} options={[
-              { label: '1', value: 'all' },
-              { label: 'Hiking', value: 'hiking' },
-              { label: 'Cycling', value: 'cycling' },
-              { label: 'Running', value: 'running' },
-              { label: 'Walking', value: 'walking' },
-              { label: 'Other', value: 'other' },
-            ]} />
-          </Field>
-
-          <Separator theme='primary' />
-
-          <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} size='sm' options={[
-              { label: '1', value: 'all' },
-              { label: 'Hiking', value: 'hiking' },
-              { label: 'Cycling', value: 'cycling' },
-              { label: 'Running', value: 'running' },
-              { label: 'Walking', value: 'walking' },
-              { label: 'Other', value: 'other' },
-            ]} />
-          </Field>
-
-          <Separator theme='success' />
-
-
-          <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} size='md' options={[
-              { label: '1', value: 'all' },
-              { label: 'Hiking', value: 'hiking' },
-              { label: 'Cycling', value: 'cycling' },
-              { label: 'Running', value: 'running' },
-              { label: 'Walking', value: 'walking' },
-              { label: 'Other', value: 'other' },
-            ]} />
-          </Field>
-
-          <Separator />
-
-          <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} size='lg' options={[
-              { label: '1', value: 'all' },
-              { label: 'Hiking', value: 'hiking' },
-              { label: 'Cycling', value: 'cycling' },
-              { label: 'Running', value: 'running' },
-              { label: 'Walking', value: 'walking' },
-              { label: 'Other', value: 'other' },
-            ]} />
-          </Field>
-
-          <Separator />
-
-          <Field label="Filter">
-            <InlineSelect value={selected} onValueChange={setSelected} options={[
-              { label: '1', value: 'all' },
-              { label: 'Hiking', value: 'hiking' },
-              { label: 'Cycling', value: 'cycling' },
-              { label: 'Running', value: 'running' },
-              { label: 'Walking', value: 'walking' },
-              { label: 'Other', value: 'other' },
-            ]} />
-          </Field>
-
-          <div style={{ position: 'relative' }}>
-            <Button variant='outline' onClick={() => setIsOpen(!isOpen)}>Coucou</Button>
-            {/* <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
-            <div>
-              <Button variant='ghost'>Coucou</Button>
-              <Button variant='ghost'>Coucou</Button>
-              <Button variant='ghost'>Coucou</Button>
-            </div>
-          </Dropdown> */}
-          </div>
-
-
-          <Separator />
-
-
-          <HStack gap={10} vMargin={10}>
-            <Badge variant='surface'>Coucou</Badge>
-            <Badge variant='outline'>Coucou</Badge>
-            <Badge variant='solid'>Coucou</Badge>
-            <Badge variant='plain'>Coucou</Badge>
-          </HStack>
-
-          <Grid columns={4} gap='md'>
-            {
-              Array.from({ length: 6 }).map((_, index) => (
-                <Box variant='outline' padding='none' stack='vertical' key={index}>
-                  <Image src="https://bit.ly/naruto-sage" width={'100%'} aspectRatio={6 / 7} alt="naruto" />
-                  <Box padding='md' variant='plain'>
-                    <div>Hello world</div>
-                    <Small>une petite description en dessous</Small>
-                  </Box>
-                </Box>
-              ))
-            }
-          </Grid>
-
-
-          {/* <Textarea
-            autoSize
-            spellCheck={false}
-            minRows={1}
-            maxRows={5}
-          /> */}
-
-          {/* <ErrorBoundary fallback={<Alert>Oups !</Alert>}>
-            <TestError />
-          </ErrorBoundary>
-
-          <Button onClick={() => inputRef.current?.focus()}>TEST</Button> */}
-
-          {/* <br /><br />
-
-          <FormField label="Note">
-            <Input
-
-              startAddon={<UserIcon size={14} />}
-
-
-              ref={inputRef} medium flushed placeholder='Coucou' value={note} onChange={e => setNote(e.target.value)} />
-          </FormField>
-
-
-          <FormField label="Firstname">
-            <Input medium outline placeholder='Coucou' />
-          </FormField>
-
-          <FormField label="Lastname">
-            <Input medium subtle placeholder='Coucou' />
-          </FormField> */}
-
-
-        </div>
       </Container>
     </div>
-    {/* <Sidebar position='right' resizable >Coucouc!</Sidebar> */}
   </Fullscreen >
 };
 
 
 export default Page
-
-// const TestError = () => {
-
-//   const [en, setEn] = useState(false)
-
-//   if (en) throw new Error('Oups !')
-
-//   return <div>
-//     <Button onClick={() => setEn(true)}>TestError</Button>
-//   </div>
-// }
-
-
-// const Cell = ({ label, location, image }: { label: string, location: string, image: string }) => {
-//   return <Box padding='none' radius='none'>
-//     <Image
-//       alt=''
-//       width={"100%"}
-//       src={image}
-//       aspectRatio={250 / 290}
-//       radius='md'
-//     />
-//     <div>
-//       <Text weight={700} size='2xl'>{label}</Text>
-//     </div>
-//     <div>
-//       <Text size='sm' opacity={0.6}>{location}</Text>
-//     </div>
-//   </Box>
-// }

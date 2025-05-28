@@ -1,5 +1,3 @@
-@use "../../_shared/mixin.scss" as *;
-
 .Button {
     border-radius: 5px;
     cursor: pointer;
@@ -42,16 +40,6 @@
     height: var(--height);
     padding: 0 var(--padding-h);
 
-    // Theming
-    background-color: var(--background-color);
-    border: var(--border-width, 0px) solid var(--border-color);
-    color: var(--color);
-
-    &:hover {
-        background-color: var(--background-color-hover);
-        border-color: var(--border-color-hover);
-        color: var(--color-hover);
-    }
 
     &>span {
         white-space: nowrap;

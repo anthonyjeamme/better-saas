@@ -1,0 +1,67 @@
+@use 'sass:color';
+@use 'sass:math';
+@use 'sass:map';
+
+@function get-relative-luminance($color) {
+    $r: color.channel($color, "red", $space: rgb);
+    $g: color.channel($color, "green", $space: rgb);
+    $b: color.channel($color, "blue", $space: rgb);
+
+    @return math.div(($r * 299) + ($g * 587) + ($b * 114), 1000);
+}
+
+
+@function get-color-difference($color1, $color2) {
+    $r1: color.channel($color1, "red", $space: rgb);
+    $g1: color.channel($color1, "green", $space: rgb);
+    $b1: color.channel($color1, "blue", $space: rgb);
+
+    $r2: color.channel($color2, "red", $space: rgb);
+    $g2: color.channel($color2, "green", $space: rgb);
+    $b2: color.channel($color2, "blue", $space: rgb);
+
+    @return math.abs($r1 - $r2)+math.abs($g1 - $g2)+math.abs($b1 - $b2);
+}
+
+@function compute-tinted-over-color($subtle-color, $background, $foreground, $tint-lightness-adjustment: 0%) {
+    $hue: color.channel($subtle-color, "hue", $space: hsl);
+    $saturation: color.channel($subtle-color, "saturation", $space: hsl);
+
+    $brightness-background: get-relative-luminance($background);
+
+    @if $brightness-background < 128 {
+        $target-lightness: 85% + $tint-lightness-adjustment;
+        @return hsl($hue, $saturation, $target-lightness);
+    }
+
+    @else {
+        $target-lightness: 15% - $tint-lightness-adjustment;
+        @return hsl($hue, $saturation, $target-lightness);
+    }
+}
+
+@function compute-over-color($color, $background, $foreground, $options: ()) {
+    $tinted: map.get($options, 'tinted') or false;
+    $tint-lightness-adjustment: map.get($options, 'tint-lightness-adjustment') or 0%;
+
+    @if $tinted {
+        @return compute-tinted-over-color($color, $background, $foreground, $tint-lightness-adjustment);
+    }
+
+    @else {
+        $brightness-color: get-relative-luminance($color);
+        $brightness-foreground: get-relative-luminance($foreground);
+        $brightness-background: get-relative-luminance($background);
+
+        $contrast-with-fg: math.abs($brightness-color - $brightness-foreground);
+        $contrast-with-bg: math.abs($brightness-color - $brightness-background);
+
+        @if $contrast-with-fg >$contrast-with-bg {
+            @return $foreground;
+        }
+
+        @else {
+            @return $background;
+        }
+    }
+}
