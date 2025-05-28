@@ -1,6 +1,6 @@
 'use client'
 
-import { HotkeyInput } from "@ui/hooks/useHotkey/useHotkey.types";
+import { HotkeyInput } from "../hooks/useHotkey/useHotkey.types";
 import { createContext, useContext } from "react";
 
 type CustomCommands = Record<string, HotkeyInput>

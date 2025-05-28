@@ -1,4 +1,4 @@
-import { SizeVariant } from "@ui/core/types";
+import { SizeVariant } from "../../core/types";
 
 export type CustomWarningMessages = {
   min?: string;

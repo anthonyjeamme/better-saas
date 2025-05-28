@@ -1,7 +1,7 @@
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Checkbox.module.scss';
 import { CheckIcon } from 'lucide-react';
-import { SizeVariant, ThemeVariant } from '@ui/core/types';
+import { SizeVariant, ThemeVariant } from '../../core/types';
 const className = classNameModule(styles)
 
 

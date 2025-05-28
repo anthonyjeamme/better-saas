@@ -1,10 +1,12 @@
-import classNameModule from '@ui/core/classname';
-import styles from './Modal.module.scss';
-import { useCommand } from '@ui/hooks/useCommand';
-import { createPortal } from 'react-dom';
-import { Button } from '@ui/primitives';
 import { XIcon } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import { createContext, useContext } from 'react';
+
+import { Button } from '../../primitives';
+import { useCommand } from '../../hooks/useCommand';
+
+import classNameModule from '../../core/classname';
+import styles from './Modal.module.scss';
 const className = classNameModule(styles)
 
 type ModalProps = {

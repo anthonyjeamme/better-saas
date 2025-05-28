@@ -1,7 +1,8 @@
-import classNameModule from '@ui/core/classname';
-import styles from './Tree.module.scss';
-import { ChevronRightIcon } from 'lucide-react';
 import { useState } from 'react';
+import { ChevronRightIcon } from 'lucide-react';
+
+import classNameModule from '../../core/classname';
+import styles from './Tree.module.scss';
 const className = classNameModule(styles)
 
 type TreeItemNode = {

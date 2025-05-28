@@ -1,8 +1,10 @@
-import classNameModule from '@ui/core/classname';
-import styles from './Toggle.module.scss';
-import { SizeVariant, ThemeVariant } from '@ui/core/types';
 import React, { useRef } from 'react';
-import { handleDrag } from '@ui/handlers/handleDrag';
+
+import { SizeVariant, ThemeVariant } from '../../core/types';
+import { handleDrag } from '../../handlers/handleDrag';
+
+import classNameModule from '../../core/classname';
+import styles from './Toggle.module.scss';
 const className = classNameModule(styles)
 
 type ToggleProps = {

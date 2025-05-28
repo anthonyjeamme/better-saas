@@ -1,8 +1,10 @@
-import { Portal } from '@ui/layout/Portal';
+import { XIcon } from 'lucide-react';
+
+import { Portal } from '../../layout/Portal';
+import { Button } from '../../primitives';
+
 import classNameModule from '../../core/classname';
 import styles from './Dialog.module.scss';
-import { Button } from '@ui/primitives';
-import { XIcon } from 'lucide-react';
 const className = classNameModule(styles)
 
 type DialogProps = {

@@ -1,9 +1,10 @@
 'use client'
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 
-import classNameModule from '@ui/core/classname';
+import { bounds } from '../../core/utils/math';
+
+import classNameModule from '../../core/classname';
 import styles from './Textarea.module.scss';
-import { bounds } from '@ui/_shared/utils/math';
 const className = classNameModule(styles)
 
 type TextareaHandler = {

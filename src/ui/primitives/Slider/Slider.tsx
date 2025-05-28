@@ -1,9 +1,10 @@
-import { handleDrag } from '@ui/handlers/handleDrag';
 import { useRef } from 'react';
-import { useValueChangeEffect } from '@ui/hooks/useValueChange';
-import { SizeVariant, ThemeVariant } from '@ui/core/types';
 
-import classNameModule from '@ui/core/classname';
+import { handleDrag } from '../../handlers/handleDrag';
+import { useValueChangeEffect } from '../../hooks/useValueChange';
+import { SizeVariant, ThemeVariant } from '../../core/types';
+
+import classNameModule from '../../core/classname';
 import styles from './Slider.module.scss';
 const className = classNameModule(styles)
 

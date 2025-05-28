@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-import classNameModule from '@ui/core/classname';
+import { SizeVariant } from '../../core/types';
+
+import classNameModule from '../../core/classname';
 import styles from './InlineSelect.module.scss';
-import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 

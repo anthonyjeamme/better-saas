@@ -3,9 +3,9 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react"
 
 import { createPortal } from "react-dom";
-import { useClickOutsideRef } from "@ui/hooks/useClickOutsideRef";
+import { useClickOutsideRef } from "../../hooks/useClickOutsideRef";
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './ContextMenu.module.scss';
 const className = classNameModule(styles)
 

@@ -1,6 +1,7 @@
-import classNameModule from '@ui/core/classname';
+import { SizeVariant } from '../../core/types';
+
+import classNameModule from '../../core/classname';
 import styles from './Indent.module.scss';
-import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type IndentProps = {

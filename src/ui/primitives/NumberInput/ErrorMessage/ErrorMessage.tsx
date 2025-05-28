@@ -1,7 +1,7 @@
 import { ErrorType } from "../NumberInput.types"
 import { CustomErrorMessages } from "../NumberInput.types"
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../../core/classname';
 import styles from './ErrorMessage.module.scss';
 const className = classNameModule(styles)
 

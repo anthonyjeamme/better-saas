@@ -3,8 +3,8 @@
 import { XIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 
-import { bounds } from '@ui/core/utils/math';
-import { useValueChangeEffect } from '@ui/hooks/useValueChange';
+import { bounds } from '../../core/utils/math';
+import { useValueChangeEffect } from '../../hooks/useValueChange';
 
 import {
     parseValue,
@@ -18,7 +18,7 @@ import { ErrorMessage } from './ErrorMessage/ErrorMessage';
 import { WarningMessage } from './WarningMessage/WarningMessage';
 import { NumberInputProps, WarningType } from './NumberInput.types';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './NumberInput.module.scss';
 const className = classNameModule(styles)
 

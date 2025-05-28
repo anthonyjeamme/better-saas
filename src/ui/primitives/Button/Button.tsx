@@ -1,11 +1,11 @@
 'use client'
 
-import { ExtendedSizeVariant, ThemeVariant, UIVariant } from '@ui/core/types';
+import { ExtendedSizeVariant, ThemeVariant, UIVariant } from '../../core/types';
 
 import { useRef, useState } from 'react';
 import { Spinner } from '../Spinner/Spinner';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Button.module.scss';
 const className = classNameModule(styles)
 

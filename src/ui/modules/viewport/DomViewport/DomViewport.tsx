@@ -1,14 +1,14 @@
 'use client'
 
 import { useRef } from 'react';
-import { handleDrag } from '@ui/handlers/handleDrag';
-import { useDivElementRef } from '@ui/hooks/dom/useDivElementRef';
-
-import classNameModule from '@ui/core/classname';
-import styles from './DomViewport.module.scss';
+import { handleDrag } from '../../../handlers/handleDrag';
 import { useDomViewportZoom } from './hooks/useDomViewportZoom';
+import { useDivElementRef } from '../../../hooks/dom/useDivElementRef';
 import { useDomViewportGeometry } from './hooks/useDomViewportGeometry';
-import { usePreventSystemZoom } from '@ui/hooks/dom/usePreventSystemZoom';
+import { usePreventSystemZoom } from '../../../hooks/dom/usePreventSystemZoom';
+
+import classNameModule from '../../../core/classname';
+import styles from './DomViewport.module.scss';
 
 const className = classNameModule(styles)
 

@@ -1,10 +1,10 @@
 'use client'
 
 import { useRef } from 'react';
-import { useResize } from '@/ui/hooks/useResize';
-import { Size } from '@/ui/_shared/utils/math';
+import { useResize } from '../../hooks/useResize';
+import { Size } from '../../_shared/utils/math';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Sidebar.module.scss';
 const className = classNameModule(styles)
 

@@ -1,9 +1,9 @@
 import { Button } from '../Button/Button';
 import { UploadCloudIcon } from 'lucide-react';
 
-import { pickFile } from '@ui/functions/pickFile/pickFile';
+import { pickFile } from '../../functions/pickFile/pickFile';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './FilePicker.module.scss';
 const className = classNameModule(styles)
 
@@ -41,11 +41,3 @@ export const FilePicker = ({ onPickedFiles }: FilePickerProps) => {
         </Button>
     </div>;
 };
-
-
-
-// const ImageFilePreview = ({ file }: { file: File }) => {
-//     return <div>
-//         <img src={URL.createObjectURL(file)} alt={file.name} height={30} />
-//     </div>;
-// };

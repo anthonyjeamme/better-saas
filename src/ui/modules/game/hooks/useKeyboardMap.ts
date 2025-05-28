@@ -1,4 +1,4 @@
-import { useKeyboardEvents } from "@ui/hooks/useKeyboardEvents";
+import { useKeyboardEvents } from "../../../hooks/useKeyboardEvents";
 import { useRef } from "react";
 
 export function useKeyboardMap(onEvent?: (e: KeyboardEvent) => void) {

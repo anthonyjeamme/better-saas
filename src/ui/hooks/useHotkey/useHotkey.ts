@@ -1,4 +1,4 @@
-import { getDeviceType } from "@ui/_shared/utils/getDeviceType";
+import { getDeviceType } from "../../_shared/utils/getDeviceType";
 import {
   Key,
   Modifier,

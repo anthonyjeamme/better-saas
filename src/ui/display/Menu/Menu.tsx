@@ -2,13 +2,13 @@ import { createPortal } from 'react-dom';
 import { useInsertionEffect, useRef } from 'react';
 import { FolderIcon, MenuIcon, TrashIcon, XIcon } from 'lucide-react';
 
-import { Button } from '@ui/primitives';
-import { Portal } from '@ui/layout/Portal';
-import { ExtendedSizeVariant } from '@ui/core/types';
-import { useDisclosure } from '@ui/hooks/useDisclosure';
-import { useDocumentPositionEvent } from '@ui/hooks/useDocumentPositionEvent';
+import { Button } from '../../primitives';
+import { Portal } from '../../layout/Portal';
+import { ExtendedSizeVariant } from '../../core/types';
+import { useDisclosure } from '../../hooks/useDisclosure';
+import { useDocumentPositionEvent } from '../../hooks/useDocumentPositionEvent';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Menu.module.scss';
 const className = classNameModule(styles)
 

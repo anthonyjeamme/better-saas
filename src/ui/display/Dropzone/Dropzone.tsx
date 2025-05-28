@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { UploadIcon } from 'lucide-react';
 
-import { VStack } from '@ui/layout';
-import { Text } from '@ui/typo/Text/Text';
-import { pickFile } from '@ui/functions/pickFile/pickFile';
+import { VStack } from '../../layout';
+import { Text } from '../../typo/Text/Text';
+import { pickFile } from '../../functions/pickFile/pickFile';
 
-import { useStateRef } from '@ui/hooks/useStateRef';
+import { useStateRef } from '../../hooks/useStateRef';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Dropzone.module.scss';
 const className = classNameModule(styles)
 

@@ -1,10 +1,11 @@
 import { ChevronDownIcon } from 'lucide-react';
-import { handleRepeatedPress } from '@ui/handlers/handleRepeatedPress';
 import { ChevronUpIcon } from 'lucide-react';
 
-import classNameModule from '@ui/core/classname';
+import { SizeVariant } from '../../../core/types';
+import { handleRepeatedPress } from '../../../handlers/handleRepeatedPress';
+
+import classNameModule from '../../../core/classname';
 import styles from './ControlButtons.module.scss';
-import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type ControlButtonsProps = {

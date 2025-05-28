@@ -1,8 +1,8 @@
-
-import classNameModule from '@ui/core/classname';
-import styles from './Input.module.scss';
 import { forwardRef } from 'react';
-import { SizeVariant, TextFieldVariant } from '@ui/core/types';
+import { SizeVariant, TextFieldVariant } from '../../core/types';
+
+import classNameModule from '../../core/classname';
+import styles from './Input.module.scss';
 const className = classNameModule(styles)
 
 type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {

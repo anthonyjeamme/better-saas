@@ -1,14 +1,14 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-import { useGameLoop } from '@ui/hooks/useGameLoop';
-import { useResizeObserver } from '@ui/hooks/useResizeObserver';
-import { useDivElementRef } from '@ui/hooks/dom/useDivElementRef';
+import { useGameLoop } from '../../../../hooks/useGameLoop';
+import { useResizeObserver } from '../../../../hooks/useResizeObserver';
+import { useDivElementRef } from '../../../../hooks/dom/useDivElementRef';
 import { useGameCanvasGeometry } from '../../hooks/useGameCanvasGeometry';
-import { useCanvasElementRef } from '@ui/hooks/dom/useCanvasElementRef';
+import { useCanvasElementRef } from '../../../../hooks/dom/useCanvasElementRef';
+import { preventDefault } from '../../../../handlers/preventDefault';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../../../core/classname';
 import styles from './GameCanvas.module.scss';
-import { preventDefault } from '@ui/handlers/preventDefault';
 const className = classNameModule(styles)
 
 type GameCanvasProps = {

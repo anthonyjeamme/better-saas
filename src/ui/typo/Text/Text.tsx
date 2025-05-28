@@ -1,6 +1,6 @@
-import { ExtendedSizeVariant } from '@ui/core/types';
+import { ExtendedSizeVariant } from '../../core/types';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Text.module.scss';
 const className = classNameModule(styles)
 

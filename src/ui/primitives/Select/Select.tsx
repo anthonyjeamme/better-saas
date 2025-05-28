@@ -1,14 +1,13 @@
 'use client'
 
-import { useDropdown } from '@ui/hooks/useDropdown';
-
+import { useRef, useState, useId, useEffect } from 'react';
 import { CheckIcon, ChevronDownIcon, XIcon } from 'lucide-react';
 
-import { useHotkeys } from '@ui/hooks/useHotkey';
-import { useRef, useState, useId, useEffect } from 'react';
-import { useValueChangeEffect } from '@ui/hooks/useValueChange';
+import { useHotkeys } from '../../hooks/useHotkey';
+import { useDropdown } from '../../hooks/useDropdown';
+import { useValueChangeEffect } from '../../hooks/useValueChange';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Select.module.scss';
 const className = classNameModule(styles)
 

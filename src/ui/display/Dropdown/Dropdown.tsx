@@ -1,4 +1,4 @@
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Dropdown.module.scss';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';

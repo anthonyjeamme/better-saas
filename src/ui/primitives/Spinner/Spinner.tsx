@@ -1,6 +1,6 @@
 import { LoaderCircleIcon } from 'lucide-react';
 
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Spinner.module.scss';
 const className = classNameModule(styles)
 

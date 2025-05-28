@@ -1,6 +1,7 @@
-import classNameModule from '@ui/core/classname';
+import { ThemeVariant } from '../../core/types';
+
+import classNameModule from '../../core/classname';
 import styles from './Tag.module.scss';
-import { ThemeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type TagProps = {

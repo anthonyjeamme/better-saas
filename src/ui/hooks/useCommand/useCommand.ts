@@ -1,4 +1,4 @@
-import { useCustomCommands } from "@ui/contexts/commandContext";
+import { useCustomCommands } from "../../contexts/commandContext";
 import { useHotkey } from "../useHotkey/useHotkey";
 import { UseHotkeyOptions } from "../useHotkey/useHotkey.types";
 import { Command } from "./useCommand.types";

@@ -1,15 +1,15 @@
 'use client'
 
 import { useRef } from 'react';
-import { handleDrag } from '@ui/handlers/handleDrag';
-import { useDivElementRef } from '@ui/hooks/dom/useDivElementRef';
+import { handleDrag } from '../../../handlers/handleDrag';
+import { useDivElementRef } from '../../../hooks/dom/useDivElementRef';
 
-import classNameModule from '@ui/core/classname';
-import styles from './SvgViewport.module.scss';
 import { useSvgViewportZoom } from './hooks/useSvgViewportZoom';
 import { useSvgViewportGeometry } from './hooks/useSvgViewportGeometry';
-import { usePreventSystemZoom } from '@ui/hooks/dom/usePreventSystemZoom';
+import { usePreventSystemZoom } from '../../../hooks/dom/usePreventSystemZoom';
 
+import classNameModule from '../../../core/classname';
+import styles from './SvgViewport.module.scss';
 const className = classNameModule(styles)
 
 type SvgViewportProps = {
