@@ -4,12 +4,12 @@ import { Container } from "@ui/display/Container/Container"
 import { Button, Input } from "@ui/primitives"
 
 import { useNotifications } from "@ui/display/Notifications/Notifications.context"
-import { HStack, VStack } from "@ui/layout"
+import { HStack } from "@ui/layout"
 import { CircleHelpIcon } from "lucide-react"
 import { Separator } from "@ui/primitives/Separator"
 import { useState } from "react"
-import { ColorPicker } from "@ui/display/ColorPicker/ColorPicker"
-import { Dropdown } from "@ui/display/Dropdown"
+// import { ColorPicker } from "@ui/display/ColorPicker/ColorPicker"
+// import { Dropdown } from "@ui/display/Dropdown"
 
 export default function TestPage() {
 
@@ -79,7 +79,7 @@ export default function TestPage() {
 
                 <Button onClick={() => setIsOpen(!isOpen)}>Open</Button>
 
-                <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                {/* <Dropdown onClose={() => setIsOpen(false)}>
                     <ColorPicker value={color} onChange={setColor}>
                         <VStack gap={10}>
                             <ColorPicker.Gradient />
@@ -88,7 +88,7 @@ export default function TestPage() {
                             <ColorPicker.ColorInput />
                         </VStack>
                     </ColorPicker>
-                </Dropdown>
+                </Dropdown> */}
 
             </div>
 
