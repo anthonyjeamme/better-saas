@@ -11,11 +11,14 @@ type GridProps = {
     tabletColumns?: number
     desktopColumns?: number
     gap?: SizeVariant
+    vMargin?: SizeVariant | 'none'
 }
 
-export const Grid = ({ children, columns = 3, gap = 'md', mobileColumns, tabletColumns, desktopColumns }: GridProps) => {
+export const Grid = ({ children, columns = 3, gap = 'md', mobileColumns, tabletColumns, desktopColumns,
+    vMargin = 'none'
+}: GridProps) => {
     return <div
-        {...className('Grid', { gap })}
+        {...className('Grid', { gap }, `:vMargin-${vMargin}`)}
         style={{
             '--columns': columns,
             '--mobile-columns': mobileColumns,

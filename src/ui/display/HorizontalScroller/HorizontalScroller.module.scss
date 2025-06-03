@@ -1,0 +1,50 @@
+.HorizontalScroller {
+
+
+    --num-items: var(--desktop-num-items);
+
+    @media (max-width: 1023px) {
+        --num-items: var(--tablet-num-items);
+    }
+
+    @media (max-width: 767px) {
+        --num-items: var(--mobile-num-items);
+    }
+
+
+    &>header {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+
+        @media (pointer: coarse) {
+            display: none;
+        }
+    }
+
+    &>.content {
+        overflow-x: auto;
+        padding: 15px 0;
+        display: flex;
+        align-items: center;
+        gap: var(--gap);
+        position: relative;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+.Item {
+    position: relative;
+
+    --gap-total-width: calc((var(--num-items) - 1) * var(--gap));
+
+    width: calc(100% / var(--num-items) - var(--gap-total-width) / var(--num-items));
+    flex-shrink: 0;
+
+}

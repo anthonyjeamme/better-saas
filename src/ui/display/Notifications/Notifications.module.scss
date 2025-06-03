@@ -1,0 +1,66 @@
+.Notifications {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+}
+
+
+.Notification {
+    padding: 15px;
+    border-radius: 5px;
+    width: 380px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 10;
+    display: flex;
+
+
+    &>.icon {
+        margin-right: 10px;
+        padding: 1px 0;
+    }
+
+    &.theme-success {
+        background-color: var(--success) !important;
+    }
+
+    .title {
+        font-weight: 600;
+    }
+
+    .description {
+        opacity: 0.7;
+        margin-top: 5px;
+    }
+
+    &>.content {
+        flex: 1;
+    }
+
+    &>.actions {
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+.PromiseNotification {
+    padding: 15px;
+    border-radius: 5px;
+    width: 380px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    transition: background-color 250ms, border-color 250ms, color 250ms;
+}

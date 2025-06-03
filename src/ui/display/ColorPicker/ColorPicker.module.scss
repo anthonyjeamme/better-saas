@@ -1,0 +1,48 @@
+.ColorPicker {
+    width: 300px;
+}
+
+.Preview {
+    height: 100px;
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+
+    &>.background {
+        position: absolute;
+        inset: 0;
+        background-color: white;
+        background-image: conic-gradient(rgb(238, 238, 238) 0deg, rgb(238, 238, 238) 25%, transparent 0deg, transparent 50%, rgb(238, 238, 238) 0deg, rgb(238, 238, 238) 75%, transparent 0deg);
+        background-size: 10px 10px;
+        border-radius: 7px;
+    }
+
+    &>.color {
+        position: absolute;
+        inset: 0;
+    }
+}
+
+.ColorSwatch {
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &>.background {
+        position: absolute;
+        inset: 0;
+        background-color: white;
+        background-image: conic-gradient(rgb(238, 238, 238) 0deg, rgb(238, 238, 238) 25%, transparent 0deg, transparent 50%, rgb(238, 238, 238) 0deg, rgb(238, 238, 238) 75%, transparent 0deg);
+        background-size: 10px 10px;
+        border-radius: 7px;
+    }
+
+    &>.color {
+        position: absolute;
+        inset: 0;
+    }
+}

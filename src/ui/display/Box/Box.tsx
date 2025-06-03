@@ -17,7 +17,9 @@ type BoxProps = {
     vMargin?: SizeVariant | 'none'
     flex?: number,
     justify?: 'start' | 'center' | 'end' | 'space-between' | 'space-around',
-    position?: 'relative' | 'absolute' | 'fixed' | 'sticky'
+    position?: 'relative' | 'absolute' | 'fixed' | 'sticky',
+    hoverable?: boolean
+    flexShrink?: number
 }
 
 export const Box = ({
@@ -33,13 +35,15 @@ export const Box = ({
     vMargin = 'none',
     flex,
     justify,
-    position
+    position,
+    hoverable,
+    flexShrink
 }: BoxProps) => {
     return <div
         {...className('Box',
             { padding, radius, stack, align },
             `:vMargin-${vMargin}`,
-            `:${variant}-${theme}`,
+            hoverable ? `:${variant}-${theme}-hoverable` : `:${variant}-${theme}`,
             stack ? `:stack-${stack}` : ''
         )}
         style={{
@@ -47,7 +51,8 @@ export const Box = ({
             gap,
             flex,
             justifyContent: justify,
-            position
+            position,
+            flexShrink
         }}
     >{children}</div>;
 };

@@ -4,7 +4,26 @@
     flex-direction: column;
     position: relative;
 
-    padding: 20px;
+    --padding: var(--spacing-md);
+
+    &.padding-none {
+        --padding: 0;
+    }
+
+    &.padding-sm {
+        --padding: var(--spacing-sm);
+    }
+
+    &.padding-lg {
+        --padding: var(--spacing-lg);
+    }
+
+    &.padding-xl {
+        --padding: var(--spacing-xl);
+    }
+
+    padding: var(--padding);
+
 
     &.position-left {
         border-right: 1px solid var(--subtle-default-border)

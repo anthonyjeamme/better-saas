@@ -49,7 +49,7 @@ html {
   @include default-sizes;
 
   @media (prefers-color-scheme: dark) {
-    &:not(.light) {
+    &:not(.light-theme) {
       @include generate-palette($dark-theme-colors, $background, $foreground, $dark-theme-options);
 
       --foreground: rgb(255, 255, 255);
@@ -57,12 +57,13 @@ html {
     }
   }
 
-  &.dark {
-    @include generate-palette($dark-theme-colors, $background, $foreground, $dark-theme-options);
+}
 
-    --foreground: var(--light);
-    --background: var(--dark);
-  }
+.dark-theme {
+  @include generate-palette($dark-theme-colors, $background, $foreground, $dark-theme-options);
+
+  --foreground: var(--light);
+  --background: var(--dark);
 }
 
 body {

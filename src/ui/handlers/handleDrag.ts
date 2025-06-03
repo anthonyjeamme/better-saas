@@ -6,16 +6,16 @@ type Position = {
   y: number;
 };
 
-type StartEvent = {
+export type StartEvent = {
   initial: Position;
 };
 
-type MoveEvent = {
+export type MoveEvent = {
   delta: Position;
   initial: Position;
 };
 
-type EndEvent = {
+export type EndEvent = {
   delta: Position;
   initial: Position;
 };

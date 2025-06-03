@@ -25,6 +25,7 @@
     .outline-#{$name}-hoverable,
     .ghost-#{$name}-hoverable {
         color: var(--#{$name}-text-over-subtle);
+        background-color: var(--background);
     }
 
     .subtle-#{$name},
@@ -73,7 +74,8 @@
         'subtle-border-hover-weight': 60%,
         'hover-lightness': -10%,
         'force-light-text-threshold': 60%,
-        'tint-lightness-adjustment': 0%
+        'tint-lightness-adjustment': 0%,
+        'light-bias': 1.2
     );
 
 $options: map.merge($default-options, $options);
@@ -90,6 +92,7 @@ $options: map.merge($default-options, $options);
     --#{$name}-text-over-subtle: #{compute-over-color($subtle-bg, $background, $foreground, $options)};
     --#{$name}-text-over-plain: var(--foreground);
     --#{$name}-text-over-solid: #{if(color.channel($color, "lightness", $space: hsl) <= map.get($options, 'force-light-text-threshold'), var(--light), get-contrast-color($color))};
+    --#{$name}-contrast-color: #{find-contrast-color($color, $background, $foreground, map.get($options, 'light-bias'))};
 
     @include palette-classes($name);
 }

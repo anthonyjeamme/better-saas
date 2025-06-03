@@ -19,7 +19,7 @@ export const Dialog = ({ title, onClose, children }: DialogProps) => {
 
             <div {...className('Overlay')} />
 
-            <div {...className('Dialog')}>
+            <div {...className('Dialog', ':dark-theme')}>
                 <header>
                     <div {...className('title')}>{title}</div>
                     {

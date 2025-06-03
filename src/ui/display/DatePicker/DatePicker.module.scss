@@ -1,0 +1,81 @@
+.DatePicker {
+
+    max-width: 400px;
+    margin: 0 auto;
+    user-select: none;
+
+    &>header {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+
+.MonthView {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    &>div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 250ms;
+        aspect-ratio: 1/1;
+        border-radius: 5px;
+        position: relative;
+        font-weight: 500;
+
+        &>span {
+            position: relative;
+            z-index: 2;
+        }
+
+        &.inMonth {
+            cursor: pointer;
+
+            &::after {
+                position: absolute;
+                content: "";
+                display: block;
+                inset: 5px;
+                border-radius: 50%;
+                border: 2px solid white;
+                z-index: 1;
+                opacity: 0;
+                transition: opacity 250ms;
+                background-color: rgb(white, 0.1);
+            }
+
+            &:hover::after {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.Fill {
+    position: absolute;
+    inset: 0;
+    top: 5px;
+    bottom: 5px;
+    background-color: var(--primary);
+
+    &.start {
+        border-top-left-radius: 24px;
+        border-bottom-left-radius: 24px;
+        left: 5px;
+    }
+
+    &.end {
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+        right: 5px;
+    }
+
+}
+
+.outMonth {
+    opacity: 0.5;
+}

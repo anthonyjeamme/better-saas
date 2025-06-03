@@ -23,3 +23,5 @@ export type AlignVariant = "start" | "center" | "end";
 export type StackDirection = "vertical" | "horizontal";
 
 export type StackVariant = "vertical" | "horizontal";
+
+export type Theme = "dark" | "light";

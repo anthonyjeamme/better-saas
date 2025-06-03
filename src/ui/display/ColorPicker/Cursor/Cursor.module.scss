@@ -1,0 +1,12 @@
+.Cursor {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    outline: 2px solid white;
+    top: 0px;
+    left: 50px;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}

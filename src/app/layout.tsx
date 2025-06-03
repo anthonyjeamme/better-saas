@@ -4,6 +4,7 @@ import "./globals.scss";
 
 import '../ui/globals.css'
 import { cookies } from "next/headers";
+import { NotificationsProvider } from "@ui/display/Notifications/Notifications.context";
 
 const inter = Inter({
   variable: "--font-family",
@@ -31,9 +32,11 @@ export default async function RootLayout({
   const theme = cookieStore.get('theme')
 
   return (
-    <html lang="en" style={{ colorScheme: theme?.value }} className={theme?.value ?? ''}>
+    <html lang="en" style={{ colorScheme: theme?.value }} className={theme?.value ? `${theme.value}-theme` : ''}>
       <body className={`${inter.variable} ${mono.variable}`}>
-        {children}
+        <NotificationsProvider>
+          {children}
+        </NotificationsProvider>
       </body>
     </html>
   );

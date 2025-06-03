@@ -1,0 +1,13 @@
+.Bottom {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    z-index: 10;
+
+    &>div>div {
+        background-color: var(--background);
+        position: relative;
+        z-index: 10;
+    }
+}

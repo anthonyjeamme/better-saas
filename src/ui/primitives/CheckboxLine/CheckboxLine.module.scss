@@ -1,0 +1,12 @@
+.CheckboxLine {
+    display: flex;
+    align-items: center;
+
+    &>div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        padding-right: 20px;
+    }
+}

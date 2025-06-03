@@ -19,6 +19,24 @@
     @return math.div($lighter + 0.05, $darker + 0.05);
 }
 
+
+@function find-contrast-color($color, $a, $b, $light-bias: 1.2) {
+    $a-contrast: calculate-contrast($color, $a);
+    $b-contrast: calculate-contrast($color, $b);
+
+    $a-lightness: color.channel($a, "lightness", $space: hsl);
+    $b-lightness: color.channel($b, "lightness", $space: hsl);
+
+    $adjusted-a-contrast: if($a-lightness > 50%, $a-contrast * $light-bias, $a-contrast);
+    $adjusted-b-contrast: if($b-lightness > 50%, $b-contrast * $light-bias, $b-contrast);
+
+    @if $adjusted-a-contrast < $adjusted-b-contrast {
+        @return $b;
+    }
+
+    @return $a;
+}
+
 @function get-contrast-color($color) {
     $light-contrast: calculate-contrast($color, rgb(255, 255, 255));
     $dark-contrast: calculate-contrast($color, rgb(0, 0, 0));

@@ -1,9 +1,116 @@
+@keyframes DropdownEntry {
+    from {
+        transform: translateY(-5px);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
 .Dropdown {
-    position: absolute;
+    background-color: var(--background);
+    border: 1px solid var(--subtle-default-border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs);
+    z-index: 10;
     display: flex;
     flex-direction: column;
-    z-index: 10;
-    background-color: var(--background);
-    border: 1px solid rgb(var(--subtle-border));
-    border-radius: var(--radius-sm);
+
+    &>button {
+        width: 100%;
+    }
+}
+
+.DropdownContainer {
+    position: absolute;
+    pointer-events: none;
+
+    .Dropdown {
+        position: absolute;
+        pointer-events: auto;
+
+        &.side {
+            &.horizontal-left {
+                right: calc(100% + 5px);
+
+                &.overflow-horizontal {
+                    right: unset;
+                    left: calc(100% + 5px);
+                }
+            }
+
+            &.horizontal-right {
+                left: calc(100% + 5px);
+
+                &.overflow-horizontal {
+                    left: unset;
+                    right: calc(100% + 5px);
+                }
+            }
+
+            &.vertical-top {
+                bottom: 0;
+
+                &.overflow-vertical {
+                    bottom: unset;
+                    top: 0
+                }
+            }
+
+            &.vertical-bottom {
+                top: 0;
+
+                &.overflow-vertical {
+                    top: unset;
+                    bottom: 0;
+                }
+            }
+        }
+
+        &:not(.side) {
+
+            &.horizontal-left {
+                right: 0;
+
+                &.overflow-horizontal {
+                    right: unset;
+                    left: 0;
+                }
+            }
+
+            &.horizontal-right {
+                left: 0;
+
+                &.overflow-horizontal {
+                    left: unset;
+                    right: 0;
+                }
+            }
+
+            &.vertical-top {
+                bottom: calc(100% + 5px);
+
+                &.overflow-vertical {
+                    bottom: unset;
+                    top: calc(100% + 5px);
+                }
+
+            }
+
+            &.vertical-bottom {
+                top: calc(100% + 5px);
+
+                &.overflow-vertical {
+                    top: unset;
+                    bottom: calc(100% + 5px);
+                }
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { usePointerDrag } from "./usePointerDrag";
-import { evaluateCSSValue } from "../_shared/utils/dom";
-import { bounds, Size } from "../_shared/utils/math";
+import { evaluateCSSValue } from "../functions/dom";
+import { bounds, Size } from "../functions/math";
 
 type CSSSize = number | string;
 

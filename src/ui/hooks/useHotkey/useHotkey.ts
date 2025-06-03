@@ -1,4 +1,4 @@
-import { getDeviceType } from "../../_shared/utils/getDeviceType";
+import { getDeviceType } from "../../functions/getDeviceType";
 import {
   Key,
   Modifier,

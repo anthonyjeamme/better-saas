@@ -1,13 +1,4 @@
 .ActionBar {
-    position: absolute;
-
-    &.type-fixed {
-        position: fixed;
-    }
-
-    &.type-sticky {
-        position: sticky;
-    }
 
     background-color: var(--background);
     z-index: 100;

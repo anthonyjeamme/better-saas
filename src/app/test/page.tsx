@@ -1,188 +1,111 @@
 'use client'
 
 import { Container } from "@ui/display/Container/Container"
-import { HStack } from "@ui/layout"
-import { Button, Field } from "@ui/primitives"
-import { NumberInput } from "@ui/primitives/NumberInput/NumberInput"
-import { Separator } from "@ui/primitives/Separator/Separator"
-import { EuroIcon } from "lucide-react"
-import { useState } from "react"
+import { Button, Input } from "@ui/primitives"
 
+import { useNotifications } from "@ui/display/Notifications/Notifications.context"
+import { HStack, VStack } from "@ui/layout"
+import { CircleHelpIcon } from "lucide-react"
+import { Separator } from "@ui/primitives/Separator"
+import { useState } from "react"
+import { ColorPicker } from "@ui/display/ColorPicker/ColorPicker"
+import { Dropdown } from "@ui/display/Dropdown"
 
 export default function TestPage() {
 
-    const [integer, setInteger] = useState<number>(0)
-    const [decimal, setDecimal] = useState<number>(0)
+    const notifications = useNotifications()
 
-    const [integerNullable, setIntegerNullable] = useState<number | null>(null)
-    const [decimalNullable, setDecimalNullable] = useState<number | null>(null)
+    const [color, setColor] = useState('#8DB289')
+    const [isOpen, setIsOpen] = useState(false)
 
-    const [decimalMinMax, setDecimalMinMax] = useState<number>(0)
-    const [decimalFixed, setDecimalFixed] = useState<number>(0)
 
     return <div>
-        <Container vMargin="md">
-            <Field label="INTEGER">
-                <HStack align="center">
-
-                    <NumberInput
-                        value={integer}
-                        onValueChange={setInteger}
-                        size='md'
-                        integer
-                        onEnter={e => {
-                            e.preventDefault()
-                            console.log("SUPER")
-                        }}
-                    />
-                    <pre style={{
-                        flex: 1,
-                        textAlign: 'right'
-                    }}>
-                        {JSON.stringify(integer, null, 2)}
-                    </pre>
-
-                </HStack>
-            </Field>
-
-
-            <Field label="DECIMAL">
-                <HStack align="center">
-
-                    <NumberInput
-                        value={decimal}
-                        onValueChange={setDecimal}
-                        size='md'
-                    />
-                    <pre style={{
-                        flex: 1,
-                        textAlign: 'right'
-                    }}>
-                        {JSON.stringify(decimal, null, 2)}
-                    </pre>
-
-                </HStack>
-            </Field>
-
-            <Separator />
-
-            <Field label="INTEGER (NULLABLE)">
-                <HStack align="center">
-
-                    <NumberInput
-                        value={integerNullable}
-                        onValueChange={setIntegerNullable}
-                        size='md'
-                        emptyValue="null"
-                        integer
-                    />
-                    <pre style={{
-                        flex: 1,
-                        textAlign: 'right'
-                    }}>
-                        {JSON.stringify(integerNullable, null, 2)}
-                    </pre>
-
-                </HStack>
-            </Field>
-
-
-            <Field label="DECIMAL (NULLABLE)">
-                <HStack align="center">
-
-                    <NumberInput
-                        value={decimalNullable}
-                        onValueChange={setDecimalNullable}
-                        size='md'
-                        emptyValue="null"
-                    />
-                    <pre style={{
-                        flex: 1,
-                        textAlign: 'right'
-                    }}>
-                        {JSON.stringify(decimalNullable, null, 2)}
-                    </pre>
-
-                </HStack>
-            </Field>
+        <Container vMargin="lg">
+            <HStack gap={10}>
+                <Button onClick={() => {
+                    notifications.push({
+                        text: 'Are you sure ?',
+                        description: "This action is irreversible",
+                        icon: <CircleHelpIcon size={15} />,
+                        actions: [{
+                            label: 'Yes',
+                            onClick: (handleClose) => {
+                                console.log("OK")
+                                handleClose()
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: (handleClose) => {
+                                console.log("OK")
+                                handleClose()
+                            }
+                        }]
+                    })
+                }}>PUSH</Button>
+                <Button onClick={() => {
+                    notifications.promise({
+                        pending: {
+                            title: 'Working',
+                        },
+                        success: {
+                            title: 'Bravo !',
+                            duration: 2000
+                        },
+                        failure: {
+                            title: 'Oups !',
+                            duration: 2000
+                        },
+                        promise: new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                if (Math.random() > 0.5) {
+                                    resolve()
+                                } else {
+                                    reject()
+                                }
+                            }, 2500)
+                        })
+                    })
+                }}>PUSH PROMISE</Button>
+            </HStack>
 
             <Separator />
-
-
-            <Field label="DECIMAL (NULLABLE) MIN 0 MAX 100">
-                <HStack align="center">
-
-                    <NumberInput
-                        value={decimalMinMax}
-                        onValueChange={setDecimalMinMax}
-                        size='md'
-                        min={0}
-                        max={100}
-                    />
-                    <pre style={{
-                        flex: 1,
-                        textAlign: 'right'
-                    }}>
-                        {JSON.stringify(decimalMinMax, null, 2)}
-                    </pre>
-
-                </HStack>
-            </Field>
-
-            <Separator />
-
-
-
-            <Field label="DECIMAL (NULLABLE) FIXED 2">
-                <HStack align="center">
-
-                    <NumberInput
-                        value={decimalFixed}
-                        onValueChange={setDecimalFixed}
-                        size='md'
-                        fixed={2}
-                    />
-                    <pre style={{
-                        flex: 1,
-                        textAlign: 'right'
-                    }}>
-                        {JSON.stringify(decimalFixed, null, 2)}
-                    </pre>
-
-                </HStack>
-            </Field>
-
-            <Separator />
-
-
-            <form onSubmit={e => {
-                e.preventDefault()
-
-                const formData = new FormData(e.target as HTMLFormElement)
-                console.log(formData.get("value"))
-            }}>
-
-                <Field label="INTEGER">
-                    <NumberInput
-                        value={integerNullable}
-                        onValueChange={setIntegerNullable}
-                        size='md'
-                        integer
-                        emptyValue="null"
-                        name="value"
-                        required
-                        icon={<EuroIcon size={14} />}
-                    />
-                </Field>
-
-                <Button type="submit">
-                    Send
-                </Button>
-            </form>
-
-
         </Container>
-    </div >
+
+
+        <Container>
+
+            <div style={{ position: 'relative' }}>
+
+                <Button onClick={() => setIsOpen(!isOpen)}>Open</Button>
+
+                <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                    <ColorPicker value={color} onChange={setColor}>
+                        <VStack gap={10}>
+                            <ColorPicker.Gradient />
+                            <ColorPicker.Tint />
+                            <ColorPicker.Opacity />
+                            <ColorPicker.ColorInput />
+                        </VStack>
+                    </ColorPicker>
+                </Dropdown>
+
+            </div>
+
+
+
+            <Separator />
+
+            <div style={{ width: 100, height: 100, backgroundColor: color }} />
+
+            <Separator />
+
+            <Input value={color} onValueChange={value => {
+                setColor(value)
+                console.log("CHANGE")
+            }} />
+        </Container>
+
+
+    </div>
 }
-
-

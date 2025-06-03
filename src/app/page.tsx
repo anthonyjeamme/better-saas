@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon, DotIcon, SunIcon, XIcon, UserIcon } from 'lucide-react';
+import { BotIcon, PinIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon, PlusIcon, PlayIcon, DotIcon, SunIcon, XIcon, UserIcon, MoonIcon, CircleHelpIcon } from 'lucide-react';
 
 import { For } from '@ui/layout/For';
 import { Modal } from '@ui/layout/Modal';
@@ -35,6 +35,14 @@ import { Tag } from '@ui/primitives/Tag/Tag';
 import { Code } from '@ui/display/Code';
 import { Slider } from '@ui/primitives/Slider/Slider';
 import { Dialog } from '@ui/display/Dialog';
+import { useTheme } from '@ui/hooks/useTheme';
+import { useNotifications } from '@ui/display/Notifications/Notifications.context';
+import { Radio } from '@ui/primitives/Radio';
+import { ThemeVariant } from '@ui/core/types';
+import { RadioLine } from '@ui/primitives/RadioLine';
+import { CheckboxLine } from '@ui/primitives/CheckboxLine/CheckboxLine';
+
+
 
 function Page() {
   const [bool, setBool] = useState(false)
@@ -54,6 +62,8 @@ function Page() {
   const contextMenu = useContextMenu()
 
   const [isActionBarOpen, setIsActionBarOpen] = useState(false)
+
+  const [radioValue, setRadioValue] = useState<boolean>(false)
 
   const list = useList([
     {
@@ -76,34 +86,142 @@ function Page() {
     }
   ])
 
+  const notifications = useNotifications()
+
+  const theme = useTheme()
 
   return <Fullscreen horizontal >
-    <Sidebar position='left' width={250}>Coucouc!</Sidebar>
-    <div style={{ flex: 1, overflowY: 'auto', }}>
+    <Sidebar position='left' width={250} resizable>Coucouc!</Sidebar>
+    <div style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
       <Container size='lg' vMargin='lg'>
 
-        <Button
-          shape='square'
-          onClick={() => {
-            function getCurrentTheme() {
-              if (document.documentElement.style.colorScheme) return document.documentElement.style.colorScheme
-              if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
-              return 'light'
-            }
-            const currentTheme = getCurrentTheme()
-            if (currentTheme === "light") {
-              document.documentElement.classList.remove('light')
-              document.documentElement.classList.add('dark')
-              document.documentElement.style.colorScheme = "dark"
-              document.cookie = `theme=dark; path=/; max-age=31536000`
-            } else {
-              document.documentElement.classList.remove('dark')
-              document.documentElement.classList.add('light')
-              document.documentElement.style.colorScheme = "light"
-              document.cookie = `theme=light; path=/; max-age=31536000`
+        <HStack gap={5}>
+          <TestBox theme='default' />
+          <TestBox theme='primary' />
+          <TestBox theme='success' />
+          <TestBox theme='warning' />
+          <TestBox theme='error' />
+        </HStack>
 
+        <CheckboxLine value={radioValue} onValueChange={setRadioValue} vMargin='md'>Coucou</CheckboxLine>
+
+        <RadioLine value={radioValue} onValueChange={setRadioValue} vMargin='md'>
+          Je suis majeur
+        </RadioLine>
+
+        <RadioLine value={radioValue} onValueChange={setRadioValue} vMargin='md'>
+          Je suis mineur
+        </RadioLine>
+
+
+        <Box variant='outline' vMargin='md' >
+
+          <HStack gap={5}>
+
+
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='outline'
+            />
+
+
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='solid'
+            />
+
+
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='subtle'
+            />
+          </HStack>
+        </Box>
+
+        <Box variant='outline' vMargin='md' >
+          <HStack gap={5}>
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='outline'
+              theme='primary'
+            />
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='solid'
+              theme='primary'
+            />
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='subtle'
+              theme='primary'
+
+            />
+          </HStack>
+        </Box>
+
+
+        <Box variant='outline' vMargin='md' >
+          <HStack gap={5}>
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='outline'
+              theme='success'
+            />
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='solid'
+              theme='success'
+            />
+            <Radio
+              size='md'
+              value={radioValue}
+              onValueChange={setRadioValue}
+              variant='subtle'
+              theme='success'
+
+            />
+          </HStack>
+        </Box>
+
+
+        <ActionBar position={{
+          type: 'absolute',
+          horizontal: 'left',
+          vertical: 'top'
+        }}
+        >
+          <Button
+            shape='square'
+            variant='ghost'
+            size='sm'
+            onClick={() => {
+              theme.toggle()
+            }}>
+
+            {
+              theme.value === "dark" ?
+                <MoonIcon size={18} /> :
+                <SunIcon size={18} />
             }
-          }}><SunIcon size={18} /></Button>
+
+          </Button>
+        </ActionBar>
 
         <div>
           <Button onClick={() => setIsDialogOpen(true)}>Dialog</Button>
@@ -117,6 +235,56 @@ function Page() {
         </Dialog>}
 
 
+
+        <HStack gap={10} vMargin='md'>
+          <Button onClick={() => {
+            notifications.push({
+              text: 'Are you sure ?',
+              description: "This action is irreversible",
+              icon: <CircleHelpIcon size={15} />,
+              actions: [{
+                label: 'Yes',
+                onClick: (handleClose) => {
+                  console.log("OK")
+                  handleClose()
+                }
+              },
+              {
+                label: 'No',
+                onClick: (handleClose) => {
+                  console.log("OK")
+                  handleClose()
+                }
+              }]
+            })
+          }}>PUSH</Button>
+          <Button onClick={() => {
+            notifications.promise({
+              pending: {
+                title: 'Working',
+              },
+              success: {
+                title: 'Bravo !',
+                duration: 2000
+              },
+              failure: {
+                title: 'Oups !',
+                duration: 2000
+              },
+              promise: new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  if (Math.random() > 0.5) {
+                    resolve()
+                  } else {
+                    reject()
+                  }
+                }, 2500)
+              })
+            })
+          }}>PUSH PROMISE</Button>
+        </HStack>
+
+
         <div>
           <Button
 
@@ -126,11 +294,15 @@ function Page() {
             }</Button>
         </div>
 
-        {isActionBarOpen && <ActionBar position={{
+        {isActionBarOpen && <ActionBar
 
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}>
+          theme="dark"
+
+          position={{
+
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}>
           <Button variant='ghost' size='sm'>
             <PlusIcon size={14} />
             Insert
@@ -167,6 +339,7 @@ function Page() {
                   saepe accusamus ipsa at? Assumenda et sit voluptatibus delectus? Reprehenderit, quidem!
                 </p>
                 <Separator />
+                <Menu />
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Voluptates impedit dolores labore, est id non qui nulla architecto nihil,
@@ -856,3 +1029,15 @@ function Page() {
 
 
 export default Page
+
+
+const TestBox = ({ theme }: { theme: ThemeVariant }) => {
+
+  return <div style={{
+    padding: 20,
+    background: `var(--${theme})`,
+    display: 'inline-flex'
+  }}>
+    <div style={{ height: 20, width: 20, background: `var(--${theme}-contrast-color)` }} />
+  </div>
+}

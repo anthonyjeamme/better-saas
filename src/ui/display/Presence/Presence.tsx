@@ -1,6 +1,6 @@
 'use client'
 
-import { animate } from "../../_shared/utils/animate"
+import { animate } from "../../functions/animate"
 import { useEffect, useRef, useState } from "react"
 
 type PresenceProps = {

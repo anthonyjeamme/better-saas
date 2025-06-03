@@ -1,4 +1,4 @@
-import { deepEqual } from "../_shared/utils/deepEqual";
+import { deepEqual } from "../functions/deepEqual";
 import { useEffect, useRef } from "react";
 
 export function useValueChangeEffect<T>(

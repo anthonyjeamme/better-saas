@@ -1,0 +1,176 @@
+.ItemHeader {
+
+    --height: 35px;
+    --button-width: 22px;
+
+    --bottom-intent-offset: 0;
+
+    &.dropAfterInside {
+        --bottom-intent-offset: 1;
+    }
+
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    height: var(--height);
+    border-radius: 5px;
+    padding: 0 5px;
+    padding-left: calc(var(--indent) * var(--button-width) + 5px);
+    transition: background-color 250ms;
+    position: relative;
+
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: calc((var(--indent) + 1) * var(--button-width));
+        right: 0;
+        top: -1px;
+        height: 2px;
+        background-color: var(--primary);
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: calc((var(--indent) + 1 + var(--bottom-intent-offset)) * var(--button-width));
+        right: 0;
+        bottom: -1px;
+        height: 2px;
+        background-color: var(--primary);
+        pointer-events: none;
+        opacity: 0;
+    }
+
+
+    &.dragPosition-top {
+        &::before {
+            opacity: 1;
+        }
+    }
+
+    &.dragPosition-bottom {
+        &::after {
+            opacity: 1;
+        }
+    }
+
+    &.isDraggingOver {
+        outline: 1px solid var(--primary);
+        background-color: var(--subtle-primary-background);
+
+        &>* {
+
+            pointer-events: none;
+        }
+    }
+
+    &.isSelected {
+        background-color: var(--subtle-primary-background-hover);
+    }
+
+    &>.collapse {
+        height: var(--height);
+        width: var(--button-width);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 250ms;
+        border-radius: 5px;
+        opacity: 0.5;
+
+        &>svg {
+            transition: transform 150ms;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &.isOpen>svg {
+            transform: rotate(90deg);
+        }
+    }
+
+    &>.collapseSpace {
+        width: var(--button-width);
+    }
+
+    &>.icon {
+        height: var(--height);
+        text-align: left;
+        display: flex;
+        align-items: center;
+        width: var(--button-width);
+        border-radius: 5px;
+        pointer-events: none;
+    }
+
+    &>.name {
+        flex: 1;
+        height: var(--height);
+        display: flex;
+        align-items: center;
+
+        &>input {
+            width: calc(100% + 3px);
+            border: 0;
+            height: 28px;
+            font: inherit;
+            border: 0;
+            outline: 0;
+            border-radius: 5px;
+            padding: 0 3px;
+            margin-left: -3px;
+            background-color: var(--subtle-default-background);
+            color: var(--foreground);
+            outline: 1px solid var(--subtle-default-border);
+        }
+    }
+
+    &>.labels {
+        font-size: 12px;
+        color: var(--primary);
+        font-weight: 500;
+        padding-right: 5px;
+    }
+
+    &>.settings {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        transition: opacity 250ms;
+        opacity: 0;
+        margin-left: 5px;
+    }
+
+    &:hover>.SettingsButton>button {
+        opacity: 1;
+    }
+}
+
+.SettingsButton {
+
+    &>button {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        transition: opacity 250ms;
+        opacity: 0;
+        margin-left: 5px;
+        transition: opacity 250ms;
+    }
+
+    &.isOpen>button {
+        opacity: 1;
+    }
+}

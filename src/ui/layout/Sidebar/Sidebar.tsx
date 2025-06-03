@@ -2,10 +2,11 @@
 
 import { useRef } from 'react';
 import { useResize } from '../../hooks/useResize';
-import { Size } from '../../_shared/utils/math';
+import { Size } from '../../functions/math';
 
 import classNameModule from '../../core/classname';
 import styles from './Sidebar.module.scss';
+import { SizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type SidebarProps = {
@@ -14,14 +15,15 @@ type SidebarProps = {
     position: 'left' | 'right'
     absolute?: boolean
     width?: number
+    padding?: SizeVariant | 'none'
 }
 
-export const Sidebar = ({ children, position, absolute, resizable, width }: SidebarProps) => {
+export const Sidebar = ({ children, position, absolute, resizable, width, padding }: SidebarProps) => {
     const rootRef = useRef<HTMLDivElement>(null)
 
     return (
         <aside
-            {...className('Sidebar', { position, absolute })}
+            {...className('Sidebar', { position, absolute, padding })}
             ref={rootRef}
             style={{ width }}>
             {children}

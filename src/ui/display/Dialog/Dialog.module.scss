@@ -21,6 +21,8 @@
     border-radius: 5px;
     transform: translateX(-50%);
     width: 500px;
+    color: var(--foreground);
+    background-color: var(--background);
 
     &>header {
         padding: 15px 20px 15px 20px;

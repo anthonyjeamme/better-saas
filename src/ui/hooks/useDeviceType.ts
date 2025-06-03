@@ -1,4 +1,4 @@
-import { DeviceType, getDeviceType } from "../_shared/utils/getDeviceType";
+import { DeviceType, getDeviceType } from "../functions/getDeviceType";
 import { useEffect, useState } from "react";
 
 /**

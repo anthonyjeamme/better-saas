@@ -1,7 +1,7 @@
 'use client'
 
-import { animate } from "@ui/_shared/utils/animate"
-import { arrayMove } from "@ui/_shared/utils/array"
+import { animate } from "@ui/functions/animate"
+import { arrayMove } from "@ui/functions/array"
 import { Box } from "@ui/display/Box/Box"
 import { Container } from "@ui/display/Container/Container"
 import { handleDrag } from "@ui/handlers/handleDrag"
