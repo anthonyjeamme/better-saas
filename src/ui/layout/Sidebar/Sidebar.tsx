@@ -6,7 +6,7 @@ import { Size } from '../../functions/math';
 
 import classNameModule from '../../core/classname';
 import styles from './Sidebar.module.scss';
-import { SizeVariant } from '@ui/core/types';
+import { SizeVariant, Theme } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type SidebarProps = {
@@ -16,14 +16,16 @@ type SidebarProps = {
     absolute?: boolean
     width?: number
     padding?: SizeVariant | 'none'
+    theme?: Theme
 }
 
-export const Sidebar = ({ children, position, absolute, resizable, width, padding }: SidebarProps) => {
+export const Sidebar = ({ children, position, absolute, resizable, width, padding, theme }: SidebarProps) => {
     const rootRef = useRef<HTMLDivElement>(null)
 
     return (
         <aside
-            {...className('Sidebar', { position, absolute, padding })}
+            {...className('Sidebar', { position, absolute, padding },
+                theme ? `:${theme}-theme` : undefined,)}
             ref={rootRef}
             style={{ width }}>
             {children}

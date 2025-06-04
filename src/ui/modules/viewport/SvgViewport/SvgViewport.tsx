@@ -13,7 +13,7 @@ import styles from './SvgViewport.module.scss';
 const className = classNameModule(styles)
 
 type SvgViewportProps = {
-    children: React.ReactNode
+    children?: React.ReactNode
     onClick?: (position: { x: number, y: number }) => void
 }
 

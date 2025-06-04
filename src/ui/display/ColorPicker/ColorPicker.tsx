@@ -42,7 +42,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
 
 const ColorInput = () => {
 
-    const { setColor } = useColorPickerContext()
+    const { setColor, getColor } = useColorPickerContext()
     const inputRef = useRef<HTMLInputElement>(null)
     const hasFocusRef = useRef(false)
 
@@ -57,6 +57,7 @@ const ColorInput = () => {
             onBlur={() => hasFocusRef.current = false}
             size='sm'
             ref={inputRef}
+            defaultValue={hsvaToHex(getColor())}
             onInput={e => {
                 const value = e.currentTarget.value
                 if (isValidHex(value)) {

@@ -9,6 +9,7 @@ import { useValueChangeEffect } from '../../hooks/useValueChange';
 
 import classNameModule from '../../core/classname';
 import styles from './Select.module.scss';
+import { ExtendedSizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type SelectOption = {
@@ -32,6 +33,7 @@ type SingleSelectProps = {
     disabled?: boolean;
     fullWidth?: boolean;
     search?: boolean;
+    size?: ExtendedSizeVariant
 }
 
 type MultipleSelectProps = {
@@ -45,6 +47,7 @@ type MultipleSelectProps = {
     disabled?: boolean;
     fullWidth?: boolean;
     search?: boolean;
+    size?: ExtendedSizeVariant
 }
 
 
@@ -54,7 +57,7 @@ export const Select = (props: SelectProps) => {
 };
 
 
-const SingleSelect = ({ options, value, onValueChange, placeholder, label, id: externalId, disabled, fullWidth, search }: SingleSelectProps) => {
+const SingleSelect = ({ options, value, onValueChange, placeholder, label, id: externalId, disabled, fullWidth, search, size }: SingleSelectProps) => {
     const internalId = useId();
     const id = externalId || internalId;
     const listboxId = `${id}-listbox`;
@@ -103,7 +106,7 @@ const SingleSelect = ({ options, value, onValueChange, placeholder, label, id: e
     }
 
     return <div
-        {...className('Select', 'large', { isOpen: dropdown.isOpen, fullWidth })}
+        {...className('Select', { isOpen: dropdown.isOpen, fullWidth, size })}
         ref={dropdown.rootRef}>
         {label && <label id={labelId} htmlFor={id}>{label}</label>}
         <button
@@ -149,7 +152,7 @@ const SingleSelect = ({ options, value, onValueChange, placeholder, label, id: e
     </div>;
 }
 
-const MultipleSelect = ({ options, value, onValueChange, placeholder, label, id: externalId, disabled, fullWidth, search }: MultipleSelectProps) => {
+const MultipleSelect = ({ options, value, onValueChange, placeholder, label, id: externalId, disabled, fullWidth, search, size }: MultipleSelectProps) => {
     const internalId = useId();
     const id = externalId || internalId;
     const listboxId = `${id}-listbox`;
@@ -168,7 +171,7 @@ const MultipleSelect = ({ options, value, onValueChange, placeholder, label, id:
     const selectedCount = value.length;
 
     return <div
-        {...className('Select', 'large', { isOpen: dropdown.isOpen, fullWidth })}
+        {...className('Select', { isOpen: dropdown.isOpen, fullWidth, size })}
         ref={dropdown.rootRef}>
         {label && <label id={labelId} htmlFor={id}>{label}</label>}
         <button

@@ -5,6 +5,28 @@
     display: inline-flex;
     position: relative;
 
+
+    --height: var(--size-md);
+    --padding: 0 15px;
+
+    &.size-xs {
+        --height: var(--size-xs);
+        --padding: 0 10px;
+    }
+
+    &.size-sm {
+        --height: var(--size-sm);
+    }
+
+    &.size-lg {
+        --height: var(--size-lg);
+    }
+
+    &.size-xl {
+        --height: var(--size-xl);
+    }
+
+
     &.fullWidth {
         width: 100%;
     }
@@ -12,6 +34,7 @@
     &>button {
         @include ResetButton;
         @include InlineElementSizing(medium);
+        height: var(--height);
         color: inherit;
         border: 1px solid var(--subtle-default-border);
         border-radius: var(--radius-sm);
@@ -20,6 +43,7 @@
         align-items: center;
         width: 100%;
         user-select: none;
+        padding: var(--padding);
 
         &:disabled {
             opacity: 0.5;

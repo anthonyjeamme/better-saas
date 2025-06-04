@@ -31,16 +31,19 @@ export const Dropdown = ({ children, parentRef, position = {}, onClose }: Dropdo
 
     useEffect(() => {
 
-
-
-        function handleClick(e: MouseEvent) {
+        function handlePointerDown(e: MouseEvent) {
+            console.log("ICIIIII")
             if (e.target instanceof HTMLElement) {
+
 
 
                 const parentElement = parentRef.current
                 const dropdownElement = dropdownRef.current
 
                 if (!parentElement || !dropdownElement) return
+
+
+                console.log(parentElement.contains(e.target), dropdownElement.contains(e.target))
 
                 if (parentElement.contains(e.target) || dropdownElement.contains(e.target)) return
 
@@ -49,10 +52,10 @@ export const Dropdown = ({ children, parentRef, position = {}, onClose }: Dropdo
         }
 
 
-        window.addEventListener('click', handleClick)
+        window.addEventListener('pointerdown', handlePointerDown)
 
         return () => {
-            window.removeEventListener('click', handleClick)
+            window.removeEventListener('pointerdown', handlePointerDown)
         }
     }, [])
 

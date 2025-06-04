@@ -2,6 +2,7 @@
     display: inline-flex;
     position: relative;
     height: min-content;
+    width: 100%;
 
     border: 1px solid var(--subtle-default-border);
     border-radius: var(--radius-sm);
@@ -31,6 +32,8 @@
 
     &>.content {
         position: relative;
+        flex: 1;
+        display: flex;
 
         &>.icon {
             position: absolute;
@@ -54,6 +57,8 @@
             height: var(--height);
             padding-left: var(--padding-h);
             transition: color 250ms;
+            flex: 1;
+            width: 0;
 
             &.isInvalidTyping {
                 color: var(--warning);

@@ -1,6 +1,7 @@
 .InputContainer {
     display: inline-block;
     position: relative;
+    flex: 1;
 
     &>.StartAddon {
         position: absolute;

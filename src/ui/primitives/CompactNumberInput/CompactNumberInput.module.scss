@@ -1,0 +1,39 @@
+.CompactNumberInput {
+    display: flex;
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    background-color: var(--subtle-default-background);
+
+
+
+    &:has(input:focus) {
+        background-color: var(--subtle-default-background-hover);
+    }
+
+
+    &>button {
+        width: 30px;
+        cursor: ew-resize;
+    }
+
+    &>input {
+        height: 30px;
+        border: none;
+        outline: none;
+        padding: 0;
+        background-color: transparent;
+        flex: 1;
+        width: 0;
+        font-size: 12px;
+        font-family: inherit;
+        line-height: 1;
+        min-width: 0;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
