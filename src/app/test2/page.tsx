@@ -10,7 +10,7 @@ import { ItemData } from '@ui/display/Layers/Layers.types';
 // import classNameModule from '@ui/core/classname';
 // import styles from './page.module.scss';
 import { Fullscreen, HStack, Sidebar, VStack } from '@ui/layout';
-import { ComponentIcon, DiamondIcon, FileIcon, FolderOpenIcon, MousePointer2, PencilIcon, SearchIcon } from 'lucide-react';
+import { ComponentIcon, DiamondIcon, FileIcon, FolderOpenIcon, MousePointer2, PencilIcon, PlusIcon, SearchIcon } from 'lucide-react';
 import { FolderClosedIcon } from 'lucide-react';
 import { Button } from '@ui/primitives/Button';
 import { SvgViewport } from '@ui/modules/viewport/SvgViewport';
@@ -81,6 +81,8 @@ export default function Page() {
         }
     ])
 
+    const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 })
+
     const [fontFamily, setFontFamily] = useState('Play')
 
     const [fillColor, setFillColor] = useState<string>('#ff0000')
@@ -106,6 +108,15 @@ export default function Page() {
                     <SunIcon size={18} />}
             </Button>
             <Separator /> */}
+
+            <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+            }}>
+                <Button size='xs' shape='square' variant="ghost">
+                    <PlusIcon size={12} />
+                </Button>
+            </div>
             <Layers
                 items={items}
                 onItemsChange={setItems}
@@ -166,10 +177,25 @@ export default function Page() {
                 </Button>
             </ActionBar>
 
-            <SvgViewport>
-                <rect x={50} y={50} width={100} height={100} fill={fillColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+            <SvgViewport
 
-                <text x={50} y={200} fontFamily={fontFamily} fontSize={20} fill={fillColor}>
+                onDragStart={() => {
+                    console.log("START")
+                    return {
+                        onMove: ({ position }) => {
+                            setPosition(position)
+                        },
+                        onEnd: () => {
+                        }
+                    }
+                }}
+            >
+                <rect x={0} y={0} width={100} height={100} fill={fillColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+
+
+                <rect x={position.x - 10} y={position.y - 10} width={20} height={20} fill={"blue"} />
+
+                <text x={50} y={200} fontFamily={fontFamily} fontSize={20} fill={fillColor} style={{ userSelect: 'none' }}>
                     Hello world
                 </text>
             </SvgViewport>

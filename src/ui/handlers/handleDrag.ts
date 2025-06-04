@@ -25,7 +25,7 @@ type CallbackReturn = {
   onEnd?: (e: EndEvent, originalEvent: PointerEvent | FocusEvent) => void;
 };
 
-type CallbackFunction<T extends HTMLElement = HTMLElement> = (
+export type CallbackFunction<T extends HTMLElement = HTMLElement> = (
   e: StartEvent,
   originalEvent: React.PointerEvent<T>
 ) => CallbackReturn | null | undefined | void;
