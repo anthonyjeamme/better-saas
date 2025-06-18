@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { Input } from '@ui/primitives';
+import { Input } from '../../primitives/Input';
 
 import { Tint } from './Tint/Tint';
 import { Opacity } from './Opacity/Opacity';
@@ -18,14 +18,11 @@ import { Lightness } from './Lightness/Lightness';
 import { EyeDropper } from './EyeDropper/EyeDropper';
 const className = classNameModule(styles)
 
-
 type ColorPickerProps = {
     value?: string
     onChange?: (color: string) => void
     children?: React.ReactNode
 }
-
-
 
 const ColorPickerContent = ({ children }: ColorPickerProps) => {
     return <div {...className('ColorPicker')}>
@@ -39,9 +36,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
     </ColorPickerProvider>
 }
 
-
 const ColorInput = () => {
-
     const { setColor, getColor } = useColorPickerContext()
     const inputRef = useRef<HTMLInputElement>(null)
     const hasFocusRef = useRef(false)

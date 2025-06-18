@@ -22,6 +22,10 @@
     display: flex;
     flex-direction: column;
 
+    button {
+        white-space: nowrap
+    }
+
     &>button {
         width: 100%;
     }

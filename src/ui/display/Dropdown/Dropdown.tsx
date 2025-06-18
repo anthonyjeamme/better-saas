@@ -1,9 +1,11 @@
 import { useEffect, useInsertionEffect, useRef } from 'react';
 
+import { useDocumentPositionEvent } from '../../hooks/useDocumentPositionEvent';
+
+import { Portal } from '../../layout/Portal';
+
 import classNameModule from '../../core/classname';
 import styles from './Dropdown.module.scss';
-import { useDocumentPositionEvent } from '@ui/hooks/useDocumentPositionEvent';
-import { Portal } from '@ui/layout/Portal';
 const className = classNameModule(styles)
 
 
@@ -32,25 +34,16 @@ export const Dropdown = ({ children, parentRef, position = {}, onClose }: Dropdo
     useEffect(() => {
 
         function handlePointerDown(e: MouseEvent) {
-            console.log("ICIIIII")
             if (e.target instanceof HTMLElement) {
-
-
-
                 const parentElement = parentRef.current
                 const dropdownElement = dropdownRef.current
 
                 if (!parentElement || !dropdownElement) return
-
-
-                console.log(parentElement.contains(e.target), dropdownElement.contains(e.target))
-
                 if (parentElement.contains(e.target) || dropdownElement.contains(e.target)) return
 
                 onClose?.()
             }
         }
-
 
         window.addEventListener('pointerdown', handlePointerDown)
 
@@ -58,9 +51,6 @@ export const Dropdown = ({ children, parentRef, position = {}, onClose }: Dropdo
             window.removeEventListener('pointerdown', handlePointerDown)
         }
     }, [])
-
-
-
 
     const { refresh } = useDocumentPositionEvent(parentRef, (position) => {
         const referenceElement = referenceRef.current

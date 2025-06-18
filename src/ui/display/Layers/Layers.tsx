@@ -1,35 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 
-import { DndContextProvider, useDndContext } from '@ui/contexts/DndContext/DndContext';
+import { DndContextProvider, useDndContext } from '../../contexts/DndContext';
 
 import { ItemHeader } from './ItemHeader/ItemHeader';
-import { FileItemData, FolderItemData, ItemData } from './Layers.types';
 import { LayersContextProvider, useLayersContext } from './Layers.context';
+import { CustomMenuItem, FileItemData, FolderItemData } from './Layers.types';
+import { LayerElementItem, LayerFolderItem, LayerItem, LayersHook } from './Layers.hook';
 
-
-import classNameModule from '@ui/core/classname';
+import classNameModule from '../../core/classname';
 import styles from './Layers.module.scss';
 const className = classNameModule(styles)
 
-type LayersProps = {
-    items: ItemData[]
-    onItemsChange: (items: ItemData[]) => void
-    selectedItemId?: string | null
-    onSelectItem?: (id: string | null) => void
-    renderIcon: (iconName: string, state: {
+type LayersProps<TElement = unknown, TFolder = unknown> = {
+    renderIcon: (item: LayerItem<TElement, TFolder>, state: {
         isOpen: boolean,
         isSelected: boolean,
     }) => React.ReactNode
+    scope: string
+    layers: LayersHook<TElement, TFolder>
+    folderMenu?: CustomMenuItem<FolderItemData<TElement>>[]
+    elementMenu?: CustomMenuItem<FileItemData<TElement>>[]
 }
 
-export const Layers = (props: LayersProps) => {
-    return <DndContextProvider>
+export function Layers<TElement = unknown, TFolder = unknown>(props: LayersProps<TElement, TFolder>) {
+    return <DndContextProvider scope={props.scope}>
         <LayersContextProvider
-            items={props.items}
-            onItemsChange={props.onItemsChange}
-            onSelectItem={props.onSelectItem}
-            selectedItemId={props.selectedItemId}
             renderIcon={props.renderIcon}
+            layers={props.layers}
+            folderMenu={props.folderMenu}
+            elementMenu={props.elementMenu}
         >
             <LayersContent />
         </LayersContextProvider>
@@ -37,50 +37,42 @@ export const Layers = (props: LayersProps) => {
 }
 
 export const LayersContent = () => {
-    const { data } = useLayersContext()
+    const { layers } = useLayersContext()
+
+    const rootItems = layers.tree.getFolderItems(null)
+
     return <div {...className('Layers')}>
         {
-            (data.tree["root"] || []).map((itemId, index) => {
-                const item = data.flatItems.find(i => i.id === itemId)
-                if (!item) return null
-                return <Item
-                    key={item.id}
-                    itemId={item.id}
-                    index={index}
-                />
+            rootItems.map((item, index) => {
+                return <Item key={item.id} item={item} indent={0} index={index} />
             })
         }
     </div>
 };
 
-
 type ItemProps = {
-    itemId: string
+    item: LayerItem
     indent?: number
     index: number
 }
 
-
-const Item = ({ itemId, indent = 0, index }: ItemProps) => {
-    const { data } = useLayersContext()
-    const item = data.flatItems.find(i => i.id === itemId)
+const Item = ({ item, indent = 0, index }: ItemProps) => {
 
     if (!item) return null
 
-    if (item.type === 'item')
-        return <FileItem itemId={itemId} indent={indent} index={index} />
-    return <FolderItem itemId={itemId} indent={indent} index={index} />
+    if (item.type === 'element')
+        return <FileItem item={item} indent={indent} index={index} />
+    return <FolderItem item={item} indent={indent} index={index} />
 }
 
 type FileItemProps = {
-    itemId: string
+    item: LayerElementItem
     indent?: number
     index: number
 }
 
-const FileItem = ({ itemId, indent = 0, index }: FileItemProps) => {
-    const { data, moveItem, isDescendantOf } = useLayersContext()
-    const item = data.flatItems.find(i => i.id === itemId) as FileItemData
+const FileItem = ({ item, indent = 0, index }: FileItemProps) => {
+    const { layers } = useLayersContext()
     const dndContext = useDndContext<{ id: string }>()
 
     if (!item) return null
@@ -95,40 +87,36 @@ const FileItem = ({ itemId, indent = 0, index }: FileItemProps) => {
                 const payload = dndContext.getDraggingPayload()
                 if (!payload) return false
                 if (payload?.id === item.id) return false
-                if (isDescendantOf(item.id, payload.id)) return false
-
+                const ancestors = layers.tree.getItemAncestors(item.id)
+                if (ancestors.includes(payload.id)) return false
                 return true
             }}
             onDrop={(itemId, position) => {
+                const ancestors = layers.tree.getItemAncestors(item.id)
+                if (ancestors.includes(itemId)) return
+
+                const parentId = layers.tree.getItemParent(item.id)
+                if (parentId === item.id) return
+
                 const targetIndex = index + (position === 'top' ? 0 : 1)
-
-                let parentKey = "root"
-                for (const [key, children] of Object.entries(data.tree)) {
-                    if (children.includes(item.id)) {
-                        parentKey = key
-                        break
-                    }
-                }
-
-                moveItem(itemId, parentKey, targetIndex)
+                layers.tree.moveItem(itemId, parentId, targetIndex)
             }}
         />
     </div>
 }
 
 type FolderItemProps = {
-    itemId: string
+    item: LayerFolderItem
     indent?: number
     index: number
 }
 
-const FolderItem = ({ itemId, indent = 0, index }: FolderItemProps) => {
-    const [isOpen, setIsOpen] = useState(false)
-    const { data, moveItem, isDescendantOf } = useLayersContext()
-    const item = data.flatItems.find(i => i.id === itemId) as FolderItemData
+const FolderItem = ({ item, indent = 0, index }: FolderItemProps) => {
+    const [isOpen, setIsOpen] = useState(indent === 0)
+    const { layers } = useLayersContext()
     const dndContext = useDndContext<{ id: string }>()
 
-    if (!item) return null
+    const children = layers.tree.getFolderItems(item.id)
 
     return <div {...className('FolderItem')} style={{
         '--indent': indent
@@ -143,27 +131,23 @@ const FolderItem = ({ itemId, indent = 0, index }: FolderItemProps) => {
                 const payload = dndContext.getDraggingPayload()
                 if (!payload) return false
                 if (payload?.id === item.id) return false
-                if (isDescendantOf(item.id, payload.id)) return false
+                if (layers.tree.getItemParent(payload.id) === item.id) return false
+                const ancestors = layers.tree.getItemAncestors(item.id)
+                if (ancestors.includes(payload.id)) return false
 
                 return true
             }}
             onDrop={(itemId, position) => {
-                if ((
-                    isOpen && position === "bottom"
-                ) || position === "in") {
-                    if (itemId === item.id) return
-                    moveItem(itemId, item.id, 0)
+                if (itemId === item.id) return
+                const ancestors = layers.tree.getItemAncestors(item.id)
+                if (ancestors.includes(itemId)) return
+                if (layers.tree.getItemParent(itemId) === item.id) return
+                if ((isOpen && position === "bottom") || position === "in") {
+                    layers.tree.moveItem(itemId, item.id, 0)
                 } else {
+                    const parentId = layers.tree.getItemParent(item.id)
                     const targetIndex = index + (position === 'top' ? 0 : 1)
-
-                    let parentKey = "root"
-                    for (const [key, children] of Object.entries(data.tree)) {
-                        if (children.includes(item.id)) {
-                            parentKey = key
-                            break
-                        }
-                    }
-                    moveItem(itemId, parentKey, targetIndex)
+                    layers.tree.moveItem(itemId, parentId, targetIndex)
                 }
             }}
             dropAfterInside={isOpen}
@@ -172,10 +156,10 @@ const FolderItem = ({ itemId, indent = 0, index }: FolderItemProps) => {
             isOpen && (
                 <div {...className('children')}>
                     {
-                        (data.tree[item.id] || []).map((childId, index) =>
+                        (children).map((child, index) =>
                             <Item
-                                key={childId}
-                                itemId={childId}
+                                key={child.id}
+                                item={child}
                                 indent={indent + 1}
                                 index={index}
                             />

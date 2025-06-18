@@ -1,4 +1,4 @@
-import { useRelativePositionDrag } from "@ui/hooks/useRelativePositionDrag"
+import { useRelativePositionDrag } from "../../../hooks/useRelativePositionDrag"
 import { useRef } from "react"
 import { Cursor, useCursor } from "../Cursor/Cursor"
 

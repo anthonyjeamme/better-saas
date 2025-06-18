@@ -10,11 +10,18 @@ type DndContextType<T = unknown> = {
     }
     getData: (e: React.DragEvent<HTMLDivElement>) => T
     getDraggingPayload: () => T | null
+    scope: string
 }
 
 const dndContext = createContext<DndContextType<unknown> | null>(null)
 
-export function DndContextProvider<T = unknown>({ children }: { children: React.ReactNode }) {
+
+type DndContextProviderProps = {
+    children: React.ReactNode
+    scope: string
+}
+
+export function DndContextProvider<T = unknown>({ children, scope }: DndContextProviderProps) {
 
     const draggingPayload = useRef<T | null>(null)
 
@@ -22,7 +29,8 @@ export function DndContextProvider<T = unknown>({ children }: { children: React.
         // @ts-expect-error It's ok
         draggableHandler,
         getData,
-        getDraggingPayload
+        getDraggingPayload,
+        scope
     }}>
         {children}
     </dndContext.Provider>
@@ -31,7 +39,7 @@ export function DndContextProvider<T = unknown>({ children }: { children: React.
         return {
             draggable: active,
             onDragStart: (e: React.DragEvent<HTMLDivElement>) => {
-                e.dataTransfer.setData('dnd/payload', JSON.stringify(data))
+                e.dataTransfer.setData('dnd/payload', JSON.stringify({ data, scope }))
                 draggingPayload.current = data
             },
             onDragEnd: () => {
@@ -40,9 +48,18 @@ export function DndContextProvider<T = unknown>({ children }: { children: React.
         }
     }
 
-    function getData(e: React.DragEvent<HTMLDivElement>): T {
-        const data = e.dataTransfer.getData('dnd/payload')
-        return JSON.parse(data) as T
+    function getData(e: React.DragEvent<HTMLDivElement>): T | null {
+        try {
+            const payloadString = e.dataTransfer.getData('dnd/payload')
+
+            const payload = JSON.parse(payloadString) as { data: T, scope: string }
+
+            if (payload.scope !== scope) return null
+
+            return payload.data
+        } catch {
+            return null
+        }
     }
 
     function getDraggingPayload(): T | null {

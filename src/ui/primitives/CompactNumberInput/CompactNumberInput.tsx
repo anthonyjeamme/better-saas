@@ -1,8 +1,10 @@
-import classNameModule from '@ui/core/classname';
-import styles from './CompactNumberInput.module.scss';
 import { useEffect, useRef } from 'react';
-import { handleDrag } from '@ui/handlers/handleDrag';
+import { handleDrag } from '../../handlers/handleDrag';
 import { DiameterIcon } from 'lucide-react';
+
+
+import classNameModule from '../../core/classname';
+import styles from './CompactNumberInput.module.scss';
 const className = classNameModule(styles)
 
 type CompactNumberInputProps = {

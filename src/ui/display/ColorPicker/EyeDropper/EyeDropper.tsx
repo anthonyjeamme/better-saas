@@ -1,4 +1,4 @@
-import { Button } from "@ui/primitives"
+import { Button } from "../../../primitives/Button"
 import { PipetteIcon } from "lucide-react"
 import { useColorPickerContext } from "../ColorPicker.context"
 import { hexToHSVa } from "../ColorPicker.utils"

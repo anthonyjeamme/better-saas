@@ -1,0 +1,57 @@
+.TextEditorContainer {
+    position: relative;
+
+    &>header {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px
+    }
+
+    &>.count {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background-color: var(--background);
+        border-radius: 5px;
+        border: 1px solid var(--subtle-default-border);
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+
+        &>div {
+            width: 40px;
+            padding: 5px;
+            text-align: center;
+
+            &:not(:last-child) {
+                border-right: 1px solid var(--subtle-default-border);
+            }
+        }
+    }
+}
+
+
+.TextEditor {
+    line-height: 20px;
+    border: 1px solid var(--subtle-default-border);
+    padding: 15px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+
+    a {
+        color: var(--primary);
+        text-decoration: underline;
+    }
+
+    &>div {
+        min-height: 20px;
+    }
+
+    hr {
+        margin: 15px 0;
+        height: 1px;
+        border: 0;
+        background-color: var(--subtle-default-border);
+    }
+}

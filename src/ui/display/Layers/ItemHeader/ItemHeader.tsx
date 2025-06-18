@@ -1,15 +1,18 @@
 import { useRef, useState } from 'react';
-import { ChevronRightIcon, EllipsisIcon } from 'lucide-react';
+import { ChevronRightIcon, EllipsisIcon, PencilIcon, TrashIcon } from 'lucide-react';
 
-import { useStateRef } from '@ui/hooks/useStateRef';
-import { useDndContext } from '@ui/contexts/DndContext/DndContext';
+import { useStateRef } from '../../../hooks/useStateRef';
+import { useDndContext } from '../../../contexts/DndContext/DndContext';
 
 import { useLayersContext } from '../Layers.context';
 
-import classNameModule from '@ui/core/classname';
+import { Dropdown } from '../../../display/Dropdown';
+import { Button } from '../../../primitives/Button';
+import { LayerItem } from '../Layers.hook';
+
+
+import classNameModule from '../../../core/classname';
 import styles from './ItemHeader.module.scss';
-import { Dropdown } from '@ui/display/Dropdown';
-import { Button } from '@ui/primitives';
 const className = classNameModule(styles)
 
 type ItemHeaderProps = {
@@ -20,12 +23,7 @@ type ItemHeaderProps = {
     onDrop?: (itemId: string, position: 'top' | 'bottom' | 'in') => void
     dropAfterInside?: boolean
     canDrop?: (position: 'top' | 'bottom' | 'in') => boolean
-    item: {
-        id: string
-        name: string,
-        label?: string
-        iconName?: string
-    }
+    item: LayerItem
 }
 
 
@@ -38,34 +36,48 @@ export const ItemHeader = ({
     onDrop,
     dropAfterInside,
     canDrop,
-    item: { id, name, label, iconName }
+    item
 }: ItemHeaderProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const [isDraggingOver, setIsDraggingOver] = useStateRef(false)
     const [dragPosition, setDragPosition] = useState<'top' | 'bottom' | null>(null)
 
+    const [settingsIsOpen, setSettingsIsOpen] = useState(false)
+
     const dndContext = useDndContext<{ id: string }>()
 
+    const { selectedItemIds, onSelectItems, renderIcon, layers } = useLayersContext()
 
-    const { updateItem, selectedItemId, onSelectItem, renderIcon } = useLayersContext()
+    const isSelected = selectedItemIds?.includes(item.id) ?? false
 
-    const isSelected = selectedItemId === id
-
-    const icon = iconName ? renderIcon(iconName, {
+    const icon = renderIcon(item, {
         isOpen,
         isSelected
-    }) : null
+    })
 
     return <div
-        data-id={id}
+        data-id={item.id}
         data-dropzone={canDropIn}
         {...className('ItemHeader', { isSelected, isDraggingOver, dragPosition, dropAfterInside }, isSelected ? `:solid-primary` : undefined)}
         style={{
             '--indent': indent
         } as React.CSSProperties}
-        onClick={() => { onSelectItem?.(id) }}
+        onClick={(e) => {
+            if (e.ctrlKey) {
 
-        {...dndContext.draggableHandler({ id }, !isEditing)}
+
+                onSelectItems?.([...selectedItemIds, item.id])
+
+            } else {
+                onSelectItems?.([item.id])
+            }
+        }}
+
+        onContextMenu={(e) => {
+            e.preventDefault()
+            setSettingsIsOpen(true)
+        }}
+        {...dndContext.draggableHandler({ id: item.id }, !isEditing && !item.config?.disableDrag)}
         onDragOver={(e) => {
             const clientY = e.clientY
             const rect = e.currentTarget.getBoundingClientRect()
@@ -152,22 +164,26 @@ export const ItemHeader = ({
 
             const item = dndContext.getData(e)
 
-            if (canDropIn) {
-                if (deltaTop < POSITION_OFFSET) {
-                    onDrop?.(item.id, 'top')
-                }
-                else if (deltaBottom < POSITION_OFFSET) {
-                    onDrop?.(item.id, 'bottom')
-                } else {
-                    onDrop?.(item.id, 'in')
-                }
-            } else {
+            if (item) {
 
-                const center = rect.top + rect.height / 2
-                if (clientY < center) {
-                    onDrop?.(item.id, 'top')
+
+                if (canDropIn) {
+                    if (deltaTop < POSITION_OFFSET) {
+                        onDrop?.(item.id, 'top')
+                    }
+                    else if (deltaBottom < POSITION_OFFSET) {
+                        onDrop?.(item.id, 'bottom')
+                    } else {
+                        onDrop?.(item.id, 'in')
+                    }
                 } else {
-                    onDrop?.(item.id, 'bottom')
+
+                    const center = rect.top + rect.height / 2
+                    if (clientY < center) {
+                        onDrop?.(item.id, 'top')
+                    } else {
+                        onDrop?.(item.id, 'bottom')
+                    }
                 }
             }
 
@@ -195,35 +211,61 @@ export const ItemHeader = ({
                 :
                 <span {...className('collapseSpace')}></span>
         }
-        <span {...className('name')} onDoubleClick={() => setIsEditing(true)}>
+        <span {...className('name')} onDoubleClick={() => {
+
+            if (item.config?.disableRename) return
+            setIsEditing(true)
+        }}>
             {isEditing ?
                 <input
                     type="text"
                     spellCheck={false}
                     autoFocus
-                    defaultValue={name}
-                    onChange={(e) => updateItem(id, { name: e.target.value })}
+                    onFocus={e => {
+                        e.target.select()
+                    }}
+                    defaultValue={item.name}
+                    onChange={(e) => {
+                        layers.tree.updateItem(item.id, { name: e.target.value })
+                    }}
                     onBlur={() => setIsEditing(false)}
                     onKeyDown={e => {
                         if (e.key === 'Enter' || e.key === 'Escape') setIsEditing(false)
                     }}
                 /> :
-                name
+                item.name
             }
         </span>
-        {!isEditing && label && (<span {...className('labels')}>{label}</span>)}
 
-
-        <SettingsButton />
+        <SettingsButton
+            item={item}
+            isOpen={settingsIsOpen} setIsOpen={setSettingsIsOpen}
+            handleRename={() => {
+                setIsEditing(true)
+            }}
+        />
     </div>
 }
 
+type SettingsButtonProps = {
+    item: LayerItem
+    isOpen: boolean
+    setIsOpen: (isOpen: boolean) => void
+    handleRename: () => void
+}
 
-
-const SettingsButton = () => {
-
-    const [isOpen, setIsOpen] = useState(false)
+const SettingsButton = ({ item, isOpen, setIsOpen, handleRename }: SettingsButtonProps) => {
     const rootRef = useRef<HTMLDivElement>(null)
+    const { layers, folderMenu, elementMenu } = useLayersContext()
+
+    const menu = (item.type === "folder" ? folderMenu : elementMenu) ?? []
+
+
+    const hasItems = !item.config?.disableRemove || !item.config?.disableRename || menu.length > 0
+
+
+    if (!hasItems) return null
+
 
     return <div {...className('SettingsButton', { isOpen })} ref={rootRef} onClick={e => {
         e.stopPropagation()
@@ -238,8 +280,38 @@ const SettingsButton = () => {
 
                     onClose={() => setIsOpen(false)}
                 >
-                    <Button size='sm' variant='ghost' onClick={() => setIsOpen(false)}>Open</Button>
-                    <Button size='sm' variant='ghost' onClick={() => setIsOpen(false)}>Close</Button>
+                    {
+                        (menu ?? []).map(menuItem => (
+                            <Button key={menuItem.label} size='sm' variant='ghost'
+                                onClick={() => {
+                                    menuItem.onClick(item as any, () => setIsOpen(false))
+                                }}
+                            >
+                                {menuItem.icon} {menuItem.label}
+                            </Button>
+                        ))
+                    }
+                    {
+                        !item.config?.disableRename && (
+                            <Button size='sm' variant='ghost' onClick={() => {
+                                handleRename()
+                                setIsOpen(false)
+                            }}>
+                                <PencilIcon size={15} />
+                                Renommer
+                            </Button>
+                        )
+                    }
+                    {
+                        !item.config?.disableRemove && (
+                            <Button size='sm' variant='ghost' onClick={() => {
+                                layers.tree.removeItem(item.id)
+                            }}>
+                                <TrashIcon size={15} />
+                                Supprimer
+                            </Button>
+                        )
+                    }
                 </Dropdown>
             )
         }

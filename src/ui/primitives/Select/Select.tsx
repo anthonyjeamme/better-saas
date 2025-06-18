@@ -4,12 +4,12 @@ import { useRef, useState, useId, useEffect } from 'react';
 import { CheckIcon, ChevronDownIcon, XIcon } from 'lucide-react';
 
 import { useHotkeys } from '../../hooks/useHotkey';
+import { ExtendedSizeVariant } from '../../core/types';
 import { useDropdown } from '../../hooks/useDropdown';
 import { useValueChangeEffect } from '../../hooks/useValueChange';
 
 import classNameModule from '../../core/classname';
 import styles from './Select.module.scss';
-import { ExtendedSizeVariant } from '@ui/core/types';
 const className = classNameModule(styles)
 
 type SelectOption = {
